@@ -36,7 +36,7 @@ September 25, 2025
 
 Sponsored by:
 
-![](https://github.com/edipocremon/th/blob/main/fig/Inpelogo.png)
+![](fig/Inpelogo.png)
 
 
 
