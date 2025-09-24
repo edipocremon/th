@@ -1,0 +1,164 @@
+
+# Hydrological Analysis {#hydrological-analysis}
+
+## DEM Pre-processing and Correction {#DEM-Pre-processing-and-Correction}
+
+This group of algorithms is designed to transform a raw Digital Elevation Model (DEM) into a hydrologically correct surface where water can flow uninterrupted to the watershed outlet. It addresses common DEM errors like pits (depressions), flat areas, and misalignments with known river networks. The output is a "pitless" and "conditioned" DEM that is essential for accurate flow direction, watershed delineation, and subsequent hydrological analysis.
+
+-	agreedem, carve, carvev, fill, flatareas, pfs, pfsd, removepits, simplepits. 
+
+- [AverageFlowpathSlope](#AverageFlowpathSlope)
+- [AverageUpslopeFlowpathLength](#AverageUpslopeFlowpathLength)
+- [agreedem](#agreedem)
+- [carve](#carve)
+- [carvev](#carvev)
+- [fill](#fill)
+- [flatareas](#flatareas)
+- [pfs](#pfs)
+- [pfsd](#pfsd)
+- [removepits](#removepits)
+- [simplepits.](#simplepits.)
+
+### AverageFlowpathSlope {#AverageFlowpathSlope}
+
+Este tool calcula a declividade média (em graus) das rotas de escoamento que passam por cada célula de um DEM.
+O DEM deve estar **preprocessado** (ex.: *BreachDepressions*) para remover depressões e áreas planas.
+
+*See also*: [AverageUpslopeFlowpathLength](#AverageUpslopeFlowpathLength), [carve](#carve).
+
+**Parameters**
+
+| Flag        | Description               |
+|-------------|---------------------------|
+| `-i, --dem` | Input raster DEM file     |
+| `-o, --output` | Output raster file   |
+
+**Python function**
+```python
+wbt.average_flowpath_slope(
+    dem,
+    output,
+    callback=default_callback
+)
+```
+
+### AverageUpslopeFlowpathLength {#AverageUpslopeFlowpathLength}
+
+Identifies and modifies flat areas by decreasing the elevation values from the border to the center.
+
+### agreedem {#agreedem}
+
+*agreedem* modifies a Digital Elevation Model (DEM) to conform to a known drainage network. The tool sharpens the elevation values along the network's cells, effectively burning the channels into the terrain. Users can optionally define a buffer to smooth the elevation of adjacent cells, enhancing the integration of the network with the surrounding topography. This process ensures the DEM's flow directions align with the provided drainage paths.
+
+Input parameters control the sharpening intensity on the network and the degree of smoothing within the specified buffer zone. The tool supports both fixed and variable buffer sizes, which can be defined by an attribute in the input vector data. This operation produces a hydrologically conditioned DEM suitable for subsequent flow routing analysis.
+
+
+### carve  {#carve}
+
+*carve* processes flat areas in a Digital Elevation Model (DEM) by creating an artificial drainage path. The algorithm modifies cell elevations to introduce a slope, enabling hydrological flow routing. It optionally uses a reference drainage network to guide the carving process, ensuring the resulting channel aligns with known flow paths.
+
+The tool requires input parameters to specify whether the drainage network is active (DRNON) and which neighboring cells define a flat area's border (CROSS, DIAG, or ALL). Unlike carvev, which converges carving toward the center of a flat area, carve uses the drainage network to direct the carving trajectory, producing a more accurate hydrological representation.
+
+*See also*: [carvev](#carvev).
+
+**Parameters**
+
+| Flag             | Description                                                                                                                                                                   |
+|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `-i, --dem`      | Input DEM raster file (e.g., `inputDEM.tif`).                                                                                                                                 |
+| `--drainage`     | Input drainage network (vector `.shp` or raster), e.g., `inputDrainage.shp`.                                                                                                  |
+| `--flat`         | Input flat-areas raster produced by the *flatareas* functionality (e.g., `inputFlatAreas.tif`).                                                                               |
+| `--use-drainage` | Defines if the drainage network must be used: <br/>• `DRNON` – converge ao canal <br/>• `DRNOFF` – não usa a rede, converge ao centro das planícies (similar ao `carvev`).    |
+| `--border`       | Defines which cells form the border of flat areas: <br/>• `CROSS` – vizinhos horizontais/verticais <br/>• `DIAG` – vizinhos diagonais <br/>• `ALL` – todas as direções (8).   |
+| `-o, --output`   | Output DEM raster file with carved flats (e.g., `outputDEM.tif`).                                                                                                             |
+
+
+**C++ function**
+```bash
+th carve inputDEM.tif inputDrainage.shp inputFlatAreas.tif DRNON|DRNOFF CROSS|DIAG|ALL outputDEM.tif
+```
+
+
+### carvev  {#carvev}
+
+*carvev* processes flat areas in a Digital Elevation Model (DEM) by systematically decreasing elevation values from the borders toward the center. This algorithm generates an artificial slope across the feature, forming a characteristic stair-step pattern that enables hydrological flow routing. The operation functions without external drainage data, using only the DEM's own geometry to determine the carving path.
+
+This method provides a foundational correction for hydrologic conditioning. The key distinction from carve is that carvev does not utilize a reference drainage network to guide the process, converging instead on the geometric center of the flat area.
+
+| Flag            | Descrição                                      |
+|-----------------|------------------------------------------------|
+| `-i, --dem`     | Input DEM raster file *(e.g.,inputDEM.tif)*       |
+| `-o, --output`  | Output DEM raster file with carved flats *(e.g., `outputDEM.tif`)*        |
+
+
+**C++ function**
+```bash
+th carvev inputDEM.tif outputDEM.tif
+```
+
+### fill  {#fill}
+
+*fill* corrects voids or areas of missing data in a Digital Elevation Model (DEM). The tool uses a separate, often coarser-resolution, reference DEM to supply elevation values for these regions. It replaces null or erroneous cells in the input DEM with corresponding data from the reference source.
+
+This process generates a continuous, hydrologically viable elevation surface. The output DEM supports subsequent terrain analysis by ensuring complete spatial data coverage without interruptions.
+
+### flatareas  {#flatareas}
+
+*flatareas* identifies contiguous regions of uniform elevation within a Digital Elevation Model (DEM). The tool scans the input raster for adjacent cells possessing identical elevation values. It then groups these cells into distinct flat features.
+
+The algorithm requires a user-defined minimum area threshold, specified as a number of cells. This parameter excludes smaller, potentially insignificant flat zones from the output. The result is a raster layer where each flat area is classified, providing a basis for subsequent hydrological conditioning procedures.
+
+
+### pfs {#pfs}
+
+*pfs* removes depressions from a Digital Elevation Model (DEM) using a priority-first search algorithm. The tool initiates a grid search from each pit cell to locate the nearest spill point with a lower elevation. It employs a priority queue to evaluate potential paths, constructing a descending elevation trajectory to the outlet.
+
+This process modifies cell values along the selected path to create a hydrologically continuous surface. The algorithm ensures all depressions are resolved, producing a pit-free DEM suitable for subsequent flow-direction analysis.
+
+### pfsd {#pfsd}
+
+*pfsd* removes depressions from a Digital Elevation Model (DEM) using a priority-first search algorithm that incorporates a reference drainage network. The tool prioritizes the processing of pits located on the drainage network before addressing upstream depressions. It constructs hydrologic outlets by carving descending elevation paths to the nearest lower cell.
+
+This method ensures the resulting drainage structure aligns with the provided network. The algorithm differs from pfs by utilizing the drainage network to guide the depression-removal sequence, enhancing hydrological consistency with known channel locations.
+
+### removepits {#removepits}
+
+*removepits* processes a Digital Elevation Model (DEM) to eliminate hydrological depressions and flat areas. This tool executes a sequence of operations, specifically the carvev, simplepits, and pfs algorithms, to ensure comprehensive hydrological correction. It produces a fully connected drainage surface where water can flow uninterrupted to the watershed outlet.
+
+The procedure first addresses flat regions by carving drainage paths, then removes simple pits through elevation filling, and finally resolves complex depressions via priority-first search. The output is a pit-free DEM suitable for deriving accurate flow direction and accumulation networks.
+
+### simplepits {#simplepits}
+
+*simplepits* processes a Digital Elevation Model (DEM) to remove simple hydrological depressions. The algorithm identifies pit cells with no downstream outlet and elevates them to the lowest value of a neighboring cell plus a minor increment. This adjustment creates a functional drainage path while minimizing alteration to the original topography.
+
+The tool addresses only depressions where this modification does not generate new downstream pits. It serves as an initial processing step for depression removal and is typically followed by more comprehensive algorithms to resolve complex hydrologic discontinuities.
+
+*See also*: [removepits](#removepits).
+
+
+**preprocessado** (ex.: *BreachDepressions*) para remover depressões e áreas planas.
+
+*See also*: [AverageUpslopeFlowpathLength](#AverageUpslopeFlowpathLength), *BreachDepressions*.
+
+**Parameters**
+
+| Flag        | Description               |
+|-------------|---------------------------|
+| `-i, --dem` | Input raster DEM file     |
+| `-o, --output` | Output raster file   |
+
+**Python function**
+```python
+wbt.average_flowpath_slope(
+    dem,
+    output,
+    callback=default_callback
+)
+```
+
+```{r nice-tab, tidy=FALSE}
+knitr::kable(
+  head(pressure, 10), caption = 'Here is a nice table!',
+  booktabs = TRUE
+)
+```

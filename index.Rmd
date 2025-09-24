@@ -1,0 +1,48 @@
+--- 
+title: "TerraHidro User Manual"
+author: "Division of Earth Observation and Geoinformatics - DIOTG"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+# url: your book url like https://bookdown.org/yihui/bookdown
+# cover-image: path to the social sharing image like images/cover.jpg
+description: |
+  This is a minimal example of using the bookdown package to write a book.
+  The HTML output format for this example is bookdown::gitbook,
+  set in the _output.yml file.
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+---
+
+# Preface
+
+
+
+http://www.dpi.inpe.br/terrahidro/ | sergio.rosim@inpe.br
+
+TerraHidro Version 5.2.0
+
+Dr. Sergio Rosim © 20XX-2023
+
+Division of Earth Observation and Geoinformatics - DIOTG
+
+National Institute for Space Research - INPE
+
+São José dos Campos, Brazil
+
+September 25, 2025
+
+
+Sponsored by:
+
+![](C:/Users/edipo/OneDrive/Documentos/INPE/th/fig/Inpelogo.png)
+
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```

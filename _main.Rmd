@@ -1,0 +1,355 @@
+--- 
+title: "TerraHidro User Manual"
+author: "Division of Earth Observation and Geoinformatics - DIOTG"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+# url: your book url like https://bookdown.org/yihui/bookdown
+# cover-image: path to the social sharing image like images/cover.jpg
+description: |
+  This is a minimal example of using the bookdown package to write a book.
+  The HTML output format for this example is bookdown::gitbook,
+  set in the _output.yml file.
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+---
+
+# Preface
+
+
+
+http://www.dpi.inpe.br/terrahidro/ | sergio.rosim@inpe.br
+
+TerraHidro Version 5.2.0
+
+Dr. Sergio Rosim © 20XX-2023
+
+Division of Earth Observation and Geoinformatics - DIOTG
+
+National Institute for Space Research - INPE
+
+São José dos Campos, Brazil
+
+September 25, 2025
+
+
+Sponsored by:
+
+![](C:/Users/edipo/OneDrive/Documentos/INPE/th/fig/Inpelogo.png)
+
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+<!--chapter:end:index.Rmd-->
+
+# Introduction
+
+TerraHidro is a distributed hydrological modeling system developed at the National Institute for Space Research (INPE), Brazil. The project was designed to support the creation of Geographic Information Systems (GIS) applications for simulating water flow in hydrographic basins. TerraHidro introduces a graph-based computational representation of water flow, enabling more consistent and flexible hydrological analyses across diverse terrain data structures. It integrates with the TerraLib open-source GIS library and is commonly accessed through TerraView, providing an accessible environment for visualization, database queries, and geospatial analysis.
+
+
+### Project Highlights {-}
+
+<div class="prom-box prom-box-default shadow1" 
+     style="background: #C7E2FF; color: #101010; font-size: 16px; line-height: 1.7;">
+  <ul>
+    <li>**Graph-based flow representation** that unifies local flow across terrain structures (regular grids, TINs, or irregular tessellations);</li>
+    <li>**Drainage extraction with pit handling** using methods such as Priority First Search (PFS) to remove spurious depressions and connect flow in flat areas;</li>
+    <li>**Large-basin workflows**, with applications demonstrated for Amazon sub-basins;</li>
+    <li>**Flexible integration** on TerraLib (C++), with bindings that enable coupling to other hydrological components;</li>
+    <li>**Operational efficiency** from graph traversal and storage, supporting scalable accumulation and network operations;</li>
+    <li>**Open architecture** that encourages extension and integration in broader GIS environments.</li>
+  </ul>
+</div>
+
+
+### What TerraHidro Does {-}
+
+TerraHidro provides tools for **drainage network extraction, watershed delineation, and flow accumulation**. Users compute local flow from DEMs or other terrain models, convert it to graph structures, and generate connected drainage networks. Watersheds and sub-watersheds are delineated from selected points or drainage segments. The system addresses common DEM artifacts (pits and flats) to ensure hydrologically consistent results.
+
+Use cases range from **large-scale basin modeling** to **local drainage studies** for water resources management and environmental analysis. Comparative applications indicate drainage quality on par with established GIS hydrology toolkits when terrain and basin extent are demanding.
+
+
+
+
+<!--chapter:end:01-intro.Rmd-->
+
+
+# Hydrological Analysis {#hydrological-analysis}
+
+## DEM Pre-processing and Correction {#DEM-Pre-processing-and-Correction}
+
+This group of algorithms is designed to transform a raw Digital Elevation Model (DEM) into a hydrologically correct surface where water can flow uninterrupted to the watershed outlet. It addresses common DEM errors like pits (depressions), flat areas, and misalignments with known river networks. The output is a "pitless" and "conditioned" DEM that is essential for accurate flow direction, watershed delineation, and subsequent hydrological analysis.
+
+-	agreedem, carve, carvev, fill, flatareas, pfs, pfsd, removepits, simplepits. 
+
+- [AverageFlowpathSlope](#AverageFlowpathSlope)
+- [AverageUpslopeFlowpathLength](#AverageUpslopeFlowpathLength)
+- [agreedem](#agreedem)
+- [carve](#carve)
+- [carvev](#carvev)
+- [fill](#fill)
+- [flatareas](#flatareas)
+- [pfs](#pfs)
+- [pfsd](#pfsd)
+- [removepits](#removepits)
+- [simplepits.](#simplepits.)
+
+### AverageFlowpathSlope {#AverageFlowpathSlope}
+
+Este tool calcula a declividade média (em graus) das rotas de escoamento que passam por cada célula de um DEM.
+O DEM deve estar **preprocessado** (ex.: *BreachDepressions*) para remover depressões e áreas planas.
+
+*See also*: [AverageUpslopeFlowpathLength](#AverageUpslopeFlowpathLength), [carve](#carve).
+
+**Parameters**
+
+| Flag        | Description               |
+|-------------|---------------------------|
+| `-i, --dem` | Input raster DEM file     |
+| `-o, --output` | Output raster file   |
+
+**Python function**
+```python
+wbt.average_flowpath_slope(
+    dem,
+    output,
+    callback=default_callback
+)
+```
+
+### AverageUpslopeFlowpathLength {#AverageUpslopeFlowpathLength}
+
+Identifies and modifies flat areas by decreasing the elevation values from the border to the center.
+
+### agreedem {#agreedem}
+
+*agreedem* modifies a Digital Elevation Model (DEM) to conform to a known drainage network. The tool sharpens the elevation values along the network's cells, effectively burning the channels into the terrain. Users can optionally define a buffer to smooth the elevation of adjacent cells, enhancing the integration of the network with the surrounding topography. This process ensures the DEM's flow directions align with the provided drainage paths.
+
+Input parameters control the sharpening intensity on the network and the degree of smoothing within the specified buffer zone. The tool supports both fixed and variable buffer sizes, which can be defined by an attribute in the input vector data. This operation produces a hydrologically conditioned DEM suitable for subsequent flow routing analysis.
+
+
+### carve  {#carve}
+
+*carve* processes flat areas in a Digital Elevation Model (DEM) by creating an artificial drainage path. The algorithm modifies cell elevations to introduce a slope, enabling hydrological flow routing. It optionally uses a reference drainage network to guide the carving process, ensuring the resulting channel aligns with known flow paths.
+
+The tool requires input parameters to specify whether the drainage network is active (DRNON) and which neighboring cells define a flat area's border (CROSS, DIAG, or ALL). Unlike carvev, which converges carving toward the center of a flat area, carve uses the drainage network to direct the carving trajectory, producing a more accurate hydrological representation.
+
+*See also*: [carvev](#carvev).
+
+**Parameters**
+
+| Flag             | Description                                                                                                                                                                   |
+|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `-i, --dem`      | Input DEM raster file (e.g., `inputDEM.tif`).                                                                                                                                 |
+| `--drainage`     | Input drainage network (vector `.shp` or raster), e.g., `inputDrainage.shp`.                                                                                                  |
+| `--flat`         | Input flat-areas raster produced by the *flatareas* functionality (e.g., `inputFlatAreas.tif`).                                                                               |
+| `--use-drainage` | Defines if the drainage network must be used: <br/>• `DRNON` – converge ao canal <br/>• `DRNOFF` – não usa a rede, converge ao centro das planícies (similar ao `carvev`).    |
+| `--border`       | Defines which cells form the border of flat areas: <br/>• `CROSS` – vizinhos horizontais/verticais <br/>• `DIAG` – vizinhos diagonais <br/>• `ALL` – todas as direções (8).   |
+| `-o, --output`   | Output DEM raster file with carved flats (e.g., `outputDEM.tif`).                                                                                                             |
+
+
+**C++ function**
+```bash
+th carve inputDEM.tif inputDrainage.shp inputFlatAreas.tif DRNON|DRNOFF CROSS|DIAG|ALL outputDEM.tif
+```
+
+
+### carvev  {#carvev}
+
+*carvev* processes flat areas in a Digital Elevation Model (DEM) by systematically decreasing elevation values from the borders toward the center. This algorithm generates an artificial slope across the feature, forming a characteristic stair-step pattern that enables hydrological flow routing. The operation functions without external drainage data, using only the DEM's own geometry to determine the carving path.
+
+This method provides a foundational correction for hydrologic conditioning. The key distinction from carve is that carvev does not utilize a reference drainage network to guide the process, converging instead on the geometric center of the flat area.
+
+| Flag            | Descrição                                      |
+|-----------------|------------------------------------------------|
+| `-i, --dem`     | Input DEM raster file *(e.g.,inputDEM.tif)*       |
+| `-o, --output`  | Output DEM raster file with carved flats *(e.g., `outputDEM.tif`)*        |
+
+
+**C++ function**
+```bash
+th carvev inputDEM.tif outputDEM.tif
+```
+
+### fill  {#fill}
+
+*fill* corrects voids or areas of missing data in a Digital Elevation Model (DEM). The tool uses a separate, often coarser-resolution, reference DEM to supply elevation values for these regions. It replaces null or erroneous cells in the input DEM with corresponding data from the reference source.
+
+This process generates a continuous, hydrologically viable elevation surface. The output DEM supports subsequent terrain analysis by ensuring complete spatial data coverage without interruptions.
+
+### flatareas  {#flatareas}
+
+*flatareas* identifies contiguous regions of uniform elevation within a Digital Elevation Model (DEM). The tool scans the input raster for adjacent cells possessing identical elevation values. It then groups these cells into distinct flat features.
+
+The algorithm requires a user-defined minimum area threshold, specified as a number of cells. This parameter excludes smaller, potentially insignificant flat zones from the output. The result is a raster layer where each flat area is classified, providing a basis for subsequent hydrological conditioning procedures.
+
+
+### pfs {#pfs}
+
+*pfs* removes depressions from a Digital Elevation Model (DEM) using a priority-first search algorithm. The tool initiates a grid search from each pit cell to locate the nearest spill point with a lower elevation. It employs a priority queue to evaluate potential paths, constructing a descending elevation trajectory to the outlet.
+
+This process modifies cell values along the selected path to create a hydrologically continuous surface. The algorithm ensures all depressions are resolved, producing a pit-free DEM suitable for subsequent flow-direction analysis.
+
+### pfsd {#pfsd}
+
+*pfsd* removes depressions from a Digital Elevation Model (DEM) using a priority-first search algorithm that incorporates a reference drainage network. The tool prioritizes the processing of pits located on the drainage network before addressing upstream depressions. It constructs hydrologic outlets by carving descending elevation paths to the nearest lower cell.
+
+This method ensures the resulting drainage structure aligns with the provided network. The algorithm differs from pfs by utilizing the drainage network to guide the depression-removal sequence, enhancing hydrological consistency with known channel locations.
+
+### removepits {#removepits}
+
+*removepits* processes a Digital Elevation Model (DEM) to eliminate hydrological depressions and flat areas. This tool executes a sequence of operations, specifically the carvev, simplepits, and pfs algorithms, to ensure comprehensive hydrological correction. It produces a fully connected drainage surface where water can flow uninterrupted to the watershed outlet.
+
+The procedure first addresses flat regions by carving drainage paths, then removes simple pits through elevation filling, and finally resolves complex depressions via priority-first search. The output is a pit-free DEM suitable for deriving accurate flow direction and accumulation networks.
+
+### simplepits {#simplepits}
+
+*simplepits* processes a Digital Elevation Model (DEM) to remove simple hydrological depressions. The algorithm identifies pit cells with no downstream outlet and elevates them to the lowest value of a neighboring cell plus a minor increment. This adjustment creates a functional drainage path while minimizing alteration to the original topography.
+
+The tool addresses only depressions where this modification does not generate new downstream pits. It serves as an initial processing step for depression removal and is typically followed by more comprehensive algorithms to resolve complex hydrologic discontinuities.
+
+*See also*: [removepits](#removepits).
+
+
+**preprocessado** (ex.: *BreachDepressions*) para remover depressões e áreas planas.
+
+*See also*: [AverageUpslopeFlowpathLength](#AverageUpslopeFlowpathLength), *BreachDepressions*.
+
+**Parameters**
+
+| Flag        | Description               |
+|-------------|---------------------------|
+| `-i, --dem` | Input raster DEM file     |
+| `-o, --output` | Output raster file   |
+
+**Python function**
+```python
+wbt.average_flowpath_slope(
+    dem,
+    output,
+    callback=default_callback
+)
+```
+
+```{r nice-tab, tidy=FALSE}
+knitr::kable(
+  head(pressure, 10), caption = 'Here is a nice table!',
+  booktabs = TRUE
+)
+```
+
+<!--chapter:end:02-cross-refs.Rmd-->
+
+# Parts
+
+You can add parts to organize one or more book chapters together. Parts can be inserted at the top of an .Rmd file, before the first-level chapter heading in that same file. 
+
+Add a numbered part: `# (PART) Act one {-}` (followed by `# A chapter`)
+
+Add an unnumbered part: `# (PART\*) Act one {-}` (followed by `# A chapter`)
+
+Add an appendix as a special kind of un-numbered part: `# (APPENDIX) Other stuff {-}` (followed by `# A chapter`). Chapters in an appendix are prepended with letters instead of numbers.
+
+
+
+
+<!--chapter:end:03-parts.Rmd-->
+
+# Footnotes and citations 
+
+## Footnotes
+
+Footnotes are put inside the square brackets after a caret `^[]`. Like this one ^[This is a footnote.]. 
+
+## Citations
+
+Reference items in your bibliography file(s) using `@key`.
+
+For example, we are using the **bookdown** package [@R-bookdown] (check out the last code chunk in index.Rmd to see how this citation key was added) in this sample book, which was built on top of R Markdown and **knitr** [@xie2015] (this citation was added manually in an external file book.bib). 
+Note that the `.bib` files need to be listed in the index.Rmd with the YAML `bibliography` key.
+
+
+The RStudio Visual Markdown Editor can also make it easier to insert citations: <https://rstudio.github.io/visual-markdown-editing/#/citations>
+
+<!--chapter:end:04-citations.Rmd-->
+
+# Blocks
+
+## Equations
+
+Here is an equation.
+
+\begin{equation} 
+  f\left(k\right) = \binom{n}{k} p^k\left(1-p\right)^{n-k}
+  (\#eq:binom)
+\end{equation} 
+
+You may refer to using `\@ref(eq:binom)`, like see Equation \@ref(eq:binom).
+
+
+## Theorems and proofs
+
+Labeled theorems can be referenced in text using `\@ref(thm:tri)`, for example, check out this smart theorem \@ref(thm:tri).
+
+::: {.theorem #tri}
+For a right triangle, if $c$ denotes the *length* of the hypotenuse
+and $a$ and $b$ denote the lengths of the **other** two sides, we have
+$$a^2 + b^2 = c^2$$
+:::
+
+Read more here <https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html>.
+
+## Callout blocks
+
+
+The R Markdown Cookbook provides more help on how to use custom blocks to design your own callouts: https://bookdown.org/yihui/rmarkdown-cookbook/custom-blocks.html
+
+<!--chapter:end:05-blocks.Rmd-->
+
+# Sharing your book
+
+## Publishing
+
+HTML books can be published online, see: https://bookdown.org/yihui/bookdown/publishing.html
+
+## 404 pages
+
+By default, users will be directed to a 404 page if they try to access a webpage that cannot be found. If you'd like to customize your 404 page instead of using the default, you may add either a `_404.Rmd` or `_404.md` file to your project root and use code and/or Markdown syntax.
+
+## Metadata for sharing
+
+Bookdown HTML books will provide HTML metadata for social sharing on platforms like Twitter, Facebook, and LinkedIn, using information you provide in the `index.Rmd` YAML. To setup, set the `url` for your book and the path to your `cover-image` file. Your book's `title` and `description` are also used.
+
+
+
+This `gitbook` uses the same social sharing data across all chapters in your book- all links shared will look the same.
+
+Specify your book's source repository on GitHub using the `edit` key under the configuration options in the `_output.yml` file, which allows users to suggest an edit by linking to a chapter's source file. 
+
+Read more about the features of this output format here:
+
+https://pkgs.rstudio.com/bookdown/reference/gitbook.html
+
+Or use:
+
+```{r eval=FALSE}
+?bookdown::gitbook
+```
+
+
+
+<!--chapter:end:06-share.Rmd-->
+
+`r if (knitr::is_html_output()) '
+# References {-}
+'`
+
+<!--chapter:end:07-references.Rmd-->
+

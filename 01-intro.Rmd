@@ -1,0 +1,28 @@
+# Introduction
+
+TerraHidro is a distributed hydrological modeling system developed at the National Institute for Space Research (INPE), Brazil. The project was designed to support the creation of Geographic Information Systems (GIS) applications for simulating water flow in hydrographic basins. TerraHidro introduces a graph-based computational representation of water flow, enabling more consistent and flexible hydrological analyses across diverse terrain data structures. It integrates with the TerraLib open-source GIS library and is commonly accessed through TerraView, providing an accessible environment for visualization, database queries, and geospatial analysis.
+
+
+### Project Highlights {-}
+
+<div class="prom-box prom-box-default shadow1" 
+     style="background: #C7E2FF; color: #101010; font-size: 16px; line-height: 1.7;">
+  <ul>
+    <li>**Graph-based flow representation** that unifies local flow across terrain structures (regular grids, TINs, or irregular tessellations);</li>
+    <li>**Drainage extraction with pit handling** using methods such as Priority First Search (PFS) to remove spurious depressions and connect flow in flat areas;</li>
+    <li>**Large-basin workflows**, with applications demonstrated for Amazon sub-basins;</li>
+    <li>**Flexible integration** on TerraLib (C++), with bindings that enable coupling to other hydrological components;</li>
+    <li>**Operational efficiency** from graph traversal and storage, supporting scalable accumulation and network operations;</li>
+    <li>**Open architecture** that encourages extension and integration in broader GIS environments.</li>
+  </ul>
+</div>
+
+
+### What TerraHidro Does {-}
+
+TerraHidro provides tools for **drainage network extraction, watershed delineation, and flow accumulation**. Users compute local flow from DEMs or other terrain models, convert it to graph structures, and generate connected drainage networks. Watersheds and sub-watersheds are delineated from selected points or drainage segments. The system addresses common DEM artifacts (pits and flats) to ensure hydrologically consistent results.
+
+Use cases range from **large-scale basin modeling** to **local drainage studies** for water resources management and environmental analysis. Comparative applications indicate drainage quality on par with established GIS hydrology toolkits when terrain and basin extent are demanding.
+
+
+
