@@ -2,6 +2,36 @@
 
 ## Equations
 
+- [AverageFlowpathSlope](#AverageFlowpathSlope)
+- [AverageUpslopeFlowpathLength](#AverageUpslopeFlowpathLength)
+
+### AverageFlowpathSlope {#AverageFlowpathSlope}
+
+Este tool calcula a declividade média (em graus) das rotas de escoamento que passam por cada célula de um DEM.
+O DEM deve estar **preprocessado** (ex.: *BreachDepressions*) para remover depressões e áreas planas.
+
+*See also*: [AverageUpslopeFlowpathLength](#AverageUpslopeFlowpathLength), [carve](#carve).
+
+**Parameters**
+
+| Flag        | Description               |
+|-------------|---------------------------|
+| `-i, --dem` | Input raster DEM file     |
+| `-o, --output` | Output raster file   |
+
+**Python function**
+```python
+wbt.average_flowpath_slope(
+    dem,
+    output,
+    callback=default_callback
+)
+```
+
+### AverageUpslopeFlowpathLength {#AverageUpslopeFlowpathLength}
+
+Identifies and modifies flat areas by decreasing the elevation values from the border to the center.
+
 Here is an equation.
 
 \begin{equation} 

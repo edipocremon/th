@@ -89,8 +89,6 @@ This group of algorithms is designed to transform a raw Digital Elevation Model 
 
 -	agreedem, carve, carvev, fill, flatareas, pfs, pfsd, removepits, simplepits. 
 
-- [AverageFlowpathSlope](#AverageFlowpathSlope)
-- [AverageUpslopeFlowpathLength](#AverageUpslopeFlowpathLength)
 - [agreedem](#agreedem)
 - [carve](#carve)
 - [carvev](#carvev)
@@ -99,34 +97,8 @@ This group of algorithms is designed to transform a raw Digital Elevation Model 
 - [pfs](#pfs)
 - [pfsd](#pfsd)
 - [removepits](#removepits)
-- [simplepits.](#simplepits.)
+- [simplepits.](#simplepits)
 
-### AverageFlowpathSlope {#AverageFlowpathSlope}
-
-Este tool calcula a declividade média (em graus) das rotas de escoamento que passam por cada célula de um DEM.
-O DEM deve estar **preprocessado** (ex.: *BreachDepressions*) para remover depressões e áreas planas.
-
-*See also*: [AverageUpslopeFlowpathLength](#AverageUpslopeFlowpathLength), [carve](#carve).
-
-**Parameters**
-
-| Flag        | Description               |
-|-------------|---------------------------|
-| `-i, --dem` | Input raster DEM file     |
-| `-o, --output` | Output raster file   |
-
-**Python function**
-```python
-wbt.average_flowpath_slope(
-    dem,
-    output,
-    callback=default_callback
-)
-```
-
-### AverageUpslopeFlowpathLength {#AverageUpslopeFlowpathLength}
-
-Identifies and modifies flat areas by decreasing the elevation values from the border to the center.
 
 ### agreedem {#agreedem}
 
@@ -229,21 +201,82 @@ The tool addresses only depressions where this modification does not generate ne
 | `-i, --dem` | Input raster DEM file     |
 | `-o, --output` | Output raster file   |
 
-**Python function**
-```python
-wbt.average_flowpath_slope(
-    dem,
-    output,
-    callback=default_callback
-)
-```
 
-```{r nice-tab, tidy=FALSE}
-knitr::kable(
-  head(pressure, 10), caption = 'Here is a nice table!',
-  booktabs = TRUE
-)
-```
+
+## Flow Analysis, Drainage Network Extraction and Characterization {#Flow-Analysis-Drainage-Network-Extraction-and-Characterization}
+
+- [d8](#d8)  
+- [d8ca](#d8ca)  
+- [d8drainage](#d8drainage)  
+- [d8drainagev](#d8drainagev)  
+- [segments](#segments)  
+- [minibasins](#minibasins)  
+- [outletbasin](#outletbasin)  
+- [mainriver](#mainriver)  
+- [shreve](#shreve)  
+- [strahler](#strahler)  
+- [ottorivers](#ottorivers)  
+- [mouths](#mouths)  
+- [orderedmouths](#orderedmouths)
+- [ottorivers](#ottorivers)  
+
+### d8 {#d8}  
+### d8ca {#d8ca}  
+### d8drainage {#d8drainage}  
+### d8drainagev {#d8drainagev}  
+### segments {#segments}  
+### minibasins {#minibasins}  
+### outletbasin {#outletbasin}  
+### mainriver {#mainriver}  
+### shreve {#shreve}  
+### strahler {#strahler}  
+### ottorivers {#ottorivers}  
+### mouths {#mouths}  
+### orderedmouths {#orderedmouths}  
+### ottorivers {#ottorivers} 
+
+## Basin and Sub-basin Delineation {#Basin-and-Sub-basin-Delineation}
+
+- [minibasins](#minibasins)  
+- [outletbasin](#outletbasin)  
+- [ottobasins](#ottobasins)  
+
+
+### minibasins {#minibasins}  
+### outletbasin {#outletbasin}  
+### ottobasins {#ottobasins}  
+ 
+
+
+## Geomorphometric analysis {#Geomorphometric-analysis}
+
+- [tpi](#tpi)  
+- [hand](#hand)  
+- [sand](#sand)  
+- [d8slope](#d8slope)  
+
+### tpi {#tpi}  
+### hand {#hand}  
+### sand {#sand}  
+### d8slope {#d8slope}  
+
+
+## Applied Hydrology & Risk Management {#Applied-Hydrology-Risk-Management}
+
+- [gfplain](#gfplain)  
+- [flowpath](#flowpath)  
+- [damcourse](#damcourse)  
+- [damsections](#damsections)  
+- [dambreak](#dambreak)  
+
+### gfplain {#gfplain}  
+### flowpath {#flowpath}  
+### damcourse {#damcourse}  
+### damsections {#damsections}  
+### dambreak {#dambreak}  
+
+
+
 
 <!--chapter:end:02-cross-refs.Rmd-->
 
@@ -283,6 +316,36 @@ The RStudio Visual Markdown Editor can also make it easier to insert citations: 
 # Blocks
 
 ## Equations
+
+- [AverageFlowpathSlope](#AverageFlowpathSlope)
+- [AverageUpslopeFlowpathLength](#AverageUpslopeFlowpathLength)
+
+### AverageFlowpathSlope {#AverageFlowpathSlope}
+
+Este tool calcula a declividade média (em graus) das rotas de escoamento que passam por cada célula de um DEM.
+O DEM deve estar **preprocessado** (ex.: *BreachDepressions*) para remover depressões e áreas planas.
+
+*See also*: [AverageUpslopeFlowpathLength](#AverageUpslopeFlowpathLength), [carve](#carve).
+
+**Parameters**
+
+| Flag        | Description               |
+|-------------|---------------------------|
+| `-i, --dem` | Input raster DEM file     |
+| `-o, --output` | Output raster file   |
+
+**Python function**
+```python
+wbt.average_flowpath_slope(
+    dem,
+    output,
+    callback=default_callback
+)
+```
+
+### AverageUpslopeFlowpathLength {#AverageUpslopeFlowpathLength}
+
+Identifies and modifies flat areas by decreasing the elevation values from the border to the center.
 
 Here is an equation.
 

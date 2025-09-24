@@ -119,7 +119,7 @@
 
 \title{TerraHidro User Manual}
 \author{Division of Earth Observation and Geoinformatics - DIOTG}
-\date{2025-09-19}
+\date{2025-09-24}
 
 \usepackage{amsthm}
 \newtheorem{theorem}{Theorem}[chapter]
@@ -201,10 +201,6 @@ This group of algorithms is designed to transform a raw Digital Elevation Model 
 \item
   agreedem, carve, carvev, fill, flatareas, pfs, pfsd, removepits, simplepits.
 \item
-  \hyperref[AverageFlowpathSlope]{AverageFlowpathSlope}
-\item
-  \hyperref[AverageUpslopeFlowpathLength]{AverageUpslopeFlowpathLength}
-\item
   \hyperref[agreedem]{agreedem}
 \item
   \hyperref[carve]{carve}
@@ -221,44 +217,8 @@ This group of algorithms is designed to transform a raw Digital Elevation Model 
 \item
   \hyperref[removepits]{removepits}
 \item
-  \hyperref[simplepits.]{simplepits.}
+  \hyperref[simplepits]{simplepits.}
 \end{itemize}
-
-\subsection{AverageFlowpathSlope}\label{AverageFlowpathSlope}
-
-Este tool calcula a declividade média (em graus) das rotas de escoamento que passam por cada célula de um DEM.
-O DEM deve estar \textbf{preprocessado} (ex.: \emph{BreachDepressions}) para remover depressões e áreas planas.
-
-\emph{See also}: \hyperref[AverageUpslopeFlowpathLength]{AverageUpslopeFlowpathLength}, \hyperref[carve]{carve}.
-
-\textbf{Parameters}
-
-\begin{longtable}[]{@{}ll@{}}
-\toprule\noalign{}
-Flag & Description \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-\texttt{-i,\ -\/-dem} & Input raster DEM file \\
-\texttt{-o,\ -\/-output} & Output raster file \\
-\end{longtable}
-
-\textbf{Python function}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{wbt.average\_flowpath\_slope(}
-\NormalTok{    dem,}
-\NormalTok{    output,}
-\NormalTok{    callback}\OperatorTok{=}\NormalTok{default\_callback}
-\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\subsection{AverageUpslopeFlowpathLength}\label{AverageUpslopeFlowpathLength}
-
-Identifies and modifies flat areas by decreasing the elevation values from the border to the center.
 
 \subsection{agreedem}\label{agreedem}
 
@@ -391,49 +351,133 @@ Flag & Description \\
 \texttt{-o,\ -\/-output} & Output raster file \\
 \end{longtable}
 
-\textbf{Python function}
+\section{Flow Analysis, Drainage Network Extraction and Characterization}\label{Flow-Analysis-Drainage-Network-Extraction-and-Characterization}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{wbt.average\_flowpath\_slope(}
-\NormalTok{    dem,}
-\NormalTok{    output,}
-\NormalTok{    callback}\OperatorTok{=}\NormalTok{default\_callback}
-\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[d8]{d8}\\
+\item
+  \hyperref[d8ca]{d8ca}\\
+\item
+  \hyperref[d8drainage]{d8drainage}\\
+\item
+  \hyperref[d8drainagev]{d8drainagev}\\
+\item
+  \hyperref[segments]{segments}\\
+\item
+  \hyperref[minibasins]{minibasins}\\
+\item
+  \hyperref[outletbasin]{outletbasin}\\
+\item
+  \hyperref[mainriver]{mainriver}\\
+\item
+  \hyperref[shreve]{shreve}\\
+\item
+  \hyperref[strahler]{strahler}\\
+\item
+  \hyperref[ottorivers]{ottorivers}\\
+\item
+  \hyperref[mouths]{mouths}\\
+\item
+  \hyperref[orderedmouths]{orderedmouths}
+\item
+  \hyperref[ottorivers]{ottorivers}
+\end{itemize}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(}
-  \FunctionTok{head}\NormalTok{(pressure, }\DecValTok{10}\NormalTok{), }\AttributeTok{caption =} \StringTok{\textquotesingle{}Here is a nice table!\textquotesingle{}}\NormalTok{,}
-  \AttributeTok{booktabs =} \ConstantTok{TRUE}
-\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
+\subsection{d8}\label{d8}
 
-\begin{table}
+\subsection{d8ca}\label{d8ca}
 
-\caption{\label{tab:nice-tab}Here is a nice table!}
-\centering
-\begin{tabular}[t]{rr}
-\toprule
-temperature & pressure\\
-\midrule
-0 & 0.0002\\
-20 & 0.0012\\
-40 & 0.0060\\
-60 & 0.0300\\
-80 & 0.0900\\
-\addlinespace
-100 & 0.2700\\
-120 & 0.7500\\
-140 & 1.8500\\
-160 & 4.2000\\
-180 & 8.8000\\
-\bottomrule
-\end{tabular}
-\end{table}
+\subsection{d8drainage}\label{d8drainage}
+
+\subsection{d8drainagev}\label{d8drainagev}
+
+\subsection{segments}\label{segments}
+
+\subsection{minibasins}\label{minibasins}
+
+\subsection{outletbasin}\label{outletbasin}
+
+\subsection{mainriver}\label{mainriver}
+
+\subsection{shreve}\label{shreve}
+
+\subsection{strahler}\label{strahler}
+
+\subsection{ottorivers}\label{ottorivers}
+
+\subsection{mouths}\label{mouths}
+
+\subsection{orderedmouths}\label{orderedmouths}
+
+\subsection{ottorivers}\label{ottorivers}
+
+\section{Basin and Sub-basin Delineation}\label{Basin-and-Sub-basin-Delineation}
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[minibasins]{minibasins}\\
+\item
+  \hyperref[outletbasin]{outletbasin}\\
+\item
+  \hyperref[ottobasins]{ottobasins}
+\end{itemize}
+
+\subsection{minibasins}\label{minibasins}
+
+\subsection{outletbasin}\label{outletbasin}
+
+\subsection{ottobasins}\label{ottobasins}
+
+\section{Geomorphometric analysis}\label{Geomorphometric-analysis}
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[tpi]{tpi}\\
+\item
+  \hyperref[hand]{hand}\\
+\item
+  \hyperref[sand]{sand}\\
+\item
+  \hyperref[d8slope]{d8slope}
+\end{itemize}
+
+\subsection{tpi}\label{tpi}
+
+\subsection{hand}\label{hand}
+
+\subsection{sand}\label{sand}
+
+\subsection{d8slope}\label{d8slope}
+
+\section{Applied Hydrology \& Risk Management}\label{Applied-Hydrology-Risk-Management}
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[gfplain]{gfplain}\\
+\item
+  \hyperref[flowpath]{flowpath}\\
+\item
+  \hyperref[damcourse]{damcourse}\\
+\item
+  \hyperref[damsections]{damsections}\\
+\item
+  \hyperref[dambreak]{dambreak}
+\end{itemize}
+
+\subsection{gfplain}\label{gfplain}
+
+\subsection{flowpath}\label{flowpath}
+
+\subsection{damcourse}\label{damcourse}
+
+\subsection{damsections}\label{damsections}
+
+\subsection{dambreak}\label{dambreak}
 
 \chapter{Parts}\label{parts}
 
@@ -463,6 +507,50 @@ The RStudio Visual Markdown Editor can also make it easier to insert citations: 
 \chapter{Blocks}\label{blocks}
 
 \section{Equations}\label{equations}
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[AverageFlowpathSlope]{AverageFlowpathSlope}
+\item
+  \hyperref[AverageUpslopeFlowpathLength]{AverageUpslopeFlowpathLength}
+\end{itemize}
+
+\subsection{AverageFlowpathSlope}\label{AverageFlowpathSlope}
+
+Este tool calcula a declividade média (em graus) das rotas de escoamento que passam por cada célula de um DEM.
+O DEM deve estar \textbf{preprocessado} (ex.: \emph{BreachDepressions}) para remover depressões e áreas planas.
+
+\emph{See also}: \hyperref[AverageUpslopeFlowpathLength]{AverageUpslopeFlowpathLength}, \hyperref[carve]{carve}.
+
+\textbf{Parameters}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Flag & Description \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{-i,\ -\/-dem} & Input raster DEM file \\
+\texttt{-o,\ -\/-output} & Output raster file \\
+\end{longtable}
+
+\textbf{Python function}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{wbt.average\_flowpath\_slope(}
+\NormalTok{    dem,}
+\NormalTok{    output,}
+\NormalTok{    callback}\OperatorTok{=}\NormalTok{default\_callback}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{AverageUpslopeFlowpathLength}\label{AverageUpslopeFlowpathLength}
+
+Identifies and modifies flat areas by decreasing the elevation values from the border to the center.
 
 Here is an equation.
 
