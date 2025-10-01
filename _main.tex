@@ -119,7 +119,7 @@
 
 \title{TerraHidro User Manual}
 \author{Division of Earth Observation and Geoinformatics - DIOTG}
-\date{2025-09-24}
+\date{2025-10-01}
 
 \usepackage{amsthm}
 \newtheorem{theorem}{Theorem}[chapter]
@@ -163,16 +163,26 @@ September 25, 2025
 
 Sponsored by:
 
-\pandocbounded{\includegraphics[keepaspectratio]{C:/Users/edipo/OneDrive/Documentos/INPE/th/fig/Inpelogo.png}}
+\pandocbounded{\includegraphics[keepaspectratio]{fig/Inpelogo.png}}
 
 \chapter{Introduction}\label{introduction}
 
-TerraHidro is a distributed hydrological modeling system developed at the National Institute for Space Research (INPE), Brazil. The project was designed to support the creation of Geographic Information Systems (GIS) applications for simulating water flow in hydrographic basins. TerraHidro introduces a graph-based computational representation of water flow, enabling more consistent and flexible hydrological analyses across diverse terrain data structures. It integrates with the TerraLib open-source GIS library and is commonly accessed through TerraView, providing an accessible environment for visualization, database queries, and geospatial analysis.
+TerraHidro is an advanced geospatial analysis platform designed for hydrological and geomorphometric applications. Developed at the National Institute for Space Research (INPE), it provides a comprehensive suite of tools for digital elevation model (DEM) preprocessing, flow-direction modeling, watershed and stream network delineation, sink removal, floodplain mapping, and terrain analysis. Unlike traditional cartographic or visualization software, TerraHidro serves primarily as an analytical backend, seamlessly integrating with Geographic Information Systems (GIS) such as QGIS.
+
+The system can be used in two main ways:
+
+QGIS Plugin: For users seeking a graphical workflow, TerraHidro integrates into the QGIS Processing Toolbox, providing intuitive interfaces to execute all functionalities directly within the GIS environment;
+
+Command-Line Interface (CLI): TerraHidro operates as a stand-alone executable with no installation required. Users can run tools directly from a terminal or incorporate them into automated scripts for large-scale processing.
+
+TerraHidro supports raster data in the widely used, e.g.~GeoTIFF format, and provides basic vector operations through ESRI Shapefiles.
+
+By combining high-performance processing with open-source accessibility, TerraHidro enables researchers, students, and professionals to carry out hydrological modeling, geomorphological analysis, and environmental management with precision and reproducibility.
 
 \subsection*{Project Highlights}\label{project-highlights}
 \addcontentsline{toc}{subsection}{Project Highlights}
 
-\textbf{Graph-based flow representation} that unifies local flow across terrain structures (regular grids, TINs, or irregular tessellations);
+\textbf{Graph-based flow representation} that unifies local flow across digital elevation models;
 
 \textbf{Drainage extraction with pit handling} using methods such as Priority First Search (PFS) to remove spurious depressions and connect flow in flat areas;
 
@@ -184,12 +194,201 @@ TerraHidro is a distributed hydrological modeling system developed at the Nation
 
 \textbf{Open architecture} that encourages extension and integration in broader GIS environments.
 
-\subsection*{What TerraHidro Does}\label{what-terrahidro-does}
-\addcontentsline{toc}{subsection}{What TerraHidro Does}
+\section*{QGIS Plugin Installation and Setup}\label{qgis-plugin-installation-and-setup}
+\addcontentsline{toc}{section}{QGIS Plugin Installation and Setup}
 
-TerraHidro provides tools for \textbf{drainage network extraction, watershed delineation, and flow accumulation}. Users compute local flow from DEMs or other terrain models, convert it to graph structures, and generate connected drainage networks. Watersheds and sub-watersheds are delineated from selected points or drainage segments. The system addresses common DEM artifacts (pits and flats) to ensure hydrologically consistent results.
+The TerraHidro plugin for the QGIS Processing Toolbox provides users with interfaces that allow all TerraHidro functionalities to be executed directly inside QGIS. However, please note that simply installing the plugin does not guarantee its functionality. It is also necessary to configure an environment variable named \texttt{TERRAHIDRO} that points to the directory where the TerraHidro executable was extracted.
 
-Use cases range from \textbf{large-scale basin modeling} to \textbf{local drainage studies} for water resources management and environmental analysis. Comparative applications indicate drainage quality on par with established GIS hydrology toolkits when terrain and basin extent are demanding.
+\subsection*{Installing the TerraHidro Plugin in QGIS}\label{installing-the-terrahidro-plugin-in-qgis}
+\addcontentsline{toc}{subsection}{Installing the TerraHidro Plugin in QGIS}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Open QGIS.\\
+\item
+  Go to \textbf{Plugins \textgreater{} Manage and Install Plugins\ldots{}}\\
+\item
+  In the search box, type \textbf{``terrahidro''}.\\
+\item
+  Select the \textbf{TerraHidro plugin} and click \textbf{Install Plugin}.\\
+\item
+  Make sure to check the option \textbf{``Show experimental plugins''} under \emph{Options} in the left menu.
+\end{enumerate}
+
+\pandocbounded{\includegraphics[keepaspectratio]{fig/th_plugin.png}}
+
+After installation, the TerraHidro plugin will appear in the \textbf{Processing Toolbox}.
+
+\pandocbounded{\includegraphics[keepaspectratio]{fig/th_toolbox.png}}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection*{\texorpdfstring{Configuring the \texttt{TERRAHIDRO} Environment Variable (Windows)}{Configuring the TERRAHIDRO Environment Variable (Windows)}}\label{configuring-the-terrahidro-environment-variable-windows}
+\addcontentsline{toc}{subsection}{Configuring the \texttt{TERRAHIDRO} Environment Variable (Windows)}
+
+In order for the plugin to work properly, you must configure the environment variable \texttt{TERRAHIDRO} to point to the directory where the TerraHidro executable (\texttt{th.exe}) is located. Follow these steps:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Open the Control Panel}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Press \textbf{Win + S} to open the search bar.\\
+  \item
+    Type \textbf{``Control Panel''} and press \textbf{Enter}.
+  \end{itemize}
+\item
+  \textbf{Access Advanced System Settings}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    In the Control Panel, click \textbf{System and Security}.\\
+  \item
+    Click \textbf{System}.\\
+  \item
+    On the left panel, click \textbf{Advanced system settings}.
+  \end{itemize}
+\item
+  \textbf{Open Environment Variables}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    In the \emph{System Properties} window, go to the \textbf{Advanced} tab.\\
+  \item
+    Click the \textbf{Environment Variables\ldots{}} button at the bottom.
+  \end{itemize}
+\item
+  \textbf{Create a New User Variable}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    In the \emph{User variables} section, click \textbf{New}.
+  \end{itemize}
+\item
+  \textbf{Configure the Variable}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    In the \textbf{Variable name} field, type: \texttt{TERRAHIDRO}\\
+  \item
+    In the \textbf{Variable value} field, type the full path to the directory where the TerraHidro executable is located.
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Example: \texttt{C:\textbackslash{}Users\textbackslash{}\textless{}username\textgreater{}\textbackslash{}Documents\textbackslash{}PROGRAMS\textbackslash{}TerraHidro-5.2.0}
+    \end{itemize}
+  \end{itemize}
+\item
+  \textbf{Save and Close}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Click \textbf{OK} to save the new variable.\\
+  \item
+    Click \textbf{OK} again to close the \emph{System Properties} window.
+  \end{itemize}
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection*{Final Step}\label{final-step}
+\addcontentsline{toc}{subsection}{Final Step}
+
+The \texttt{TERRAHIDRO} environment variable is now configured in your user account, pointing to the directory of the TerraHidro executable. This allows the system to locate and execute TerraHidro from any location in the command prompt or within scripts.
+
+\begin{quote}
+\textbf{Important:} Restart any open applications or command prompts so that they recognize the newly created environment variable.
+\end{quote}
+
+\section*{Command-Line Interface}\label{command-line-interface}
+\addcontentsline{toc}{section}{Command-Line Interface}
+
+TerraHidro can be used directly from the command line, making it a flexible and efficient option for processing terrain and hydrological data. The software is distributed as a stand-alone executable, so no installation is required---just extract the files and call the program from your terminal or command prompt.
+
+Before running any operation, it is important to specify the directory where the TerraHidro executable is located. For example:
+
+We recommend placing both the input and output files in the same directory as the TerraHidro executable. This avoids path errors and ensures that the program can easily locate the required files.
+
+The structure of TerraHidro commands is designed to be simple and intuitive. Most tools follow the general pattern:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\texttt{th}} calls the TerraHidro executable.\\
+\item
+  \textbf{\texttt{\textless{}operation\textgreater{}}} specifies the tool to be executed (for example, \texttt{d8}, \texttt{removepits}, \texttt{pfs}, \texttt{minibasins}).\\
+\item
+  \textbf{\texttt{input.tif}} is the input raster file, usually a Digital Elevation Model (DEM).\\
+\item
+  \textbf{\texttt{output.tif}} is the resulting raster file generated by the operation.
+\end{itemize}
+
+For example, to remove pits from a DEM, the command would be:
+
+This straightforward structure makes TerraHidro easy to use while still offering powerful capabilities. By storing all files in the same directory and executing commands step by step, users can build reproducible workflows for DEM preprocessing, flow-direction modeling, watershed delineation, and hydrological hazard simulations.
+
+\subsection*{\texorpdfstring{Example: Removing Pits with the \texttt{pfs} Operation}{Example: Removing Pits with the pfs Operation}}\label{example-removing-pits-with-the-pfs-operation}
+\addcontentsline{toc}{subsection}{Example: Removing Pits with the \texttt{pfs} Operation}
+
+The following example demonstrates how to use TerraHidro from the command line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{C:\textbackslash{}data}\OperatorTok{\textgreater{}}\NormalTok{th pfs inputDEM.tif outputDEM.tif}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\texttt{C:\textbackslash{}data\textgreater{}}} indicates the working directory where both the TerraHidro executable (\texttt{th.exe}) and the raster files are stored.\\
+\item
+  \textbf{\texttt{th}} calls the TerraHidro program.\\
+\item
+  \textbf{\texttt{pfs}} specifies the operation to be executed. The \emph{Priority-Flood Search (PFS)} algorithm is applied to remove sinks or depressions (pits) from a Digital Elevation Model (DEM), generating a hydrologically consistent surface.\\
+\item
+  \textbf{\texttt{inputDEM.tif}} is the input raster file containing the original DEM.\\
+\item
+  \textbf{\texttt{outputDEM.tif}} is the output raster file that will be created, representing the pitless DEM.
+\end{itemize}
+
+This simple command ensures that the DEM is corrected for spurious depressions, which is a fundamental preprocessing step before calculating flow directions, contributing areas, and drainage networks.
+
+\begin{quote}
+💡 \textbf{Tip -- Changing the Working Directory}
+
+Before running TerraHidro commands, make sure you are in the directory where the executable (\texttt{th.exe}) and your input/output files are located.
+
+On \textbf{Windows}, use the \texttt{cd} command:
+
+\begin{verbatim}
+cd C:\Users\<username>\Documents\PROGRAMS\TerraHidro-5.2.0
+\end{verbatim}
+
+On \textbf{Linux/MacOS}, use:
+
+\begin{verbatim}
+cd /home/<username>/PROGRAMS/TerraHidro-5.2.0
+\end{verbatim}
+
+After changing to the correct directory, you can call TerraHidro tools directly, for example:
+
+\begin{verbatim}
+th pfs inputDEM.tif outputDEM.tif
+\end{verbatim}
+\end{quote}
 
 \chapter{Hydrological Analysis}\label{hydrological-analysis}
 
