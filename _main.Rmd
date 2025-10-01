@@ -54,9 +54,9 @@ TerraHidro is an advanced geospatial analysis platform designed for hydrological
 
 The system can be used in two main ways:
 
-<li>QGIS Plugin: For users seeking a graphical workflow, TerraHidro integrates into the QGIS Processing Toolbox, providing intuitive interfaces to execute all functionalities directly within the GIS environment;</li>
+- QGIS Plugin: For users seeking a graphical workflow, TerraHidro integrates into the QGIS Processing Toolbox, providing intuitive interfaces to execute all functionalities directly within the GIS environment;
 
-<li>Command-Line Interface (CLI): TerraHidro operates as a stand-alone executable with no installation required. Users can run tools directly from a terminal or incorporate them into automated scripts for large-scale processing.</li>
+- Command-Line Interface (CLI): TerraHidro operates as a stand-alone executable with no installation required. Users can run tools directly from a terminal or incorporate them into automated scripts for large-scale processing.
 
 
 TerraHidro supports raster data in the widely used, e.g. GeoTIFF format, and provides basic vector operations through ESRI Shapefiles.
