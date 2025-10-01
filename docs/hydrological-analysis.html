@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Division of Earth Observation and Geoinformatics - DIOTG" />
 
 
-<meta name="date" content="2025-09-24" />
+<meta name="date" content="2025-10-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -173,7 +173,16 @@ div.csl-indent {
 <li class="chapter" data-level="2" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
 <ul>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#project-highlights"><i class="fa fa-check"></i>Project Highlights</a></li>
-<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#what-terrahidro-does"><i class="fa fa-check"></i>What TerraHidro Does</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#qgis-plugin-installation-and-setup"><i class="fa fa-check"></i>QGIS Plugin Installation and Setup</a>
+<ul>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#installing-the-terrahidro-plugin-in-qgis"><i class="fa fa-check"></i>Installing the TerraHidro Plugin in QGIS</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#configuring-the-terrahidro-environment-variable-windows"><i class="fa fa-check"></i>Configuring the <code>TERRAHIDRO</code> Environment Variable (Windows)</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#final-step"><i class="fa fa-check"></i>Final Step</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#command-line-interface"><i class="fa fa-check"></i>Command-Line Interface</a>
+<ul>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#example-removing-pits-with-the-pfs-operation"><i class="fa fa-check"></i>Example: Removing Pits with the <code>pfs</code> Operation</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html"><i class="fa fa-check"></i><b>3</b> Hydrological Analysis</a>
 <ul>
@@ -338,7 +347,7 @@ div.csl-indent {
 </tbody>
 </table>
 <p><strong>C++ function</strong></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="hydrological-analysis.html#cb1-1" tabindex="-1"></a><span class="ex">th</span> carve inputDEM.tif inputDrainage.shp inputFlatAreas.tif DRNON<span class="kw">|</span><span class="ex">DRNOFF</span> CROSS<span class="kw">|</span><span class="ex">DIAG</span><span class="kw">|</span><span class="ex">ALL</span> outputDEM.tif</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="hydrological-analysis.html#cb5-1" tabindex="-1"></a><span class="ex">th</span> carve inputDEM.tif inputDrainage.shp inputFlatAreas.tif DRNON<span class="kw">|</span><span class="ex">DRNOFF</span> CROSS<span class="kw">|</span><span class="ex">DIAG</span><span class="kw">|</span><span class="ex">ALL</span> outputDEM.tif</span></code></pre></div>
 </div>
 <div id="carvev" class="section level3 hasAnchor" number="3.1.3">
 <h3><span class="header-section-number">3.1.3</span> carvev<a href="hydrological-analysis.html#carvev" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -367,7 +376,7 @@ div.csl-indent {
 </tbody>
 </table>
 <p><strong>C++ function</strong></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="hydrological-analysis.html#cb2-1" tabindex="-1"></a><span class="ex">th</span> carvev inputDEM.tif outputDEM.tif</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="hydrological-analysis.html#cb6-1" tabindex="-1"></a><span class="ex">th</span> carvev inputDEM.tif outputDEM.tif</span></code></pre></div>
 </div>
 <div id="fill" class="section level3 hasAnchor" number="3.1.4">
 <h3><span class="header-section-number">3.1.4</span> fill<a href="hydrological-analysis.html#fill" class="anchor-section" aria-label="Anchor link to header"></a></h3>

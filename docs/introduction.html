@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Division of Earth Observation and Geoinformatics - DIOTG" />
 
 
-<meta name="date" content="2025-09-24" />
+<meta name="date" content="2025-10-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -173,7 +173,16 @@ div.csl-indent {
 <li class="chapter" data-level="2" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
 <ul>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#project-highlights"><i class="fa fa-check"></i>Project Highlights</a></li>
-<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#what-terrahidro-does"><i class="fa fa-check"></i>What TerraHidro Does</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#qgis-plugin-installation-and-setup"><i class="fa fa-check"></i>QGIS Plugin Installation and Setup</a>
+<ul>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#installing-the-terrahidro-plugin-in-qgis"><i class="fa fa-check"></i>Installing the TerraHidro Plugin in QGIS</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#configuring-the-terrahidro-environment-variable-windows"><i class="fa fa-check"></i>Configuring the <code>TERRAHIDRO</code> Environment Variable (Windows)</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#final-step"><i class="fa fa-check"></i>Final Step</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#command-line-interface"><i class="fa fa-check"></i>Command-Line Interface</a>
+<ul>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#example-removing-pits-with-the-pfs-operation"><i class="fa fa-check"></i>Example: Removing Pits with the <code>pfs</code> Operation</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html"><i class="fa fa-check"></i><b>3</b> Hydrological Analysis</a>
 <ul>
@@ -273,13 +282,22 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="introduction" class="section level1 hasAnchor" number="2">
 <h1><span class="header-section-number">2</span> Introduction<a href="introduction.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>TerraHidro is a distributed hydrological modeling system developed at the National Institute for Space Research (INPE), Brazil. The project was designed to support the creation of Geographic Information Systems (GIS) applications for simulating water flow in hydrographic basins. TerraHidro introduces a graph-based computational representation of water flow, enabling more consistent and flexible hydrological analyses across diverse terrain data structures. It integrates with the TerraLib open-source GIS library and is commonly accessed through TerraView, providing an accessible environment for visualization, database queries, and geospatial analysis.</p>
+<p>TerraHidro is an advanced geospatial analysis platform designed for hydrological and geomorphometric applications. Developed at the National Institute for Space Research (INPE), it provides a comprehensive suite of tools for digital elevation model (DEM) preprocessing, flow-direction modeling, watershed and stream network delineation, sink removal, floodplain mapping, and terrain analysis. Unlike traditional cartographic or visualization software, TerraHidro serves primarily as an analytical backend, seamlessly integrating with Geographic Information Systems (GIS) such as QGIS.</p>
+<p>The system can be used in two main ways:</p>
+<li>
+QGIS Plugin: For users seeking a graphical workflow, TerraHidro integrates into the QGIS Processing Toolbox, providing intuitive interfaces to execute all functionalities directly within the GIS environment;
+</li>
+<li>
+Command-Line Interface (CLI): TerraHidro operates as a stand-alone executable with no installation required. Users can run tools directly from a terminal or incorporate them into automated scripts for large-scale processing.
+</li>
+<p>TerraHidro supports raster data in the widely used, e.g. GeoTIFF format, and provides basic vector operations through ESRI Shapefiles.</p>
+<p>By combining high-performance processing with open-source accessibility, TerraHidro enables researchers, students, and professionals to carry out hydrological modeling, geomorphological analysis, and environmental management with precision and reproducibility.</p>
 <div id="project-highlights" class="section level3 unnumbered hasAnchor">
 <h3>Project Highlights<a href="introduction.html#project-highlights" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="prom-box prom-box-default shadow1" style="background: #C7E2FF; color: #101010; font-size: 16px; line-height: 1.7;">
 <ul>
 <li>
-<strong>Graph-based flow representation</strong> that unifies local flow across terrain structures (regular grids, TINs, or irregular tessellations);
+<strong>Graph-based flow representation</strong> that unifies local flow across digital elevation models;
 </li>
 <li>
 <strong>Drainage extraction with pit handling</strong> using methods such as Priority First Search (PFS) to remove spurious depressions and connect flow in flat areas;
@@ -299,11 +317,126 @@ div.csl-indent {
 </ul>
 </div>
 </div>
-<div id="what-terrahidro-does" class="section level3 unnumbered hasAnchor">
-<h3>What TerraHidro Does<a href="introduction.html#what-terrahidro-does" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>TerraHidro provides tools for <strong>drainage network extraction, watershed delineation, and flow accumulation</strong>. Users compute local flow from DEMs or other terrain models, convert it to graph structures, and generate connected drainage networks. Watersheds and sub-watersheds are delineated from selected points or drainage segments. The system addresses common DEM artifacts (pits and flats) to ensure hydrologically consistent results.</p>
-<p>Use cases range from <strong>large-scale basin modeling</strong> to <strong>local drainage studies</strong> for water resources management and environmental analysis. Comparative applications indicate drainage quality on par with established GIS hydrology toolkits when terrain and basin extent are demanding.</p>
+<div id="qgis-plugin-installation-and-setup" class="section level2 unnumbered hasAnchor">
+<h2>QGIS Plugin Installation and Setup<a href="introduction.html#qgis-plugin-installation-and-setup" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The TerraHidro plugin for the QGIS Processing Toolbox provides users with interfaces that allow all TerraHidro functionalities to be executed directly inside QGIS. However, please note that simply installing the plugin does not guarantee its functionality. It is also necessary to configure an environment variable named <code>TERRAHIDRO</code> that points to the directory where the TerraHidro executable was extracted.</p>
+<div id="installing-the-terrahidro-plugin-in-qgis" class="section level3 unnumbered hasAnchor">
+<h3>Installing the TerraHidro Plugin in QGIS<a href="introduction.html#installing-the-terrahidro-plugin-in-qgis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ol style="list-style-type: decimal">
+<li>Open QGIS.<br />
+</li>
+<li>Go to <strong>Plugins &gt; Manage and Install Plugins…</strong><br />
+</li>
+<li>In the search box, type <strong>“terrahidro”</strong>.<br />
+</li>
+<li>Select the <strong>TerraHidro plugin</strong> and click <strong>Install Plugin</strong>.<br />
+</li>
+<li>Make sure to check the option <strong>“Show experimental plugins”</strong> under <em>Options</em> in the left menu.</li>
+</ol>
+<p><img src="fig/th_plugin.png" /></p>
+<p>After installation, the TerraHidro plugin will appear in the <strong>Processing Toolbox</strong>.</p>
+<p><img src="fig/th_toolbox.png" /></p>
+<hr />
+</div>
+<div id="configuring-the-terrahidro-environment-variable-windows" class="section level3 unnumbered hasAnchor">
+<h3>Configuring the <code>TERRAHIDRO</code> Environment Variable (Windows)<a href="introduction.html#configuring-the-terrahidro-environment-variable-windows" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In order for the plugin to work properly, you must configure the environment variable <code>TERRAHIDRO</code> to point to the directory where the TerraHidro executable (<code>th.exe</code>) is located. Follow these steps:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Open the Control Panel</strong>
+<ul>
+<li>Press <strong>Win + S</strong> to open the search bar.<br />
+</li>
+<li>Type <strong>“Control Panel”</strong> and press <strong>Enter</strong>.</li>
+</ul></li>
+<li><strong>Access Advanced System Settings</strong>
+<ul>
+<li>In the Control Panel, click <strong>System and Security</strong>.<br />
+</li>
+<li>Click <strong>System</strong>.<br />
+</li>
+<li>On the left panel, click <strong>Advanced system settings</strong>.</li>
+</ul></li>
+<li><strong>Open Environment Variables</strong>
+<ul>
+<li>In the <em>System Properties</em> window, go to the <strong>Advanced</strong> tab.<br />
+</li>
+<li>Click the <strong>Environment Variables…</strong> button at the bottom.</li>
+</ul></li>
+<li><strong>Create a New User Variable</strong>
+<ul>
+<li>In the <em>User variables</em> section, click <strong>New</strong>.</li>
+</ul></li>
+<li><strong>Configure the Variable</strong>
+<ul>
+<li>In the <strong>Variable name</strong> field, type: <code>TERRAHIDRO</code><br />
+</li>
+<li>In the <strong>Variable value</strong> field, type the full path to the directory where the TerraHidro executable is located.
+<ul>
+<li>Example: <code>C:\Users\&lt;username&gt;\Documents\PROGRAMS\TerraHidro-5.2.0</code></li>
+</ul></li>
+</ul></li>
+<li><strong>Save and Close</strong>
+<ul>
+<li>Click <strong>OK</strong> to save the new variable.<br />
+</li>
+<li>Click <strong>OK</strong> again to close the <em>System Properties</em> window.</li>
+</ul></li>
+</ol>
+<hr />
+</div>
+<div id="final-step" class="section level3 unnumbered hasAnchor">
+<h3>Final Step<a href="introduction.html#final-step" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The <code>TERRAHIDRO</code> environment variable is now configured in your user account, pointing to the directory of the TerraHidro executable. This allows the system to locate and execute TerraHidro from any location in the command prompt or within scripts.</p>
+<blockquote>
+<p><strong>Important:</strong> Restart any open applications or command prompts so that they recognize the newly created environment variable.</p>
+</blockquote>
+</div>
+</div>
+<div id="command-line-interface" class="section level2 unnumbered hasAnchor">
+<h2>Command-Line Interface<a href="introduction.html#command-line-interface" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>TerraHidro can be used directly from the command line, making it a flexible and efficient option for processing terrain and hydrological data. The software is distributed as a stand-alone executable, so no installation is required—just extract the files and call the program from your terminal or command prompt.</p>
+<p>Before running any operation, it is important to specify the directory where the TerraHidro executable is located. For example:</p>
+<p>We recommend placing both the input and output files in the same directory as the TerraHidro executable. This avoids path errors and ensures that the program can easily locate the required files.</p>
+<p>The structure of TerraHidro commands is designed to be simple and intuitive. Most tools follow the general pattern:</p>
+<ul>
+<li><strong><code>th</code></strong> calls the TerraHidro executable.<br />
+</li>
+<li><strong><code>&lt;operation&gt;</code></strong> specifies the tool to be executed (for example, <code>d8</code>, <code>removepits</code>, <code>pfs</code>, <code>minibasins</code>).<br />
+</li>
+<li><strong><code>input.tif</code></strong> is the input raster file, usually a Digital Elevation Model (DEM).<br />
+</li>
+<li><strong><code>output.tif</code></strong> is the resulting raster file generated by the operation.</li>
+</ul>
+<p>For example, to remove pits from a DEM, the command would be:</p>
+<p>This straightforward structure makes TerraHidro easy to use while still offering powerful capabilities. By storing all files in the same directory and executing commands step by step, users can build reproducible workflows for DEM preprocessing, flow-direction modeling, watershed delineation, and hydrological hazard simulations.</p>
+<div id="example-removing-pits-with-the-pfs-operation" class="section level3 unnumbered hasAnchor">
+<h3>Example: Removing Pits with the <code>pfs</code> Operation<a href="introduction.html#example-removing-pits-with-the-pfs-operation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The following example demonstrates how to use TerraHidro from the command line:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="introduction.html#cb1-1" tabindex="-1"></a><span class="ex">C:\data</span><span class="op">&gt;</span>th pfs inputDEM.tif outputDEM.tif</span></code></pre></div>
+<ul>
+<li><strong><code>C:\data&gt;</code></strong> indicates the working directory where both the TerraHidro executable (<code>th.exe</code>) and the raster files are stored.<br />
+</li>
+<li><strong><code>th</code></strong> calls the TerraHidro program.<br />
+</li>
+<li><strong><code>pfs</code></strong> specifies the operation to be executed. The <em>Priority-Flood Search (PFS)</em> algorithm is applied to remove sinks or depressions (pits) from a Digital Elevation Model (DEM), generating a hydrologically consistent surface.<br />
+</li>
+<li><strong><code>inputDEM.tif</code></strong> is the input raster file containing the original DEM.<br />
+</li>
+<li><strong><code>outputDEM.tif</code></strong> is the output raster file that will be created, representing the pitless DEM.</li>
+</ul>
+<p>This simple command ensures that the DEM is corrected for spurious depressions, which is a fundamental preprocessing step before calculating flow directions, contributing areas, and drainage networks.</p>
+<blockquote>
+<p>💡 <strong>Tip – Changing the Working Directory</strong></p>
+<p>Before running TerraHidro commands, make sure you are in the directory where the executable (<code>th.exe</code>) and your input/output files are located.</p>
+<p>On <strong>Windows</strong>, use the <code>cd</code> command:</p>
+<pre><code>cd C:\Users\&lt;username&gt;\Documents\PROGRAMS\TerraHidro-5.2.0</code></pre>
+<p>On <strong>Linux/MacOS</strong>, use:</p>
+<pre><code>cd /home/&lt;username&gt;/PROGRAMS/TerraHidro-5.2.0</code></pre>
+<p>After changing to the correct directory, you can call TerraHidro tools directly, for example:</p>
+<pre><code>th pfs inputDEM.tif outputDEM.tif</code></pre>
+</blockquote>
 
+</div>
 </div>
 </div>
             </section>
