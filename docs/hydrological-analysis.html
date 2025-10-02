@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Division of Earth Observation and Geoinformatics - DIOTG" />
 
 
-<meta name="date" content="2025-10-01" />
+<meta name="date" content="2025-10-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -169,7 +169,7 @@ div.csl-indent {
 <li><a href="./">TerraHidro User Manual</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> url: your book url like https://bookdown.org/yihui/bookdown</a></li>
 <li class="chapter" data-level="2" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
 <ul>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#project-highlights"><i class="fa fa-check"></i>Project Highlights</a></li>
@@ -347,7 +347,7 @@ div.csl-indent {
 </tbody>
 </table>
 <p><strong>C++ function</strong></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="hydrological-analysis.html#cb5-1" tabindex="-1"></a><span class="ex">th</span> carve inputDEM.tif inputDrainage.shp inputFlatAreas.tif DRNON<span class="kw">|</span><span class="ex">DRNOFF</span> CROSS<span class="kw">|</span><span class="ex">DIAG</span><span class="kw">|</span><span class="ex">ALL</span> outputDEM.tif</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="hydrological-analysis.html#cb1-1" tabindex="-1"></a><span class="ex">th</span> carve inputDEM.tif inputDrainage.shp inputFlatAreas.tif DRNON<span class="kw">|</span><span class="ex">DRNOFF</span> CROSS<span class="kw">|</span><span class="ex">DIAG</span><span class="kw">|</span><span class="ex">ALL</span> outputDEM.tif</span></code></pre></div>
 </div>
 <div id="carvev" class="section level3 hasAnchor" number="3.1.3">
 <h3><span class="header-section-number">3.1.3</span> carvev<a href="hydrological-analysis.html#carvev" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -376,7 +376,7 @@ div.csl-indent {
 </tbody>
 </table>
 <p><strong>C++ function</strong></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="hydrological-analysis.html#cb6-1" tabindex="-1"></a><span class="ex">th</span> carvev inputDEM.tif outputDEM.tif</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="hydrological-analysis.html#cb2-1" tabindex="-1"></a><span class="ex">th</span> carvev inputDEM.tif outputDEM.tif</span></code></pre></div>
 </div>
 <div id="fill" class="section level3 hasAnchor" number="3.1.4">
 <h3><span class="header-section-number">3.1.4</span> fill<a href="hydrological-analysis.html#fill" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -407,6 +407,13 @@ div.csl-indent {
 <h3><span class="header-section-number">3.1.9</span> simplepits<a href="hydrological-analysis.html#simplepits" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><em>simplepits</em> processes a Digital Elevation Model (DEM) to remove simple hydrological depressions. The algorithm identifies pit cells with no downstream outlet and elevates them to the lowest value of a neighboring cell plus a minor increment. This adjustment creates a functional drainage path while minimizing alteration to the original topography.</p>
 <p>The tool addresses only depressions where this modification does not generate new downstream pits. It serves as an initial processing step for depression removal and is typically followed by more comprehensive algorithms to resolve complex hydrologic discontinuities.</p>
+<p><code>simplepits</code> is an initial, targeted step for removing hydrological depressions (pits) from a Digital Elevation Model (DEM) while keeping changes to the terrain as small as possible. In pit removal there are three general strategies—fill, carve/breach, or hybrid. Filling is the simplest, but applying it indiscriminately can trigger a cascade: fixing one pit creates new pits in neighboring cells, which leads to further fills and can produce artificial flat areas that were not present in the original DEM.</p>
+<p>To avoid this, <code>simplepits</code> focuses only on <strong>simple pits</strong>—those that can be eliminated by a single, localized elevation increase without causing any neighboring cell to become a new pit. The algorithm proceeds with a controlled trial-and-error step: it tentatively raises each pit cell by a small amount, checks the surrounding cells, and <strong>accepts</strong> the change only if no new pits appear. If any adjacent cell becomes a pit, the change is <strong>reverted</strong> and that cell is labeled a <strong>complex pit</strong> to be handled later.</p>
+<p><code>simplepits</code> modifies only those depressions that can be safely resolved, leaving complex cases to subsequent procedures (e.g., carving or PFS steps) that resolve remaining hydrologic discontinuities with minimal distortion. Operationally, it runs in linear time with respect to the number of pit cells and is intended as a conservative first pass before more comprehensive conditioning.</p>
+<p><img src="fig/simplepits.png" />
+<strong>Figure - Simple pit resolution (a–b).</strong> (a) Initial DEM with pit cell C2 (orange) and D8 flow directions (blue). (b) C2 is raised to the lowest neighboring cell (D3) by a small increment, eliminating the pit without creating adjacent pits; the edit is accepted as a simple-pit case.</p>
+<p><em>Reference</em>:</p>
+<p>Jardim, A. C. (2017). <em>Direções de fluxo em modelos digitais de elevação: um método com foco na qualidade da estimativa e processamento de grande volume de dados</em> [Doctoral dissertation, Instituto Nacional de Pesquisas Espaciais (INPE)]. <a href="http://mtc-m21b.sid.inpe.br/col/sid.inpe.br/mtc-m21b/2017/05.17.13.26/doc/publicacao.pdf?metadatarepository=sid.inpe.br/mtc-m21b/2017/05.17.13.26.57&amp;mirror=sid.inpe.br/mtc-m21b/2013/09.26.14.25.22&amp;languagebutton=en">https://sid.inpe.br/mtc-m21b/2017/05.17.13.26</a></p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#removepits">removepits</a>.</p>
 <p><strong>preprocessado</strong> (ex.: <em>BreachDepressions</em>) para remover depressões e áreas planas.</p>
 <p><em>See also</em>: <a href="blocks.html#AverageUpslopeFlowpathLength">AverageUpslopeFlowpathLength</a>, <em>BreachDepressions</em>.</p>
@@ -638,20 +645,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>
