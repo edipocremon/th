@@ -171,7 +171,7 @@ th flatareas inputDEM.tif MINCELLS outputFlatAreas.tif
 ```
 Example:
 ```bash
-# th flatareas inputDEM.tif 25 outputFlatAreas.tif
+th flatareas inputDEM.tif 25 outputFlatAreas.tif
 ```
 
 
