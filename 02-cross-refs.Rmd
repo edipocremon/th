@@ -169,7 +169,7 @@ The following example demonstrates how to use `flatareas` tool from the command 
 ```bash
 th flatareas inputDEM.tif MINCELLS outputFlatAreas.tif
 ```
-# Example:
+Example:
 ```bash
 # th flatareas inputDEM.tif 25 outputFlatAreas.tif
 ```
