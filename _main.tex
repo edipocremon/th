@@ -119,7 +119,7 @@
 
 \title{TerraHidro User Manual}
 \author{Division of Earth Observation and Geoinformatics - DIOTG}
-\date{2025-10-01}
+\date{2025-10-03}
 
 \usepackage{amsthm}
 \newtheorem{theorem}{Theorem}[chapter]
@@ -400,8 +400,9 @@ th pfs inputDEM.tif outputDEM.tif
 This group of algorithms is designed to transform a raw Digital Elevation Model (DEM) into a hydrologically correct surface where water can flow uninterrupted to the watershed outlet. It addresses common DEM errors like pits (depressions), flat areas, and misalignments with known river networks. The output is a ``pitless'' and ``conditioned'' DEM that is essential for accurate flow direction, watershed delineation, and subsequent hydrological analysis.
 
 \begin{itemize}
+\tightlist
 \item
-  agreedem, carve, carvev, fill, flatareas, pfs, pfsd, removepits, simplepits.
+  \hyperref[simplepits]{simplepits}
 \item
   \hyperref[agreedem]{agreedem}
 \item
@@ -418,15 +419,114 @@ This group of algorithms is designed to transform a raw Digital Elevation Model 
   \hyperref[pfsd]{pfsd}
 \item
   \hyperref[removepits]{removepits}
-\item
-  \hyperref[simplepits]{simplepits.}
 \end{itemize}
+
+\subsection{simplepits}\label{simplepits}
+
+\texttt{simplepits} is an initial, targeted step for removing hydrological depressions (pits) from a Digital Elevation Model (DEM) while keeping changes to the terrain as small as possible. In pit removal there are three general strategies---fill, carve/breach, or hybrid. Filling is the simplest, but applying it indiscriminately can trigger a cascade: fixing one pit creates new pits in neighboring cells, which leads to further fills and can produce artificial flat areas that were not present in the original DEM. To avoid this, \texttt{simplepits} focuses only on \textbf{simple pits}---those that can be eliminated by a single, localized elevation increase without causing any neighboring cell to become a new pit. The algorithm proceeds with a controlled trial-and-error step: it tentatively raises the pit cell by a small amount, checks the surrounding cells, and \textbf{accepts} the change only if no new pits appear. If any adjacent cell becomes a pit, the change is \textbf{reverted} and that cell is labeled a \textbf{complex pit} to be handled later. Operationally, it runs in linear time with respect to the number of pit cells and is intended as a conservative first pass before more comprehensive conditioning.
+
+In TerraHidro there are two functionalities for pit removal: \texttt{simplepits} and \hyperref[pfs]{\texttt{pfs}}. The \texttt{simplepits} functionality modifies \textbf{only the pit cell}. A new elevation is assigned to that cell based on the \textbf{lowest neighboring elevation plus a predefined increment} (in practice, \texttt{1e-3}). After this increment is applied, \textbf{all neighboring cells} of the pit must be checked to ensure that no new pits were created. If \textbf{none} of the neighbors becomes a pit, the original pit is considered resolved by a simple, local operation and is classified as a \textbf{simple pit}. If \textbf{any} neighbor becomes a pit, the modification is \textbf{undone} and that pit cell is deferred to \texttt{pfs}, which handles \textbf{complex pits}.
+
+\pandocbounded{\includegraphics[keepaspectratio]{fig/simplepits.png}}
+\textbf{Figure - Simple pit resolution (a--b).} (a) Initial DEM with pit cell C2 (orange) and D8 flow directions (blue). (b) C2 is raised to the lowest neighboring cell (D3) by a small increment, eliminating the pit without creating adjacent pits; the edit is accepted as a simple-pit case. Source: Jardim (2017).
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Flag & Description \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{dem} & Input raster DEM file \emph{(e.g.,inputDEM.tif)} \\
+\texttt{output} & Output raster file \emph{(e.g., \texttt{outputDEM.tif})} \\
+\end{longtable}
+
+The following example demonstrates how to use \texttt{simplepits} tool from the command line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{th}\NormalTok{ simplepits inputDEM.tif outputDEM.tif}
+\end{Highlighting}
+\end{Shaded}
+
+\emph{Reference}:
+
+Jardim, A. C. (2017). \emph{Direções de fluxo em modelos digitais de elevação: um método com foco na qualidade da estimativa e processamento de grande volume de dados} {[}Doctoral dissertation, Instituto Nacional de Pesquisas Espaciais (INPE){]}. \href{http://mtc-m21b.sid.inpe.br/col/sid.inpe.br/mtc-m21b/2017/05.17.13.26/doc/publicacao.pdf?metadatarepository=sid.inpe.br/mtc-m21b/2017/05.17.13.26.57&mirror=sid.inpe.br/mtc-m21b/2013/09.26.14.25.22&languagebutton=en}{https://sid.inpe.br/mtc-m21b/2017/05.17.13.26}
+
+\emph{See also}: \hyperref[pfs]{pfs}, \hyperref[removepits]{removepits}.
 
 \subsection{agreedem}\label{agreedem}
 
-\emph{agreedem} modifies a Digital Elevation Model (DEM) to conform to a known drainage network. The tool sharpens the elevation values along the network's cells, effectively burning the channels into the terrain. Users can optionally define a buffer to smooth the elevation of adjacent cells, enhancing the integration of the network with the surrounding topography. This process ensures the DEM's flow directions align with the provided drainage paths.
+\texttt{agreedem} modifies a Digital Elevation Model (DEM) \textbf{in and around a known drainage network} to improve the agreement between automatically derived flow directions and \textbf{observed/reference channels}. When the drainage extracted from a raw DEM does not align with mapped streams, \texttt{agreedem} ``guides'' flow by \textbf{sharpening (trenching/burning)} the elevations along the reference network and optionally \textbf{smoothing} the surrounding cells within a distance buffer. This targeted editing is especially effective over \textbf{low-relief and flat areas}, where automatic drainage extraction is most ambiguous and computationally costly (see Clarke \& Burnett, 2003).
 
-Input parameters control the sharpening intensity on the network and the degree of smoothing within the specified buffer zone. The tool supports both fixed and variable buffer sizes, which can be defined by an attribute in the input vector data. This operation produces a hydrologically conditioned DEM suitable for subsequent flow routing analysis.
+\texttt{agreedem} is \textbf{not} a complete pit/flat conditioning method on its own. It only edits elevations \textbf{on} the reference lines and \textbf{nearby} cells; therefore, a hydrologically conditioned DEM (HC-DEM) still requires \textbf{flat-area handling} and \textbf{pit removal} (e.g., \texttt{simplepits} then \texttt{pfs}) so that D8 flow directions are defined \textbf{everywhere}. In practice, drainage data are supplied as \textbf{vector lines} and first converted to a raster grid; each stream cell receives an assigned ``burn'' value (\textbf{stream burning}; Wang et al., 2011), producing a gridded drainage mask that \texttt{agreedem} uses together with the original DEM.
+
+The reconditioning occurs in two coupled steps:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Sharpening (trenching/burning):} a fixed decrement is \textbf{subtracted} from the elevation of every \textbf{drainage cell} to carve a narrow channel along the reference lines. This intentionally introduces artificial micro-valleys that act as \textbf{flow guides} for automatic extraction.
+\item
+  \textbf{Smoothing (buffered taper):} within a user-defined \textbf{buffer radius (in cells)} around the drainage, additional decrements are applied that \textbf{decrease with distance} from the line (distance-weighted). This creates a small \textbf{stepped cross-section} that transitions the trench back to the surrounding terrain, reducing artifacts and improving convergence of flow to the channel.
+\end{itemize}
+
+\pandocbounded{\includegraphics[keepaspectratio]{fig/th_agreedem.png}}
+\textbf{Figure 3.1. Reconditioning (AgreeDEM).} Cross-section example showing a 3×3 buffer where the nearest ring to the channel receives the largest decrement, the next ring a smaller decrement, and so on; the drainage cells themselves receive a larger \textbf{burn} depth. (Illustrative values follow the narrative.)
+
+\begin{quote}
+\textbf{Workflow note.} After running \texttt{agreedem}, proceed with \textbf{flat-area} and \textbf{pit} resolution (e.g., \texttt{flatareas} → \texttt{simplepits} → \texttt{pfs}) to obtain a final HC-DEM suitable for D8 flow direction, contributing area, and watershed delineation.
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Parameters}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.0884}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.9116}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Flag
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{dem} & Input DEM raster file (GeoTIFF), e.g., \texttt{inputDEM.tif}. \\
+\texttt{drainage} & Input drainage network (vector \texttt{.shp} or raster grid). Vector lines are rasterized internally/externally to a grid for stream burning, e.g., \texttt{inputDrainage.shp}. \\
+\texttt{burn} & Trench depth applied to drainage cells (fixed decrement), e.g., \texttt{50}. \\
+\texttt{buffer} & Buffer radius \textbf{in cells} around drainage for smoothing (distance-weighted taper), e.g., \texttt{3}. \\
+\texttt{smooth} & Smoothing factor that scales decrements within the buffer (larger values yield stronger taper near the channel), e.g., \texttt{10}. \\
+\texttt{burn-only} & Optional switch to \textbf{disable smoothing} and apply trenching only on drainage cells. \\
+\texttt{-output} & Output reconditioned DEM (GeoTIFF), e.g., \texttt{outputDEM.tif}. \\
+\end{longtable}
+
+The following example demonstrates how to use \texttt{agreedem} tool from the command line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{th}\NormalTok{ agreedem inputDEM.tif inputDrainage.shp BURN BUFFER SMOOTH outputDEM.tif}
+\end{Highlighting}
+\end{Shaded}
+
+Example (illustrative):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{th}\NormalTok{ agreedem inputDEM.tif inputDrainage.shp 20 3 10 outputDEM.tif}
+\end{Highlighting}
+\end{Shaded}
+
+\emph{Reference}:
+
+Clarke, S., \& Burnett, K. (2003). Comparison of digital elevation models for aquatic data development. Photogrammetric Engineering \& Remote Sensing, 69(12), 1367-1375. \url{https://doi.org/10.14358/PERS.69.12.1367}
+
+Wang, J., Li, L., Hao, Z., \& Gourley, J. J. (2011). Stream guiding algorithm for deriving flow direction from DEM and location of main streams. IAHS-AISH Publication, 346, 198-205.
+
+\emph{See also}: \hyperref[pfsd]{pfsd}.
 
 \subsection{carve}\label{carve}
 
@@ -486,8 +586,8 @@ Descrição
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-\texttt{-i,\ -\/-dem} & Input DEM raster file \emph{(e.g.,inputDEM.tif)} \\
-\texttt{-o,\ -\/-output} & Output DEM raster file with carved flats \emph{(e.g., \texttt{outputDEM.tif})} \\
+\texttt{dem} & Input DEM raster file \emph{(e.g.,inputDEM.tif)} \\
+\texttt{output} & Output DEM raster file with carved flats \emph{(e.g., \texttt{outputDEM.tif})} \\
 \end{longtable}
 
 \textbf{C++ function}
@@ -510,11 +610,99 @@ This process generates a continuous, hydrologically viable elevation surface. Th
 
 The algorithm requires a user-defined minimum area threshold, specified as a number of cells. This parameter excludes smaller, potentially insignificant flat zones from the output. The result is a raster layer where each flat area is classified, providing a basis for subsequent hydrological conditioning procedures.
 
+\texttt{flatareas} identifies \textbf{flat areas}---contiguous clusters of cells with the \textbf{same elevation}---and outputs a raster mask to be used in the next step (carving) so that flow lines can pass through the \textbf{center of wide rivers} and large flats. Flat areas are common in DEMs such as \textbf{SRTM}, \textbf{AW3D30}, and \textbf{Copernicus DEM} where river widths exceed grid resolution; they often appear as a ``staircase'' along the longitudinal profile, and every cell within a flat behaves like a pit, increasing the cost of hydrologic conditioning. By first mapping these flats, subsequent processing can \textbf{dig a V-shaped channel} from the edges toward the center, reducing the number of pits and guiding drainage.
+
+The original detection approach uses a simple \textbf{image filter} rather than an expensive region-growing segmentation. The filter has two parts: an \textbf{inner 3×3 square} (central test) and an \textbf{outer cross} (expansion). The kernel is swept from the upper-left to the lower-right of the DEM. At each position, if all cells in the inner square share the central cell's elevation, then any cells in the outer cross that also match are \textbf{marked as flat}. Cells with invalid/NoData elevation (e.g., ocean mask values such as \texttt{-32768}) are ignored. This produces large connected flat patches efficiently. In Figure below (Identifying flat areas), intermediate steps (e.g., 26a and 26b) show the inner test and subsequent marking; by the final pass (step 112) most flat cells are identified. A few unmarked cells may remain, but they do \textbf{not} affect the next stage, which \textbf{carves} these flats.
+
+An enhanced variant uses a \textbf{breadth-first flood fill} (8-connected: orthogonal and diagonal neighbors), starting from each valid cell, to visit all equal-elevation neighbors exactly once. This ensures complete detection with \textbf{\(O(n)\)} complexity (each DEM cell is processed once) and naturally selects diagonal borders as well as orthogonal ones. After each component is discovered, it is retained as a flat area only if it meets the \textbf{minimum size} (cell count) specified by the user.
+
+\pandocbounded{\includegraphics[keepaspectratio]{fig/th_flatareas.png}}
+\textbf{Figure 3.2. Identifying flat areas.} DEM cells with distinct elevations (brown) surround a flat river reach (white); gray cells are invalid/NoData (e.g., ocean/border). The 3×3 \textbf{inner square} (red) and \textbf{outer cross} (green) filter identify and mark the flat region (orange). By step 112, nearly all flat cells are tagged; any remaining unmarked cells are corrected during the subsequent carving stage. Source: Jardim (2017).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Parameters}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.1339}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.8661}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Flag
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{dem} & Input DEM raster (GeoTIFF), e.g., \texttt{inputDEM.tif}. \\
+\texttt{min-cells} & Positive integer for the \textbf{minimum contiguous cell count} required to classify a region as a flat area. \\
+\texttt{output} & Output \textbf{flat-areas mask} (GeoTIFF), e.g., \texttt{outputFlatAreas.tif} (e.g., 1 = flat, 0 = non-flat). \\
+\end{longtable}
+
+The following example demonstrates how to use \texttt{flatareas} tool from the command line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{th}\NormalTok{ flatareas inputDEM.tif MINCELLS outputFlatAreas.tif}
+\end{Highlighting}
+\end{Shaded}
+
+\chapter{Example:}\label{example}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# th flatareas inputDEM.tif 25 outputFlatAreas.tif}
+\end{Highlighting}
+\end{Shaded}
+
 \subsection{pfs}\label{pfs}
 
 \emph{pfs} removes depressions from a Digital Elevation Model (DEM) using a priority-first search algorithm. The tool initiates a grid search from each pit cell to locate the nearest spill point with a lower elevation. It employs a priority queue to evaluate potential paths, constructing a descending elevation trajectory to the outlet.
 
 This process modifies cell values along the selected path to create a hydrologically continuous surface. The algorithm ensures all depressions are resolved, producing a pit-free DEM suitable for subsequent flow-direction analysis.
+
+\texttt{pfs} removes all remaining depressions from a DEM by \textbf{carving a path} from each pit cell to an outlet cell using a \textbf{Priority-First Search (PFS)}. Unlike \texttt{simplepits}, which changes only the pit cell, \texttt{pfs} modifies the elevations of \textbf{multiple cells} along a selected path so that flow can proceed continuously from the original pit to a lower cell. To \textbf{minimize DEM alteration}, the path is chosen to be as \textbf{short as possible} toward the \textbf{lowest reachable elevation}; if no valid interior cell is found first, the path may end at an invalid cell or at the DEM border.
+
+The DEM is treated as a \textbf{graph} in which each grid cell is a node and neighborhood relations (typically 8-connected) are edges. Starting at the pit (initial node), PFS explores neighboring cells using a \textbf{priority queue} ordered by desirability---first by \textbf{lower elevation}, and, in case of ties, by \textbf{shorter path length} from the pit. As cells are visited, the algorithm maintains a \textbf{tree of paths} (parent--child relations) that encodes all partial routes under consideration. When PFS reaches a final cell that satisfies the stop criteria (lower elevation and shortest distance), it \textbf{commits the path} from the pit to that outlet and proceeds to modify the DEM along that path.
+
+\pandocbounded{\includegraphics[keepaspectratio]{fig/th_pfs1.png}}
+\textbf{Figure - PFS search to remove a pit.} The priority queue tracks, for each visited cell, its elevation, the number of steps from the pit (path length), and its parent. The final path (e.g., B2--C2--D3--D4) is committed and marked in the path tree (Jardim, 2017).
+
+Elevation modification is applied by creating a \textbf{linear downslope} along the chosen path: moving outward from the pit, each intermediate cell along the route receives an elevation \textbf{slightly lower} than its predecessor, using a small \textbf{decrement step} (in practice, \texttt{1e-3}) applied cell by cell; the \textbf{first (pit)} and \textbf{last (outlet)} cells are not adjusted. This yields a gentle carved profile that preserves local relief while ensuring drainage continuity. To prevent creating a new pit near the outlet, PFS includes a \textbf{stop condition} that guarantees the computed elevation at the cell before the outlet will still be \textbf{higher} than the outlet's elevation given the cumulative decrements; otherwise, the route is rejected and search continues. Border or invalid cells may also serve as terminating outlets under the stop criteria.
+
+\pandocbounded{\includegraphics[keepaspectratio]{fig/th_pfs_grid.png}}
+\textbf{Figure - DEM modification by a linear slope} . Example before (a) and after (b) applying a constant decrement along the committed path (illustrated here with a larger step of \texttt{1e-1} for clarity), leaving the pit and outlet cells unaltered (Jardim, 2017).
+
+In practice, \texttt{pfs} complements \texttt{simplepits}: simple depressions are removed first with single-cell fills; \textbf{complex} ones are then resolved by PFS carving. The result is a \textbf{pitless DEM} suitable for reliable flow-direction, contributing-area, and drainage-network derivations, with \textbf{minimal distortion} relative to the original topography.
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Flag & Description \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{dem} & Input raster DEM file \emph{(e.g.,inputDEM.tif)} \\
+\texttt{output} & Output raster file \emph{(e.g., \texttt{outputDEM.tif})} \\
+\end{longtable}
+
+The following example demonstrates how to use \texttt{simplepits} tool from the command line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{th}\NormalTok{ pfs inputDEM.tif outputDEM.tif}
+\end{Highlighting}
+\end{Shaded}
+
+\emph{Reference}:
+
+Jones, R. (2002). Algorithms for using a DEM for mapping catchment areas of stream sediment samples. Computers \& geosciences, v. 28, n.~9, p.~1051--1060. \url{https://doi.org/10.1016/S0098-3004(02)00022-5}
+
+Jardim, A. C. (2017). \emph{Direções de fluxo em modelos digitais de elevação: um método com foco na qualidade da estimativa e processamento de grande volume de dados} {[}Doctoral dissertation, Instituto Nacional de Pesquisas Espaciais (INPE){]}. \href{http://mtc-m21b.sid.inpe.br/col/sid.inpe.br/mtc-m21b/2017/05.17.13.26/doc/publicacao.pdf?metadatarepository=sid.inpe.br/mtc-m21b/2017/05.17.13.26.57&mirror=sid.inpe.br/mtc-m21b/2013/09.26.14.25.22&languagebutton=en}{https://sid.inpe.br/mtc-m21b/2017/05.17.13.26}
+
+\emph{See also}: \hyperref[simplepits]{simplepits}, \hyperref[removepits]{removepits}.
 
 \subsection{pfsd}\label{pfsd}
 
@@ -527,31 +715,6 @@ This method ensures the resulting drainage structure aligns with the provided ne
 \emph{removepits} processes a Digital Elevation Model (DEM) to eliminate hydrological depressions and flat areas. This tool executes a sequence of operations, specifically the carvev, simplepits, and pfs algorithms, to ensure comprehensive hydrological correction. It produces a fully connected drainage surface where water can flow uninterrupted to the watershed outlet.
 
 The procedure first addresses flat regions by carving drainage paths, then removes simple pits through elevation filling, and finally resolves complex depressions via priority-first search. The output is a pit-free DEM suitable for deriving accurate flow direction and accumulation networks.
-
-\subsection{simplepits}\label{simplepits}
-
-\emph{simplepits} processes a Digital Elevation Model (DEM) to remove simple hydrological depressions. The algorithm identifies pit cells with no downstream outlet and elevates them to the lowest value of a neighboring cell plus a minor increment. This adjustment creates a functional drainage path while minimizing alteration to the original topography.
-
-The tool addresses only depressions where this modification does not generate new downstream pits. It serves as an initial processing step for depression removal and is typically followed by more comprehensive algorithms to resolve complex hydrologic discontinuities.
-
-\emph{See also}: \hyperref[removepits]{removepits}.
-
-\textbf{preprocessado} (ex.: \emph{BreachDepressions}) para remover depressões e áreas planas.
-
-\emph{See also}: \hyperref[AverageUpslopeFlowpathLength]{AverageUpslopeFlowpathLength}, \emph{BreachDepressions}.
-
-\textbf{Parameters}
-
-\begin{longtable}[]{@{}ll@{}}
-\toprule\noalign{}
-Flag & Description \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-\texttt{-i,\ -\/-dem} & Input raster DEM file \\
-\texttt{-o,\ -\/-output} & Output raster file \\
-\end{longtable}
 
 \section{Flow Analysis, Drainage Network Extraction and Characterization}\label{Flow-Analysis-Drainage-Network-Extraction-and-Characterization}
 
