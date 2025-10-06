@@ -5,31 +5,25 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3 Hydrological Analysis | TerraHidro User Manual</title>
-  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
-The HTML output format for this example is bookdown::gitbook,
-set in the _output.yml file.</p>" />
+  <meta name="description" content="The TerraHidro Manual is a practical, task-oriented guide to hydrological and geomorphometric processing with TerraHidro. It covers setup (Command-Line Interface and QGIS plugin), required data formats, and step-by-step workflows to build a hydrologically conditioned DEM. Each tool includes concise theory, parameters, command examples, and figures, followed by end-to-end examples for flow direction, contributing area, drainage/watershed delineation, and export for GIS." />
   <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 Hydrological Analysis | TerraHidro User Manual" />
   <meta property="og:type" content="book" />
-  
-  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
-The HTML output format for this example is bookdown::gitbook,
-set in the _output.yml file.</p>" />
+  <meta property="og:image" content="/fig/logo_terrahidro.jpg" />
+  <meta property="og:description" content="The TerraHidro Manual is a practical, task-oriented guide to hydrological and geomorphometric processing with TerraHidro. It covers setup (Command-Line Interface and QGIS plugin), required data formats, and step-by-step workflows to build a hydrologically conditioned DEM. Each tool includes concise theory, parameters, command examples, and figures, followed by end-to-end examples for flow direction, contributing area, drainage/watershed delineation, and export for GIS." />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="3 Hydrological Analysis | TerraHidro User Manual" />
   
-  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
-The HTML output format for this example is bookdown::gitbook,
-set in the _output.yml file.</p>" />
-  
+  <meta name="twitter:description" content="The TerraHidro Manual is a practical, task-oriented guide to hydrological and geomorphometric processing with TerraHidro. It covers setup (Command-Line Interface and QGIS plugin), required data formats, and step-by-step workflows to build a hydrologically conditioned DEM. Each tool includes concise theory, parameters, command examples, and figures, followed by end-to-end examples for flow direction, contributing area, drainage/watershed delineation, and export for GIS." />
+  <meta name="twitter:image" content="/fig/logo_terrahidro.jpg" />
 
 <meta name="author" content="Division of Earth Observation and Geoinformatics - DIOTG" />
 
 
-<meta name="date" content="2025-10-03" />
+<meta name="date" content="2025-10-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -190,10 +184,10 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="3.1.1" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#simplepits"><i class="fa fa-check"></i><b>3.1.1</b> simplepits</a></li>
 <li class="chapter" data-level="3.1.2" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#agreedem"><i class="fa fa-check"></i><b>3.1.2</b> agreedem</a></li>
-<li class="chapter" data-level="3.1.3" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#carve"><i class="fa fa-check"></i><b>3.1.3</b> carve</a></li>
+<li class="chapter" data-level="3.1.3" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#flatareas"><i class="fa fa-check"></i><b>3.1.3</b> flatareas</a></li>
 <li class="chapter" data-level="3.1.4" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#carvev"><i class="fa fa-check"></i><b>3.1.4</b> carvev</a></li>
-<li class="chapter" data-level="3.1.5" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#fill"><i class="fa fa-check"></i><b>3.1.5</b> fill</a></li>
-<li class="chapter" data-level="3.1.6" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#flatareas"><i class="fa fa-check"></i><b>3.1.6</b> flatareas</a></li>
+<li class="chapter" data-level="3.1.5" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#carve"><i class="fa fa-check"></i><b>3.1.5</b> carve</a></li>
+<li class="chapter" data-level="3.1.6" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#fill"><i class="fa fa-check"></i><b>3.1.6</b> fill</a></li>
 <li class="chapter" data-level="3.1.7" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#pfs"><i class="fa fa-check"></i><b>3.1.7</b> pfs</a></li>
 <li class="chapter" data-level="3.1.8" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#pfsd"><i class="fa fa-check"></i><b>3.1.8</b> pfsd</a></li>
 <li class="chapter" data-level="3.1.9" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#removepits"><i class="fa fa-check"></i><b>3.1.9</b> removepits</a></li>
@@ -288,10 +282,10 @@ div.csl-indent {
 <ul>
 <li><a href="hydrological-analysis.html#simplepits">simplepits</a></li>
 <li><a href="hydrological-analysis.html#agreedem">agreedem</a></li>
-<li><a href="hydrological-analysis.html#carve">carve</a></li>
-<li><a href="hydrological-analysis.html#carvev">carvev</a></li>
-<li><a href="hydrological-analysis.html#fill">fill</a></li>
 <li><a href="hydrological-analysis.html#flatareas">flatareas</a></li>
+<li><a href="hydrological-analysis.html#carvev">carvev</a></li>
+<li><a href="hydrological-analysis.html#carve">carve</a></li>
+<li><a href="hydrological-analysis.html#fill">fill</a></li>
 <li><a href="hydrological-analysis.html#pfs">pfs</a></li>
 <li><a href="hydrological-analysis.html#pfsd">pfsd</a></li>
 <li><a href="hydrological-analysis.html#removepits">removepits</a></li>
@@ -335,8 +329,8 @@ div.csl-indent {
 <li><strong>Sharpening (trenching/burning):</strong> a fixed decrement is <strong>subtracted</strong> from the elevation of every <strong>drainage cell</strong> to carve a narrow channel along the reference lines. This intentionally introduces artificial micro-valleys that act as <strong>flow guides</strong> for automatic extraction.</li>
 <li><strong>Smoothing (buffered taper):</strong> within a user-defined <strong>buffer radius (in cells)</strong> around the drainage, additional decrements are applied that <strong>decrease with distance</strong> from the line (distance-weighted). This creates a small <strong>stepped cross-section</strong> that transitions the trench back to the surrounding terrain, reducing artifacts and improving convergence of flow to the channel.</li>
 </ul>
-<p><img src="fig/th_agreedem.png" />
-<strong>Figure 3.1. Reconditioning (AgreeDEM).</strong> Cross-section example showing a 3×3 buffer where the nearest ring to the channel receives the largest decrement, the next ring a smaller decrement, and so on; the drainage cells themselves receive a larger <strong>burn</strong> depth. (Illustrative values follow the narrative.)</p>
+<p><img src="fig/th_agreedem.png" /></p>
+<p><strong>Figure 3.1. Reconditioning (AgreeDEM).</strong> Cross-section example showing a 3×3 buffer where the nearest ring to the channel receives the largest decrement, the next ring a smaller decrement, and so on; the drainage cells themselves receive a larger <strong>burn</strong> depth. (Illustrative values follow the narrative.)</p>
 <blockquote>
 <p><strong>Workflow note.</strong> After running <code>agreedem</code>, proceed with <strong>flat-area</strong> and <strong>pit</strong> resolution (e.g., <code>flatareas</code> → <code>simplepits</code> → <code>pfs</code>) to obtain a final HC-DEM suitable for D8 flow direction, contributing area, and watershed delineation.</p>
 </blockquote>
@@ -393,89 +387,8 @@ div.csl-indent {
 <p>Wang, J., Li, L., Hao, Z., &amp; Gourley, J. J. (2011). Stream guiding algorithm for deriving flow direction from DEM and location of main streams. IAHS-AISH Publication, 346, 198-205.</p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#pfsd">pfsd</a>.</p>
 </div>
-<div id="carve" class="section level3 hasAnchor" number="3.1.3">
-<h3><span class="header-section-number">3.1.3</span> carve<a href="hydrological-analysis.html#carve" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><em>carve</em> processes flat areas in a Digital Elevation Model (DEM) by creating an artificial drainage path. The algorithm modifies cell elevations to introduce a slope, enabling hydrological flow routing. It optionally uses a reference drainage network to guide the carving process, ensuring the resulting channel aligns with known flow paths.</p>
-<p>The tool requires input parameters to specify whether the drainage network is active (DRNON) and which neighboring cells define a flat area’s border (CROSS, DIAG, or ALL). Unlike carvev, which converges carving toward the center of a flat area, carve uses the drainage network to direct the carving trajectory, producing a more accurate hydrological representation.</p>
-<p><em>See also</em>: <a href="hydrological-analysis.html#carvev">carvev</a>.</p>
-<p><strong>Parameters</strong></p>
-<table>
-<colgroup>
-<col width="9%" />
-<col width="90%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Flag</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>-i, --dem</code></td>
-<td>Input DEM raster file (e.g., <code>inputDEM.tif</code>).</td>
-</tr>
-<tr class="even">
-<td><code>--drainage</code></td>
-<td>Input drainage network (vector <code>.shp</code> or raster), e.g., <code>inputDrainage.shp</code>.</td>
-</tr>
-<tr class="odd">
-<td><code>--flat</code></td>
-<td>Input flat-areas raster produced by the <em>flatareas</em> functionality (e.g., <code>inputFlatAreas.tif</code>).</td>
-</tr>
-<tr class="even">
-<td><code>--use-drainage</code></td>
-<td>Defines if the drainage network must be used: <br/>• <code>DRNON</code> – converge ao canal <br/>• <code>DRNOFF</code> – não usa a rede, converge ao centro das planícies (similar ao <code>carvev</code>).</td>
-</tr>
-<tr class="odd">
-<td><code>--border</code></td>
-<td>Defines which cells form the border of flat areas: <br/>• <code>CROSS</code> – vizinhos horizontais/verticais <br/>• <code>DIAG</code> – vizinhos diagonais <br/>• <code>ALL</code> – todas as direções (8).</td>
-</tr>
-<tr class="even">
-<td><code>-o, --output</code></td>
-<td>Output DEM raster file with carved flats (e.g., <code>outputDEM.tif</code>).</td>
-</tr>
-</tbody>
-</table>
-<p><strong>C++ function</strong></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="hydrological-analysis.html#cb8-1" tabindex="-1"></a><span class="ex">th</span> carve inputDEM.tif inputDrainage.shp inputFlatAreas.tif DRNON<span class="kw">|</span><span class="ex">DRNOFF</span> CROSS<span class="kw">|</span><span class="ex">DIAG</span><span class="kw">|</span><span class="ex">ALL</span> outputDEM.tif</span></code></pre></div>
-</div>
-<div id="carvev" class="section level3 hasAnchor" number="3.1.4">
-<h3><span class="header-section-number">3.1.4</span> carvev<a href="hydrological-analysis.html#carvev" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><em>carvev</em> processes flat areas in a Digital Elevation Model (DEM) by systematically decreasing elevation values from the borders toward the center. This algorithm generates an artificial slope across the feature, forming a characteristic stair-step pattern that enables hydrological flow routing. The operation functions without external drainage data, using only the DEM’s own geometry to determine the carving path.</p>
-<p>This method provides a foundational correction for hydrologic conditioning. The key distinction from carve is that carvev does not utilize a reference drainage network to guide the process, converging instead on the geometric center of the flat area.</p>
-<table>
-<colgroup>
-<col width="26%" />
-<col width="73%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Flag</th>
-<th>Descrição</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>dem</code></td>
-<td>Input DEM raster file <em>(e.g.,inputDEM.tif)</em></td>
-</tr>
-<tr class="even">
-<td><code>output</code></td>
-<td>Output DEM raster file with carved flats <em>(e.g., <code>outputDEM.tif</code>)</em></td>
-</tr>
-</tbody>
-</table>
-<p><strong>C++ function</strong></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="hydrological-analysis.html#cb9-1" tabindex="-1"></a><span class="ex">th</span> carvev inputDEM.tif outputDEM.tif</span></code></pre></div>
-</div>
-<div id="fill" class="section level3 hasAnchor" number="3.1.5">
-<h3><span class="header-section-number">3.1.5</span> fill<a href="hydrological-analysis.html#fill" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><em>fill</em> corrects voids or areas of missing data in a Digital Elevation Model (DEM). The tool uses a separate, often coarser-resolution, reference DEM to supply elevation values for these regions. It replaces null or erroneous cells in the input DEM with corresponding data from the reference source.</p>
-<p>This process generates a continuous, hydrologically viable elevation surface. The output DEM supports subsequent terrain analysis by ensuring complete spatial data coverage without interruptions.</p>
-</div>
-<div id="flatareas" class="section level3 hasAnchor" number="3.1.6">
-<h3><span class="header-section-number">3.1.6</span> flatareas<a href="hydrological-analysis.html#flatareas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="flatareas" class="section level3 hasAnchor" number="3.1.3">
+<h3><span class="header-section-number">3.1.3</span> flatareas<a href="hydrological-analysis.html#flatareas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><em>flatareas</em> identifies contiguous regions of uniform elevation within a Digital Elevation Model (DEM). The tool scans the input raster for adjacent cells possessing identical elevation values. It then groups these cells into distinct flat features.</p>
 <p>The algorithm requires a user-defined minimum area threshold, specified as a number of cells. This parameter excludes smaller, potentially insignificant flat zones from the output. The result is a raster layer where each flat area is classified, providing a basis for subsequent hydrological conditioning procedures.</p>
 <p><code>flatareas</code> identifies <strong>flat areas</strong>—contiguous clusters of cells with the <strong>same elevation</strong>—and outputs a raster mask to be used in the next step (carving) so that flow lines can pass through the <strong>center of wide rivers</strong> and large flats. Flat areas are common in DEMs such as <strong>SRTM</strong>, <strong>AW3D30</strong>, and <strong>Copernicus DEM</strong> where river widths exceed grid resolution; they often appear as a “staircase” along the longitudinal profile, and every cell within a flat behaves like a pit, increasing the cost of hydrologic conditioning. By first mapping these flats, subsequent processing can <strong>dig a V-shaped channel</strong> from the edges toward the center, reducing the number of pits and guiding drainage.</p>
@@ -512,9 +425,154 @@ div.csl-indent {
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>flatareas</code> tool from the command line:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="hydrological-analysis.html#cb10-1" tabindex="-1"></a><span class="ex">th</span> flatareas inputDEM.tif MINCELLS outputFlatAreas.tif</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="hydrological-analysis.html#cb8-1" tabindex="-1"></a><span class="ex">th</span> flatareas inputDEM.tif MINCELLS outputFlatAreas.tif</span></code></pre></div>
 <p>Example:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="hydrological-analysis.html#cb11-1" tabindex="-1"></a><span class="ex">th</span> flatareas inputDEM.tif 25 outputFlatAreas.tif</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="hydrological-analysis.html#cb9-1" tabindex="-1"></a><span class="ex">th</span> flatareas inputDEM.tif 25 outputFlatAreas.tif</span></code></pre></div>
+<p><em>Reference</em>:</p>
+<p>Jardim, A. C. (2017). <em>Direções de fluxo em modelos digitais de elevação: um método com foco na qualidade da estimativa e processamento de grande volume de dados</em> [Doctoral dissertation, Instituto Nacional de Pesquisas Espaciais (INPE)]. <a href="http://mtc-m21b.sid.inpe.br/col/sid.inpe.br/mtc-m21b/2017/05.17.13.26/doc/publicacao.pdf?metadatarepository=sid.inpe.br/mtc-m21b/2017/05.17.13.26.57&amp;mirror=sid.inpe.br/mtc-m21b/2013/09.26.14.25.22&amp;languagebutton=en">https://sid.inpe.br/mtc-m21b/2017/05.17.13.26</a></p>
+<p><em>See also</em>: <a href="hydrological-analysis.html#carvev">carvev</a>, <a href="hydrological-analysis.html#carve">carve</a>.</p>
+</div>
+<div id="carvev" class="section level3 hasAnchor" number="3.1.4">
+<h3><span class="header-section-number">3.1.4</span> carvev<a href="hydrological-analysis.html#carvev" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>carvev</code> detects <strong>flat areas</strong> in a DEM and <strong>carves them from the borders toward the center</strong> to form a V-shaped cross-section, guiding drainage through the midline of wide rivers and extensive flats. Unlike workflows that first require an explicit flat-area mask, <code>carvev</code> <strong>identifies flats internally</strong> and then performs the carving step; you do <strong>not</strong> need to run <code>flatareas</code> beforehand.</p>
+<p>The algorithm first locates the <strong>orthogonal border</strong> of each flat (only horizontal/vertical adjacencies are considered borders; neighbors marked as invalid/NoData—e.g., ocean or DEM edges—are not treated as borders). It then <strong>decrements the elevation</strong> of all border cells by a small initial step and removes those cells from the flat set. The process repeats in <strong>rounds</strong>, each time re-identifying the new orthogonal border and applying decrements, progressively moving inward until <strong>no flat cells remain</strong>. This produces a <strong>stepped V profile</strong>: higher steps at the outer edges, lower steps toward the center, so that subsequent flow-direction and contributing-area calculations follow the <strong>centerline</strong> of the river/plain rather than hugging one bank. Special handling avoids carving from ocean/border toward the interior, preventing unrealistic flow from sea to land.</p>
+<p>This pre-processing <strong>drastically reduces the number of pits</strong> in flats and accelerates downstream conditioning: after <code>carvev</code>, only a smaller set of residual depressions typically remains for <code>simplepits</code> and <code>pfs</code>, improving both robustness and performance.</p>
+<p><img src="fig/th_carvev.png" />
+<strong>Figure - Demonstration of V-shaped carving of flat areas</strong>. (a) Identify flats and their <strong>orthogonal borders</strong>; (b–e) iteratively decrement border elevations and move inward, forming a stepped V profile centered on the flat’s midline.</p>
+<hr />
+<p><strong>Parameters</strong></p>
+<table>
+<colgroup>
+<col width="14%" />
+<col width="85%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>dem</code></td>
+<td>Input DEM raster (GeoTIFF), e.g., <strong>(e.g.,inputDEM.tif)</strong>.</td>
+</tr>
+<tr class="even">
+<td><code>output</code></td>
+<td>Output DEM (GeoTIFF) with flat areas carved in V-shape <strong>(e.g., <code>outputDEM.tif</code>)</strong>.</td>
+</tr>
+</tbody>
+</table>
+<p>The following example demonstrates how to use <code>carvev</code> tool from the command line:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="hydrological-analysis.html#cb10-1" tabindex="-1"></a><span class="ex">th</span> carvev inputDEM.tif outputDEM.tif</span></code></pre></div>
+<p><em>Reference</em>:</p>
+<p>Jardim, A. C. (2017). <em>Direções de fluxo em modelos digitais de elevação: um método com foco na qualidade da estimativa e processamento de grande volume de dados</em> [Doctoral dissertation, Instituto Nacional de Pesquisas Espaciais (INPE)]. <a href="http://mtc-m21b.sid.inpe.br/col/sid.inpe.br/mtc-m21b/2017/05.17.13.26/doc/publicacao.pdf?metadatarepository=sid.inpe.br/mtc-m21b/2017/05.17.13.26.57&amp;mirror=sid.inpe.br/mtc-m21b/2013/09.26.14.25.22&amp;languagebutton=en">https://sid.inpe.br/mtc-m21b/2017/05.17.13.26</a></p>
+<p><em>See also</em>: <a href="hydrological-analysis.html#flatareas">flatareas</a>, <a href="hydrological-analysis.html#carve">carve</a>.</p>
+</div>
+<div id="carve" class="section level3 hasAnchor" number="3.1.5">
+<h3><span class="header-section-number">3.1.5</span> carve<a href="hydrological-analysis.html#carve" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>carve</code> removes <strong>flat areas</strong> from a DEM by carving a gentle slope <strong>inside the flat mask produced by <code>flatareas</code></strong>, optionally guided by a <strong>reference drainage network</strong> (vector or raster). In contrast to <code>carvev</code> (which converges toward the geometric center of the flat), <code>carve</code> can force the lowest elevations to align with <strong>mapped channels</strong>, producing flow paths that better match observed hydrography.</p>
+<blockquote>
+<p><strong>Workflow requirement.</strong> Run <code>flatareas</code> <strong>first</strong> to generate the flat-area raster; pass this raster to <code>carve</code> together with the original DEM and the reference drainage network (if used).</p>
+</blockquote>
+<p><strong>How it works (summary).</strong><br />
+1) From the input <strong>flat-area mask</strong>, <code>carve</code> selects the <strong>border cells</strong> of each flat region according to a user-chosen neighborhood (orthogonal, diagonal, or all directions).<br />
+2) If a <strong>reference drainage</strong> is enabled, cells on the drainage within the flat are treated as the <strong>lowest targets</strong>, so the carving preferentially guides slopes <strong>toward the mapped channel</strong>.<br />
+3) The algorithm iteratively <strong>decrements</strong> border elevations and re-identifies new borders, moving inward like a <strong>stepped V-profile</strong> until the flat is removed. If drainage is not used, the carving converges <strong>toward the center</strong> (behavior similar to <code>carvev</code>).<br />
+4) Any remaining uncarved flat cells at the end are adjusted with the last decrement step; if drainage is active, stream cells receive the <strong>smallest (lowest) elevation</strong> to ensure convergence to the channel.</p>
+<p><img src="fig/th_carve.png" />
+<strong>Figure - Comparison of the final stage between <code>carvev</code> and <code>carve</code></strong>. (a) original V-shaped notch (<code>carvev</code>, centered), (b) improved notch (<code>carve</code>, aligned with the reference drainage), the green pixels correspond to a reference drainage.</p>
+<hr />
+<p><strong>Parameters</strong></p>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="91%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag / Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>dem</code></td>
+<td>Input DEM (GeoTIFF) (e.g., <strong>inputDEM.tif</strong>).</td>
+</tr>
+<tr class="even">
+<td><code>drainage</code></td>
+<td>Input <strong>reference drainage</strong> (vector <code>.shp</code> or raster). When enabled (<code>DRNON</code>), carving aligns the lowest elevations with the drainage inside each flat. If disabled (<code>DRNOFF</code>), carving converges toward the <strong>center</strong> (like <code>carvev</code>).</td>
+</tr>
+<tr class="odd">
+<td><code>--flat</code></td>
+<td>Input <strong>flat-areas raster</strong> (GeoTIFF) produced by <code>flatareas</code> (e.g., <strong>inputFlatAreas.tif</strong>). <strong>Required.</strong></td>
+</tr>
+<tr class="even">
+<td><code>DRNON | DRNOFF</code></td>
+<td>Use drainage? <code>DRNON</code> = <strong>use</strong> drainage to guide carving; <code>DRNOFF</code> = <strong>do not</strong> use drainage (center-focused carving).</td>
+</tr>
+<tr class="odd">
+<td><code>CROSS | DIAG | ALL</code></td>
+<td>Border-definition rule for each iteration: <code>CROSS</code> = orthogonal neighbors; <code>DIAG</code> = diagonal neighbors; <code>ALL</code> = eight-direction neighbors.</td>
+</tr>
+<tr class="even">
+<td><code>-o, --output</code></td>
+<td>Output DEM (GeoTIFF) with flat areas carved (e.g., <strong>outputDEM.tif</strong>).</td>
+</tr>
+</tbody>
+</table>
+<p>The following example demonstrates how to use <code>carve</code> tool from the command line:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="hydrological-analysis.html#cb11-1" tabindex="-1"></a><span class="ex">th</span> carve inputDEM.tif inputDrainage.shp inputFlatAreas.tif DRNON<span class="kw">|</span><span class="ex">DRNOFF</span> CROSS<span class="kw">|</span><span class="ex">DIAG</span><span class="kw">|</span><span class="ex">ALL</span> outputDEM.tif</span></code></pre></div>
+<p>Example (illustrative):</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="hydrological-analysis.html#cb12-1" tabindex="-1"></a><span class="ex">th</span> carve inputDEM.tif inputDrainage.shp FlatAreas.tif DRNON ALL outputDEM.tif</span></code></pre></div>
+<p><strong>Author</strong>: Dr. Henrique Rennó de Azeredo Freitas</p>
+<p><em>See also</em>: <a href="hydrological-analysis.html#flatareas">flatareas</a>, <a href="hydrological-analysis.html#carvev">carvev</a>.</p>
+</div>
+<div id="fill" class="section level3 hasAnchor" number="3.1.6">
+<h3><span class="header-section-number">3.1.6</span> fill<a href="hydrological-analysis.html#fill" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>fill</code> repairs missing-data holes (voids/NoData) in a DEM by fusing it with a reference DEM that provides elevation inside the voids. The tool uses a separate, often coarser-resolution, reference DEM to supply elevation values for these regions. This is <strong>not</strong> the same as the “<strong>fill sinks</strong>” hydrologic operation found in SAGA GIS, GRASS, etc.<br />
+- <strong>This tool:</strong> fills voids where the DEM has no data (e.g., SRTM gaps).<br />
+- <strong>Fill sinks (other software):</strong> alters elevations to remove hydrologic depressions in valid data.<br />
+Use <code>fill</code> early in the workflow to produce a complete, gap-free DEM before hydrologic conditioning (<code>agreedem</code>, <code>flatareas</code>/<code>carve</code> or <code>carvev</code>, <code>simplepits</code>, <code>pfs</code>, etc.).</p>
+<p><strong>How it works (summary).</strong><br />
+<code>fill</code> implements a modified <strong>Delta Surface Fill</strong> (Grohman et al., 2006): it derives a smooth difference (“delta”) between overlapping, valid portions of the input DEM and the reference DEM, then uses that delta to <strong>blend</strong> elevations seamlessly inside voids so that transitions at void boundaries are <strong>undetectable</strong>.</p>
+<blockquote>
+<p><strong>Best practices.</strong> Make sure the input and reference DEMs are in the <strong>same projection</strong>.</p>
+</blockquote>
+<hr />
+<p><strong>Parameters</strong></p>
+<table>
+<colgroup>
+<col width="19%" />
+<col width="80%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>dem</code></td>
+<td>Input DEM (GeoTIFF) with voids, e.g., <code>inputDEM.tif</code>.</td>
+</tr>
+<tr class="even">
+<td><code>reference</code></td>
+<td>Reference DEM (GeoTIFF) that supplies elevations inside voids, e.g., <code>referenceDEM.tif</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>output</code></td>
+<td>Output void-filled DEM (GeoTIFF), e.g., <code>outputDEM.tif</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>The following example demonstrates how to use <code>fill</code> tool from the command line:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="hydrological-analysis.html#cb13-1" tabindex="-1"></a><span class="ex">th</span> fill inputDEM.tif referenceDEM.tif outputDEM.tif</span></code></pre></div>
+<p><em>Reference</em>:</p>
+<p>Grohman, G., Kroenung, G. and Strebeck, J., 2006. Filling SRTM voids: The delta surface fill method. Photogrammetric Engineering and Remote Sensing, 72(3), pp.213-216.</p>
+<p><em>See also</em>: <a href="hydrological-analysis.html#simplepits">simplepits</a>, <a href="hydrological-analysis.html#removepits">removepits</a>.</p>
 </div>
 <div id="pfs" class="section level3 hasAnchor" number="3.1.7">
 <h3><span class="header-section-number">3.1.7</span> pfs<a href="hydrological-analysis.html#pfs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -547,7 +605,7 @@ div.csl-indent {
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>simplepits</code> tool from the command line:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="hydrological-analysis.html#cb12-1" tabindex="-1"></a><span class="ex">th</span> pfs inputDEM.tif outputDEM.tif</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="hydrological-analysis.html#cb14-1" tabindex="-1"></a><span class="ex">th</span> pfs inputDEM.tif outputDEM.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>Jones, R. (2002). Algorithms for using a DEM for mapping catchment areas of stream sediment samples. Computers &amp; geosciences, v. 28, n. 9, p. 1051–1060. <a href="https://doi.org/10.1016/S0098-3004(02)00022-5">https://doi.org/10.1016/S0098-3004(02)00022-5</a></p>
 <p>Jardim, A. C. (2017). <em>Direções de fluxo em modelos digitais de elevação: um método com foco na qualidade da estimativa e processamento de grande volume de dados</em> [Doctoral dissertation, Instituto Nacional de Pesquisas Espaciais (INPE)]. <a href="http://mtc-m21b.sid.inpe.br/col/sid.inpe.br/mtc-m21b/2017/05.17.13.26/doc/publicacao.pdf?metadatarepository=sid.inpe.br/mtc-m21b/2017/05.17.13.26.57&amp;mirror=sid.inpe.br/mtc-m21b/2013/09.26.14.25.22&amp;languagebutton=en">https://sid.inpe.br/mtc-m21b/2017/05.17.13.26</a></p>
@@ -555,13 +613,96 @@ div.csl-indent {
 </div>
 <div id="pfsd" class="section level3 hasAnchor" number="3.1.8">
 <h3><span class="header-section-number">3.1.8</span> pfsd<a href="hydrological-analysis.html#pfsd" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><em>pfsd</em> removes depressions from a Digital Elevation Model (DEM) using a priority-first search algorithm that incorporates a reference drainage network. The tool prioritizes the processing of pits located on the drainage network before addressing upstream depressions. It constructs hydrologic outlets by carving descending elevation paths to the nearest lower cell.</p>
-<p>This method ensures the resulting drainage structure aligns with the provided network. The algorithm differs from pfs by utilizing the drainage network to guide the depression-removal sequence, enhancing hydrological consistency with known channel locations.</p>
+<p><code>pfsd</code> removes all remaining pits by carving paths to outlet cells using the same <strong>Priority-First Search (PFS)</strong> algorithm implemented in <code>pfs</code>, with one key enhancement: processing is seeded from the reference drainage network and proceeds upstream into adjacent depressions. By anchoring the search to mapped channels, <code>pfsd</code> accelerates convergence, improves path selection near wide flats, and yields a pitless DEM whose drainage is consistent with observed hydrography.</p>
+<p><strong>How it works (summary).</strong><br />
+- Treat the DEM as a graph (cells = nodes; 8-connected neighbors = edges).<br />
+- Initialize the PFS frontier on drainage cells (vector lines rasterized internally if needed).<br />
+- For each encountered pit, build a candidate tree of paths ordered by lower elevation and, on ties, shorter distance to the channel; commit the first path that satisfies the outlet criteria.<br />
+- Carve a gentle linear downslope along the committed path (small per-cell decrements), ensuring continuous flow from the pit to the outlet without over-smoothing.<br />
+- Iterate upstream until no depressions remain.</p>
+<p><strong>When to use.</strong> Choose <code>pfsd</code> when a reference drainage is available and you want pit removal to follow mapped channels. For projects without a drainage reference, use <code>pfs</code>.</p>
+<hr />
+<div class="callout-note">
+<p><strong>Workflow note.</strong> A common conditioning chain is:
+<code>agreedem</code> (optional) → <code>flatareas</code> + <code>carve</code> (or <code>carvev</code>) → <code>simplepits</code> → <strong><code>pfsd</code></strong>.
+Using <code>pfsd</code> at the end aligns remaining pit removal with the reference drainage, improving hydrologic realism and efficiency.</p>
+</div>
+<p><strong>Parameters</strong></p>
+<table>
+<colgroup>
+<col width="16%" />
+<col width="83%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>-dem</code></td>
+<td>Input DEM (GeoTIFF) (e.g., <strong>inputDEM.tif</strong>).</td>
+</tr>
+<tr class="even">
+<td><code>drainage</code></td>
+<td>Reference drainage network (vector <code>.shp</code> or raster). Used to seed PFS from channels upstream.</td>
+</tr>
+<tr class="odd">
+<td><code>-output</code></td>
+<td>Output <strong>pitless</strong> DEM (GeoTIFF) after PFS carving (e.g., <strong>outputDEM.tif</strong>).</td>
+</tr>
+</tbody>
+</table>
+<p>The following example demonstrates how to use <code>pfsd</code> tool from the command line:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="hydrological-analysis.html#cb15-1" tabindex="-1"></a><span class="ex">th</span> pfsd inputDEM.tif inputDrainage.shp outputDEM.tif</span></code></pre></div>
+<p><em>Reference</em>:</p>
+<p>Jones, R. (2002). Algorithms for using a DEM for mapping catchment areas of stream sediment samples. Computers &amp; geosciences, v. 28, n. 9, p. 1051–1060. <a href="https://doi.org/10.1016/S0098-3004(02)00022-5">https://doi.org/10.1016/S0098-3004(02)00022-5</a></p>
+<p><em>Author</em>: Dr. Henrique Rennó de Azeredo Freitas</p>
+<p><em>See also</em>: <a href="hydrological-analysis.html#pfs">pfs</a>, <a href="hydrological-analysis.html#removepits">removepits</a>.</p>
 </div>
 <div id="removepits" class="section level3 hasAnchor" number="3.1.9">
 <h3><span class="header-section-number">3.1.9</span> removepits<a href="hydrological-analysis.html#removepits" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><em>removepits</em> processes a Digital Elevation Model (DEM) to eliminate hydrological depressions and flat areas. This tool executes a sequence of operations, specifically the carvev, simplepits, and pfs algorithms, to ensure comprehensive hydrological correction. It produces a fully connected drainage surface where water can flow uninterrupted to the watershed outlet.</p>
-<p>The procedure first addresses flat regions by carving drainage paths, then removes simple pits through elevation filling, and finally resolves complex depressions via priority-first search. The output is a pit-free DEM suitable for deriving accurate flow direction and accumulation networks.</p>
+<p><code>removepits</code> performs a full hydrologic correction of a DEM using a <strong>hybrid approach</strong> that both fills and carves where appropriate, minimizing unnecessary elevation changes while ensuring continuous drainage. It is the <strong>preferred one-pass procedure</strong> when you want a <strong>pitless DEM</strong> without supplying a reference drainage network.</p>
+<p><strong>What it does (three phases).</strong><br />
+<code>removepits</code> internally executes, in sequence:</p>
+<ol style="list-style-type: decimal">
+<li><strong><code>carvev</code></strong> — identifies flat areas and carves them <strong>V-shaped</strong> from the borders toward the center, guiding flow through the flat midline and drastically reducing the number of depressions in these regions;<br />
+</li>
+<li><strong><code>simplepits</code></strong> — applies <strong>selective single-cell filling</strong> to remove only those depressions that can be fixed by a minimal local raise <strong>without</strong> creating new pits;<br />
+</li>
+<li><strong><code>pfs</code></strong> — uses <strong>Priority-First Search</strong> to <strong>carve</strong> a gentle downslope path from any remaining (complex) pits to an outlet cell, completing the elimination of depressions.</li>
+</ol>
+<p>By combining targeted fill sinks (phase 2) with controlled carving (phases 1 and 3), <code>removepits</code> is a <strong>hybrid method</strong> designed to preserve local relief while producing reliable D8 flow directions across the entire grid.</p>
+<hr />
+<p><strong>Parameters</strong></p>
+<table>
+<colgroup>
+<col width="13%" />
+<col width="86%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>dem</code></td>
+<td>Input DEM (GeoTIFF) (e.g., <em>inputDEM.tif</em>).</td>
+</tr>
+<tr class="even">
+<td><code>output</code></td>
+<td>Output <strong>pitless</strong> DEM (GeoTIFF) with flats carved and simple/complex pits removed (<em>e.g., `outputDEM.tif</em>).</td>
+</tr>
+</tbody>
+</table>
+<p>The following example demonstrates how to use <code>removepits</code> tool from the command line:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="hydrological-analysis.html#cb16-1" tabindex="-1"></a><span class="ex">th</span> removepits inputDEM.tif outputDEM.tif</span></code></pre></div>
+<p><em>Reference</em>:</p>
+<p>Jardim, A. C. (2017). <em>Direções de fluxo em modelos digitais de elevação: um método com foco na qualidade da estimativa e processamento de grande volume de dados</em> [Doctoral dissertation, Instituto Nacional de Pesquisas Espaciais (INPE)]. <a href="http://mtc-m21b.sid.inpe.br/col/sid.inpe.br/mtc-m21b/2017/05.17.13.26/doc/publicacao.pdf?metadatarepository=sid.inpe.br/mtc-m21b/2017/05.17.13.26.57&amp;mirror=sid.inpe.br/mtc-m21b/2013/09.26.14.25.22&amp;languagebutton=en">https://sid.inpe.br/mtc-m21b/2017/05.17.13.26</a></p>
+<p><em>See also</em>: <a href="hydrological-analysis.html#carvev">carvev</a>, <a href="hydrological-analysis.html#simplepits">simplepits</a>, <a href="hydrological-analysis.html#pfs">pfs</a>.</p>
 </div>
 </div>
 <div id="Flow-Analysis-Drainage-Network-Extraction-and-Characterization" class="section level2 hasAnchor" number="3.2">
@@ -596,15 +737,249 @@ div.csl-indent {
 </ul>
 <div id="d8" class="section level3 hasAnchor" number="3.2.1">
 <h3><span class="header-section-number">3.2.1</span> d8<a href="hydrological-analysis.html#d8" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>d8</code> computes the local drainage direction (flow direction) for each DEM cell using the classic <strong>D8</strong> method (O’Callaghan &amp; Mark, 1984). For every valid cell, the algorithm compares the eight neighbors and assigns the direction of steepest descent. Cells with no downslope neighbor (e.g., flats/pits not yet conditioned, borders, or NoData) receive 0.</p>
+<blockquote>
+<p><strong>Prerequisite.</strong> Use a <strong>hydrologically conditioned</strong> DEM (pitless and flat areas treated), typically produced with <code>removepits</code> (or the equivalent sequence <code>carvev</code> → <code>simplepits</code> → <code>pfs</code>, or <code>pfsd</code> when a reference drainage is used).</p>
+</blockquote>
+<p><strong>Direction codes (powers of two).</strong><br />
+The output raster stores a power-of-two code indicating the outflow neighbor:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Code</th>
+<th align="left">Direction</th>
+<th align="left">Offset (row, col)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">E</td>
+<td align="left">(0, +1)</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">SE</td>
+<td align="left">(+1, +1)</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="left">S</td>
+<td align="left">(+1, 0)</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="left">SW</td>
+<td align="left">(+1, −1)</td>
+</tr>
+<tr class="odd">
+<td align="right">16</td>
+<td align="left">W</td>
+<td align="left">(0, −1)</td>
+</tr>
+<tr class="even">
+<td align="right">32</td>
+<td align="left">NW</td>
+<td align="left">(−1, −1)</td>
+</tr>
+<tr class="odd">
+<td align="right">64</td>
+<td align="left">N</td>
+<td align="left">(−1, 0)</td>
+</tr>
+<tr class="even">
+<td align="right">128</td>
+<td align="left">NE</td>
+<td align="left">(−1, +1)</td>
+</tr>
+<tr class="odd">
+<td align="right">0</td>
+<td align="left">Invalid / No downslope / NoData</td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p><img src="fig/th_d8_flow_directions.png" /></p>
+<p><strong>Figure. Codes and corresponding flow directions (compass layout)</strong>.</p>
+<blockquote>
+<p><strong>Notes.</strong><br />
+• Ties are uncommon after proper conditioning; if present, the tool resolves to one neighbor or yields 0 when no descent exists.<br />
+• Cells touching NoData or the DEM boundary may legitimately output 0.<br />
+• The D8 flow direction is the basis for contributing area, stream extraction, stream ordering, and watershed delineation.</p>
+</blockquote>
+<hr />
+<p><strong>Parameters</strong></p>
+<table>
+<colgroup>
+<col width="14%" />
+<col width="85%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>dem</code></td>
+<td>Input <strong>hydrologically conditioned</strong> DEM (GeoTIFF) (e.g., <em>inputDEM.tif</em>).</td>
+</tr>
+<tr class="even">
+<td><code>output</code></td>
+<td>Output <strong>D8 flow direction</strong> raster (GeoTIFF) (e.g., <em>flowdir.tif</em>).</td>
+</tr>
+</tbody>
+</table>
+<p>The following example demonstrates how to use <code>d8</code> tool from the command line:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="hydrological-analysis.html#cb17-1" tabindex="-1"></a><span class="ex">th</span> d8 inputDEM.tif flowdir.tif</span></code></pre></div>
+<p><em>Reference</em>:</p>
+<p>O’Callaghan, J. F., &amp; Mark, D. M. (1984). The extraction of drainage networks from digital elevation data. Computer vision, graphics, and image processing, 28(3), 323-344.<a href="https://doi.org/10.1016/S0734-189X(84)80011-0">https://doi.org/10.1016/S0734-189X(84)80011-0</a></p>
+<p><em>See also</em>: <a href="hydrological-analysis.html#d8ca">d8ca</a>.</p>
 </div>
 <div id="d8ca" class="section level3 hasAnchor" number="3.2.2">
 <h3><span class="header-section-number">3.2.2</span> d8ca<a href="hydrological-analysis.html#d8ca" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>d8ca</code> computes the <strong>contributing area</strong> (a.k.a. flow accumulation) by following a <strong>D8 flow-direction</strong> grid and counting how many cells drain to each location, including the cell itself (single-flow-direction; no divergence). This produces a raster in which hillslopes have small values and channels concentrate large values.</p>
+<blockquote>
+<p><strong>Prerequisite.</strong> Use a D8 flow-direction raster produced by <code>d8</code> from a hydrologically conditioned (pitless) DEM.</p>
+</blockquote>
+<p><img src="fig/th_d8ca.png" /></p>
+<p><strong>Figure.</strong> Contributing area derived from a D8 grid.</p>
+<hr />
+<p><strong>Behavior &amp; output</strong>
+- <strong>Method:</strong> Single-flow-direction (<strong>SFD</strong>): each cell routes its discharge to one downslope neighbor (O’Callaghan &amp; Mark, 1984).<br />
+- <strong>Default units:</strong> cell counts (number of upslope cells).<br />
+- <strong>NoData handling:</strong> cells with NoData in the input D8 raster become <strong>NoData</strong> in the output.</p>
+<hr />
+<p><strong>Parameters</strong></p>
+<table>
+<colgroup>
+<col width="13%" />
+<col width="86%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>input</code></td>
+<td>Input D8 flow-direction raster (GeoTIFF) (e.g., <em>inputD8.tif</em>).</td>
+</tr>
+<tr class="even">
+<td><code>output</code></td>
+<td>Output D8 contributing area (GeoTIFF) (e.g., <em>outputD8ContributingArea.tif</em>).</td>
+</tr>
+</tbody>
+</table>
+<p>The following example demonstrates how to use <code>d8ca</code> tool from the command line:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="hydrological-analysis.html#cb18-1" tabindex="-1"></a><span class="ex">th</span> d8ca inputD8.tif outputD8ContributingArea.tif</span></code></pre></div>
+<p><em>Reference</em>:</p>
+<p>O’Callaghan, J. F., &amp; Mark, D. M. (1984). The extraction of drainage networks from digital elevation data. Computer vision, graphics, and image processing, 28(3), 323-344.<a href="https://doi.org/10.1016/S0734-189X(84)80011-0">https://doi.org/10.1016/S0734-189X(84)80011-0</a></p>
+<p><em>See also</em>: <a href="hydrological-analysis.html#d8">d8</a>.</p>
 </div>
 <div id="d8drainage" class="section level3 hasAnchor" number="3.2.3">
 <h3><span class="header-section-number">3.2.3</span> d8drainage<a href="hydrological-analysis.html#d8drainage" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>d8drainage</code> maps the drainage network by applying a threshold to a D8 contributing area raster (<code>d8ca</code>). Each cell is assigned 1 (stream) if its contributing area is greater than or equal to the specified threshold, and 0 otherwise. The result is a binary stream grid suitable for stream ordering, vectorization, and watershed delineation.</p>
+<p><img src="fig/th_d8drainage.png" /></p>
+<p><strong>Figure - Drainage network derived from a D8 contributing-area grid using a minimum-area threshold</strong>.</p>
+<blockquote>
+<p><strong>Prerequisite.</strong> Use a contributing-area raster produced by <code>d8ca</code> from a hydrologically conditioned DEM and its corresponding <code>d8</code> flow directions.</p>
+</blockquote>
+<hr />
+<p><strong>Choosing the threshold (guidance)</strong><br />
+- The threshold represents the <strong>minimum upslope area</strong> needed to initiate/maintain a channel (area used as a surrogate for discharge).<br />
+- <strong>Smaller</strong> thresholds ⇒ <strong>denser</strong> networks; <strong>larger</strong> thresholds ⇒ <strong>sparser</strong> networks.<br />
+- There is no universal value: it depends on <strong>terrain, climate, lithology</strong>, and <strong>grid resolution</strong>.<br />
+- Common practice: inspect maps/imagery, test a range of values, and select the one that best matches <strong>known channels</strong>.</p>
+<p><strong>Behavior &amp; data handling</strong><br />
+- Input NoData cells remain <strong>NoData</strong> in the output (not classified as streams).<br />
+- Threshold is provided <strong>in cells</strong> (i.e., count of upslope cells).</p>
+<hr />
+<p><strong>Parameters</strong></p>
+<table>
+<colgroup>
+<col width="14%" />
+<col width="85%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>input</code></td>
+<td>Input <strong>D8 contributing area</strong> raster (GeoTIFF), (e.g. <em>inputContributingArea.tif</em>).</td>
+</tr>
+<tr class="even">
+<td><code>output</code></td>
+<td>Output <strong>binary drainage network</strong> raster (GeoTIFF) (e.g., <em>outputDrainage.tif</em> (1 = stream, 0 = non-stream).</td>
+</tr>
+<tr class="odd">
+<td><code>thresholdValue</code></td>
+<td><strong>Minimum contributing area</strong> (in cells) to classify a cell as stream.</td>
+</tr>
+</tbody>
+</table>
+<p>The following example demonstrates how to use <code>d8ca</code> tool from the command line:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="hydrological-analysis.html#cb19-1" tabindex="-1"></a><span class="ex">th</span> d8drainage inputContributingArea.tif outputDrainage.tif thresholdValue</span></code></pre></div>
+<p>Example:</p>
+<pre><code>th d8drainage d8ca.tif drainage.tif 2000</code></pre>
+<blockquote>
+<p><strong>Tip</strong> Start with a broad sweep (e.g., 300, 500, 1000, 2000, 5000 cells), compare against known hydrography or high-resolution imagery, then refine the threshold for your study area..</p>
+</blockquote>
+<p><em>See also</em>: <a href="hydrological-analysis.html#d8">d8</a>, <a href="hydrological-analysis.html#d8ca">d8ca</a>.</p>
 </div>
 <div id="d8drainagev" class="section level3 hasAnchor" number="3.2.4">
 <h3><span class="header-section-number">3.2.4</span> d8drainagev<a href="hydrological-analysis.html#d8drainagev" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>d8drainagev</code> converts a binary drainage raster (e.g., from <code>d8drainage</code>) into vector polylines by following the D8 flow-direction raster. The tool traverses stream cells from sources (no inflowing neighbors) downstream along the D8 directions, assembling connected cell pairs into line features that represent stream segments.</p>
+<p><strong>How it works (summary).</strong><br />
+- Reads the <strong>drainage raster</strong> (1 = stream, 0 = non-stream; NoData ignored) and the matching <strong>D8 direction</strong> raster.<br />
+- Detects <strong>headwater cells</strong> (stream cells with no upstream contributors) and traces <strong>downstream paths</strong> by following the D8 pointer of each cell.<br />
+- Builds <strong>polyline features</strong> for each connected path; branching and confluences are preserved by starting new lines as needed.<br />
+- Outputs a <strong>vector line</strong> dataset suitable for ordering, attribution, and cartographic display.</p>
+<hr />
+<p><strong>Parameters</strong></p>
+<table>
+<colgroup>
+<col width="16%" />
+<col width="83%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>drainage</code></td>
+<td>Input <strong>drainage network</strong> raster (GeoTIFF), e.g., <code>inputDrainage.tif</code> (1 = stream, 0 = else).</td>
+</tr>
+<tr class="even">
+<td><code>d8</code></td>
+<td>Input <strong>D8 flow-direction</strong> raster (GeoTIFF), e.g., <code>inputD8.tif</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>output</code></td>
+<td>Output <strong>vector drainage network</strong> (e.g., ESRI Shapefile), e.g., <code>outputDrainage.shp</code>.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Notes</strong>
+• Ensure the drainage raster is topologically coherent with the D8 grid (both produced from the same DEM).
+• The drainage grid and D8 grid must share the same extent, pixel size, and alignment
+• NoData and non-stream cells are skipped; only cells marked as stream are traced.
+• The resulting lines can be post-processed (e.g., smoothing, ordering, attribute joins) according to project needs.</p>
+</blockquote>
+<p>The following example demonstrates how to use <code>d8ca</code> tool from the command line:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="hydrological-analysis.html#cb21-1" tabindex="-1"></a><span class="ex">th</span> d8drainagev inputDrainage.tif inputD8.tif outputDrainage.shp</span></code></pre></div>
+<p><em>See also</em>: <a href="hydrological-analysis.html#d8">d8</a>, <a href="hydrological-analysis.html#d8ca">d8ca</a>, <a href="hydrological-analysis.html#d8drainage">d8drainage</a>.</p>
 </div>
 <div id="segments" class="section level3 hasAnchor" number="3.2.5">
 <h3><span class="header-section-number">3.2.5</span> segments<a href="hydrological-analysis.html#segments" class="anchor-section" aria-label="Anchor link to header"></a></h3>
