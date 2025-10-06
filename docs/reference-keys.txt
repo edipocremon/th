@@ -4,10 +4,10 @@ hydrological-analysis
 DEM-Pre-processing-and-Correction
 simplepits
 agreedem
-carve
-carvev
-fill
 flatareas
+carvev
+carve
+fill
 pfs
 pfsd
 removepits
@@ -17,7 +17,6 @@ d8ca
 d8drainage
 d8drainagev
 segments
-minibasins
 outletbasin
 mainriver
 shreve
@@ -26,6 +25,7 @@ ottorivers
 mouths
 orderedmouths
 Basin-and-Sub-basin-Delineation
+minibasins
 ottobasins
 Geomorphometric-analysis
 tpi
@@ -52,4 +52,7 @@ sharing-your-book
 publishing
 pages
 metadata-for-sharing
-preface
+d8toupstream
+d8toupstream-upstream-pointers-who-flows-into-each-cell
+mainriver-tracing-the-main-channel-upstream-from-a-mouth
+hand-height-above-nearest-drainage-hand
