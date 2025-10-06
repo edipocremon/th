@@ -6,18 +6,17 @@ site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
 # url: your book url like https://bookdown.org/yihui/bookdown
-# cover-image: path to the social sharing image like images/cover.jpg
+cover-image: fig/logo_terrahidro.jpg
 description: |
-  This is a minimal example of using the bookdown package to write a book.
-  The HTML output format for this example is bookdown::gitbook,
-  set in the _output.yml file.
+  The TerraHidro Manual is a practical, task-oriented guide to hydrological and geomorphometric processing with TerraHidro. It covers setup (Command-Line Interface and QGIS plugin), required data formats, and step-by-step workflows to build a hydrologically conditioned DEM. Each tool includes concise theory, parameters, command examples, and figures, followed by end-to-end examples for flow direction, contributing area, drainage/watershed delineation, and export for GIS.
+
 link-citations: yes
 github-repo: rstudio/bookdown-demo
 ---
 
 # Preface
 
-
+![](fig/logo_terrahidro.jpg)
 
 http://www.dpi.inpe.br/terrahidro/ | sergio.rosim@inpe.br
 
@@ -33,12 +32,12 @@ São José dos Campos, Brazil
 
 September 25, 2025
 
-
 Sponsored by:
 
-![](fig/Inpelogo.png)
-
-
+<div style="display:flex; gap:16px; align-items:center; justify-content:center;">
+  <img src="fig/Inpelogo.png" style="width:38%; height:auto;">
+  <img src="fig/Ana_Logo.png" style="width:58%; height:auto;">
+</div>
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages
