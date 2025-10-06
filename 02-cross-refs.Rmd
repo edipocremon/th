@@ -372,7 +372,6 @@ Jardim, A. C. (2017). *Direções de fluxo em modelos digitais de elevação: um
 - [d8drainage](#d8drainage)  
 - [d8drainagev](#d8drainagev)  
 - [segments](#segments)  
-- [minibasins](#minibasins)  
 - [outletbasin](#outletbasin)  
 - [mainriver](#mainriver)  
 - [shreve](#shreve)  
@@ -434,7 +433,34 @@ O'Callaghan, J. F., & Mark, D. M. (1984). The extraction of drainage networks fr
 
 *See also*: [d8ca](#d8ca).
 
+### d8toupstream {#d8toupstream}
+
+`d8toupstream` derives an upstream-flow raster from a D8 flow-direction grid. While `d8` stores each cell’s outflow (steepest descent), `d8toupstream` encodes which neighbors flow into each cell. The encoding uses the D8 power-of-two scheme and writes, for every cell, the sum of the codes of downstream directions of its neighbors that point to it Cells with no inflow receive 0.
+
+> **Why it matters.** The D8 upstream flow directions grid is a **key input** for higher-level tools that trace channels or hierarchies upstream, such as: `rivers`, `ottorivers`, `ottobasins`, `mainriver`, `watercourses`, and `dambreak`.
+
+**Behavior (summary).** 
+For each cell, inspect its eight neighbors. If a neighbor’s D8 flow-direction points to the current cell, add that neighbor’s direction code to the current cell’s value. The result compactly represents all inflowing directions (e.g., a confluence might store `2 + 64 = 66` for SE and N inflows).
+
+> **Prerequisite.** Use a hydrologically conditioned DEM to compute `d8` first (e.g., `removepits`). Ensure all rasters share the same extent, resolution, and alignment.
+
+---
+
+**Parameters**
+
+| Flag     | Description                                                                                                 |
+|----------------|-------------------------------------------------------------------------------------------------------------|
+| `d8`     | Input **D8 flow-direction** raster (GeoTIFF) (e.g., *inputD8.tif*).                                          |
+| `output` | Output **upstream-pointer** raster (GeoTIFF) (e.g., *outputUpstream.tif* (sum of D8 codes of inflow cells)). |
+
+The following example demonstrates how to use `d8toupstream` tool from the command line:
+```bash
+th d8toupstream inputD8.tif outputUpstream.tif
+```
+*See also*: [d8](#d8).
+
 ### d8ca {#d8ca} 
+
 
 `d8ca` computes the **contributing area** (a.k.a. flow accumulation) by following a **D8 flow-direction** grid and counting how many cells drain to each location, including the cell itself (single-flow-direction; no divergence). This produces a raster in which hillslopes have small values and channels concentrate large values.
 
@@ -552,9 +578,110 @@ th d8drainagev inputDrainage.tif inputD8.tif outputDrainage.shp
 *See also*: [d8](#d8), [d8ca](#d8ca), [d8drainage](#d8drainage).
 
 ### segments {#segments}  
-### minibasins {#minibasins}  
+
+`segments` partitions a drainage network (raster) into topologically coherent segments using the D8 flow-direction grid. Each segment receives a unique integer ID so that downstream tools can compute per-segment attributes (length, slope, mean contributing area, etc.) and perform ordering or network analytics.
+
+A drainage segment is the maximal run of connected stream cells whose endpoints match one of the following cases:
+1) Headwater (initial point) to confluence (intersection point)  
+2) Confluence to confluence
+3) Confluence to outlet (final point)
+
+Within a segment, there are no intermediate confluences; flow proceeds unbranched following the D8 pointers.
+
+![](fig/th_segments.png)
+**Figure - Drainage network segmented by unique IDs (colors) between sources, confluences, and outlets**.
+
+> **Requirements.** The drainage raster (1 = stream, 0 = non-stream) and the D8 raster must share the same extent, resolution, and alignment, and both must derive from a hydrologically conditioned DEM.
+
+---
+
+**Behavior & data handling**
+- Heads/confluences/outlets are detected from the drainage grid using D8 inflow/outflow counts.  
+- Each resulting segment is written to the output raster with a unique positive integer (background = 0/NoData).  
+- Single-cell streams are treated as valid segments (headwater directly to outlet/confluence).  
+- Non-stream and NoData cells are preserved as background.
+
+---
+
+**Parameters**
+
+| Flag        | Description                                                                                              |
+|-------------------|----------------------------------------------------------------------------------------------------------|
+| `d8`        | Input **D8 flow-direction** raster (GeoTIFF) (e.g., *inputD8.tif*).                                       |
+| `--drainage`      | Input **binary drainage** raster (GeoTIFF) (e.g., *inputDrainage.tif* (1 = stream, 0 = non-stream)).      |
+| `-o, --output`    | Output **segment ID** raster (GeoTIFF) (e.g., *outputSegments.tif* (unique integer per segment)).         |
+
+The following example demonstrates how to use `segments` tool from the command line:
+```bash
+th segments inputD8.tif inputDrainage.tif outputSegments.tif
+```
+
+*See also*: [d8](#d8), [d8ca](#d8ca), [d8drainage](#d8drainage), [minibasins](#minibasins).
+
 ### outletbasin {#outletbasin}  
+
+
+`outletbasin` delineates the contributing basin (upslope area) for a specified outlet cell by tracing cells that drain to that outlet using a D8 flow-direction grid. You provide the outlet’s **row** and **column** indices in the raster; the tool returns a binary basin mask where 1 = inside basin and 0 = outside.
+
+**How it works (summary).**  
+Starting at the outlet cell, the algorithm follows D8 pointers **in reverse** (i.e., finds all cells whose flow exits to the outlet through any upstream path). The result is the complete upslope area that contributes flow to the chosen outlet.
+
+> **Prerequisites.** Use a hydrologically conditioned DEM to compute D8 directions (`d8`), typically after pit removal (`removepits` or `simplepits` + `pfs`/`pfsd`).  
+> **Tip.** Snap the outlet to the stream grid (e.g., from `d8drainage`) to ensure the selected cell lies on-channel.
+
+---
+
+**Parameters**
+
+| Flag          | Description                                                                                           |
+|---------------------|-------------------------------------------------------------------------------------------------------|
+| `d8`          | Input D8 flow-direction raster (GeoTIFF) (e.g., *inputD8.tif*).                                    |
+| `inputOutletrow`    | **Row index** (integer) of the outlet cell to delineate.                                              |
+| `inputOutletcolumn` | **Column index** (integer) of the outlet cell to delineate.                                           |
+| `output`      | Output **outlet basin mask** (GeoTIFF; 1 = basin, 0 = non-basin) (e.g., *outputOutletbasin.tif*).      |
+
+The following example demonstrates how to use `segments` tool from the command line:
+```bash
+th outletbasin inputD8.tif inputOutletrow inputOutletcolumn outputOutletbasin.tif
+```
+
+Example:
+```bash
+th outletbasin d8.tif 1453 2078 outlet_basin.tif
+```
+
+
 ### mainriver {#mainriver}  
+
+`mainriver` extracts the main river of a drainage network by tracing upstream from a user-provided mouth (outlet) cell, following the D8 upstream raster and resolving each confluence toward the branch with the largest contributing area. The result is a binary raster where cells along the main channel are marked as river.
+
+**How it works (summary).**  
+Starting at the mouth, the algorithm moves upstream using the `d8toupstream` grid (which encodes which neighbors flow **into** each cell). At every junction, it consults the contributing area raster (`d8ca`) to select the dominant branch (largest upslope area) within the drainage mask. This continues until all sources of the main river are traversed, producing a single, continuous main-stem path.
+
+> **Prerequisites.**  
+> • A hydrologically conditioned DEM used to derive `d8` → `d8ca` (contributing area) and `d8toupstream` (upstream pointers).  
+> • A binary drainage raster (e.g., from `d8drainage`) aligned with those grids.  
+> • The mouth coordinates (row, column) in a simple text file, typically snapped to a drainage cell.
+
+---
+
+**Parameters**
+
+| Flag               | Description                                                                                                   |
+|--------------------------|---------------------------------------------------------------------------------------------------------------|
+| `d8upstream`       | Input **D8 upstream-pointer** raster (GeoTIFF) (e.g., *inputD8upstream.tif*).                                  |
+| `drainage`             | Input **binary drainage** raster (GeoTIFF) (e.g., *inputDrainage.tif* (1 = stream, 0 = non-stream)).           |
+| `d8ca`                | Input **D8 contributing area** raster (GeoTIFF) (e.g., *inputAccumulatedArea.tif*).                             |
+| `mouth`                | Input **mouth file** (text) with outlet grid coordinates (row, column).                                       |
+| `output`           | Output **main river** raster (GeoTIFF) (e.g., *outputRiver.tif* (1 = main river, 0 = elsewhere)).              |
+
+The following example demonstrates how to use `mainriver` tool from the command line:
+```bash
+th mainriver inputD8upstream.tif inputDrainage.tif inputAccumulatedArea.tif inputMouth.txt outputRiver.tif
+
+```
+
+
 ### shreve {#shreve}  
 ### strahler {#strahler}  
 ### ottorivers {#ottorivers}  
@@ -584,6 +711,38 @@ th d8drainagev inputDrainage.tif inputD8.tif outputDrainage.shp
 
 ### tpi {#tpi}  
 ### hand {#hand}  
+
+`hand` computes the **Height Above the Nearest Drainage (HAND)** (Rennó et al., 2008) for each DEM cell, a terrain descriptor that measures the vertical distance from a cell to its nearest drainage cell along the D8 flow path. By normalizing elevations to the drainage network, HAND highlights local hydrologic gradients (draining potential) and is widely used to delineate valley bottoms, riparian zones, and flood-susceptible areas. 
+
+**Concept (summary).**  
+Given a hydrologically conditioned DEM, a D8 flow grid, and a drainage mask, each cell is linked to its downstream drainage cell via the D8 path. The HAND value is the DEM elevation difference between the cell and that drainage cell. Drainage cells have HAND = 0 by definition; upland cells have positive values that reflect their relative height above channels. This relative (network-referenced) height often correlates with soil moisture regime and water-table depth in low-relief landscapes.
+
+> **Prerequisites.** Use a pitless DEM (e.g., `removepits`), its D8 directions (`d8`), and a drainage grid (`d8drainage`). Ensure rasters share the same extent, resolution, and alignment.
+
+
+**Figure.** HAND map: drainage cells at 0 m (valley bottoms) and increasing HAND values upslope.
+
+---
+
+**Parameters**
+
+| Flag        | Description                                                                                 |
+|-------------------|---------------------------------------------------------------------------------------------|
+| `dem`       | Input DEM (GeoTIFF) (e.g., *inputDEM.tif*).                                                  |
+| `d8`            | Input D8 flow directions (GeoTIFF) (e.g., *inputD8.tif*).                                    |
+| `drainage`      | Input drainage network (GeoTIFF; 1 = stream, 0 = non-stream) (e.g., *inputDrainage.tif*).    |
+| `output`    | Output HAND raster (GeoTIFF) (e.g., *outputHAND.tif*).                                       |
+
+The following example demonstrates how to use `hand` tool from the command line:
+```bash
+th hand inputDEM.tif inputD8.tif inputDrainage.tif outputHAND.tif
+```
+*Reference*:
+
+Rennó, C. D., Nobre, A. D., Cuartas, L. A., Soares, J. V., Hodnett, M. G., Tomasella, J., & Waterloo, M. J. (2008). HAND, a new terrain descriptor using SRTM-DEM: Mapping terra-firme rainforest environments in Amazonia. Remote Sensing of Environment, 112(9), 3469-3481. [https://doi.org/10.1016/j.rse.2008.03.018](https://doi.org/10.1016/j.rse.2008.03.018)
+
+*See also*: [d8](#d8), [d8ca](#d8ca).
+
 ### sand {#sand}  
 ### d8slope {#d8slope}  
 
