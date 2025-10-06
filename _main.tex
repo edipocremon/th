@@ -119,7 +119,7 @@
 
 \title{TerraHidro User Manual}
 \author{Division of Earth Observation and Geoinformatics - DIOTG}
-\date{2025-10-03}
+\date{2025-10-06}
 
 \usepackage{amsthm}
 \newtheorem{theorem}{Theorem}[chapter]
@@ -147,6 +147,8 @@
 }
 \chapter{Preface}\label{preface}
 
+\pandocbounded{\includegraphics[keepaspectratio]{fig/logo_terrahidro.jpg}}
+
 \url{http://www.dpi.inpe.br/terrahidro/} \textbar{} \href{mailto:sergio.rosim@inpe.br}{\nolinkurl{sergio.rosim@inpe.br}}
 
 TerraHidro Version 5.2.0
@@ -162,8 +164,6 @@ São José dos Campos, Brazil
 September 25, 2025
 
 Sponsored by:
-
-\pandocbounded{\includegraphics[keepaspectratio]{fig/Inpelogo.png}}
 
 \chapter{Introduction}\label{introduction}
 
@@ -406,13 +406,13 @@ This group of algorithms is designed to transform a raw Digital Elevation Model 
 \item
   \hyperref[agreedem]{agreedem}
 \item
-  \hyperref[carve]{carve}
+  \hyperref[flatareas]{flatareas}
 \item
   \hyperref[carvev]{carvev}
 \item
-  \hyperref[fill]{fill}
+  \hyperref[carve]{carve}
 \item
-  \hyperref[flatareas]{flatareas}
+  \hyperref[fill]{fill}
 \item
   \hyperref[pfs]{pfs}
 \item
@@ -472,6 +472,7 @@ The reconditioning occurs in two coupled steps:
 \end{itemize}
 
 \pandocbounded{\includegraphics[keepaspectratio]{fig/th_agreedem.png}}
+
 \textbf{Figure 3.1. Reconditioning (AgreeDEM).} Cross-section example showing a 3×3 buffer where the nearest ring to the channel receives the largest decrement, the next ring a smaller decrement, and so on; the drainage cells themselves receive a larger \textbf{burn} depth. (Illustrative values follow the narrative.)
 
 \begin{quote}
@@ -528,82 +529,6 @@ Wang, J., Li, L., Hao, Z., \& Gourley, J. J. (2011). Stream guiding algorithm fo
 
 \emph{See also}: \hyperref[pfsd]{pfsd}.
 
-\subsection{carve}\label{carve}
-
-\emph{carve} processes flat areas in a Digital Elevation Model (DEM) by creating an artificial drainage path. The algorithm modifies cell elevations to introduce a slope, enabling hydrological flow routing. It optionally uses a reference drainage network to guide the carving process, ensuring the resulting channel aligns with known flow paths.
-
-The tool requires input parameters to specify whether the drainage network is active (DRNON) and which neighboring cells define a flat area's border (CROSS, DIAG, or ALL). Unlike carvev, which converges carving toward the center of a flat area, carve uses the drainage network to direct the carving trajectory, producing a more accurate hydrological representation.
-
-\emph{See also}: \hyperref[carvev]{carvev}.
-
-\textbf{Parameters}
-
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.0933}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.9067}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Flag
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Description
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-\texttt{-i,\ -\/-dem} & Input DEM raster file (e.g., \texttt{inputDEM.tif}). \\
-\texttt{-\/-drainage} & Input drainage network (vector \texttt{.shp} or raster), e.g., \texttt{inputDrainage.shp}. \\
-\texttt{-\/-flat} & Input flat-areas raster produced by the \emph{flatareas} functionality (e.g., \texttt{inputFlatAreas.tif}). \\
-\texttt{-\/-use-drainage} & Defines if the drainage network must be used: • \texttt{DRNON} -- converge ao canal • \texttt{DRNOFF} -- não usa a rede, converge ao centro das planícies (similar ao \texttt{carvev}). \\
-\texttt{-\/-border} & Defines which cells form the border of flat areas: • \texttt{CROSS} -- vizinhos horizontais/verticais • \texttt{DIAG} -- vizinhos diagonais • \texttt{ALL} -- todas as direções (8). \\
-\texttt{-o,\ -\/-output} & Output DEM raster file with carved flats (e.g., \texttt{outputDEM.tif}). \\
-\end{longtable}
-
-\textbf{C++ function}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\ExtensionTok{th}\NormalTok{ carve inputDEM.tif inputDrainage.shp inputFlatAreas.tif DRNON}\KeywordTok{|}\ExtensionTok{DRNOFF}\NormalTok{ CROSS}\KeywordTok{|}\ExtensionTok{DIAG}\KeywordTok{|}\ExtensionTok{ALL}\NormalTok{ outputDEM.tif}
-\end{Highlighting}
-\end{Shaded}
-
-\subsection{carvev}\label{carvev}
-
-\emph{carvev} processes flat areas in a Digital Elevation Model (DEM) by systematically decreasing elevation values from the borders toward the center. This algorithm generates an artificial slope across the feature, forming a characteristic stair-step pattern that enables hydrological flow routing. The operation functions without external drainage data, using only the DEM's own geometry to determine the carving path.
-
-This method provides a foundational correction for hydrologic conditioning. The key distinction from carve is that carvev does not utilize a reference drainage network to guide the process, converging instead on the geometric center of the flat area.
-
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2615}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7385}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Flag
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Descrição
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-\texttt{dem} & Input DEM raster file \emph{(e.g.,inputDEM.tif)} \\
-\texttt{output} & Output DEM raster file with carved flats \emph{(e.g., \texttt{outputDEM.tif})} \\
-\end{longtable}
-
-\textbf{C++ function}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\ExtensionTok{th}\NormalTok{ carvev inputDEM.tif outputDEM.tif}
-\end{Highlighting}
-\end{Shaded}
-
-\subsection{fill}\label{fill}
-
-\emph{fill} corrects voids or areas of missing data in a Digital Elevation Model (DEM). The tool uses a separate, often coarser-resolution, reference DEM to supply elevation values for these regions. It replaces null or erroneous cells in the input DEM with corresponding data from the reference source.
-
-This process generates a continuous, hydrologically viable elevation surface. The output DEM supports subsequent terrain analysis by ensuring complete spatial data coverage without interruptions.
-
 \subsection{flatareas}\label{flatareas}
 
 \emph{flatareas} identifies contiguous regions of uniform elevation within a Digital Elevation Model (DEM). The tool scans the input raster for adjacent cells possessing identical elevation values. It then groups these cells into distinct flat features.
@@ -657,6 +582,170 @@ Example:
 \end{Highlighting}
 \end{Shaded}
 
+\emph{Reference}:
+
+Jardim, A. C. (2017). \emph{Direções de fluxo em modelos digitais de elevação: um método com foco na qualidade da estimativa e processamento de grande volume de dados} {[}Doctoral dissertation, Instituto Nacional de Pesquisas Espaciais (INPE){]}. \href{http://mtc-m21b.sid.inpe.br/col/sid.inpe.br/mtc-m21b/2017/05.17.13.26/doc/publicacao.pdf?metadatarepository=sid.inpe.br/mtc-m21b/2017/05.17.13.26.57&mirror=sid.inpe.br/mtc-m21b/2013/09.26.14.25.22&languagebutton=en}{https://sid.inpe.br/mtc-m21b/2017/05.17.13.26}
+
+\emph{See also}: \hyperref[carvev]{carvev}, \hyperref[carve]{carve}.
+
+\subsection{carvev}\label{carvev}
+
+\texttt{carvev} detects \textbf{flat areas} in a DEM and \textbf{carves them from the borders toward the center} to form a V-shaped cross-section, guiding drainage through the midline of wide rivers and extensive flats. Unlike workflows that first require an explicit flat-area mask, \texttt{carvev} \textbf{identifies flats internally} and then performs the carving step; you do \textbf{not} need to run \texttt{flatareas} beforehand.
+
+The algorithm first locates the \textbf{orthogonal border} of each flat (only horizontal/vertical adjacencies are considered borders; neighbors marked as invalid/NoData---e.g., ocean or DEM edges---are not treated as borders). It then \textbf{decrements the elevation} of all border cells by a small initial step and removes those cells from the flat set. The process repeats in \textbf{rounds}, each time re-identifying the new orthogonal border and applying decrements, progressively moving inward until \textbf{no flat cells remain}. This produces a \textbf{stepped V profile}: higher steps at the outer edges, lower steps toward the center, so that subsequent flow-direction and contributing-area calculations follow the \textbf{centerline} of the river/plain rather than hugging one bank. Special handling avoids carving from ocean/border toward the interior, preventing unrealistic flow from sea to land.
+
+This pre-processing \textbf{drastically reduces the number of pits} in flats and accelerates downstream conditioning: after \texttt{carvev}, only a smaller set of residual depressions typically remains for \texttt{simplepits} and \texttt{pfs}, improving both robustness and performance.
+
+\pandocbounded{\includegraphics[keepaspectratio]{fig/th_carvev.png}}
+\textbf{Figure - Demonstration of V-shaped carving of flat areas}. (a) Identify flats and their \textbf{orthogonal borders}; (b--e) iteratively decrement border elevations and move inward, forming a stepped V profile centered on the flat's midline.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Parameters}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.1441}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.8559}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Flag
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{dem} & Input DEM raster (GeoTIFF), e.g., \textbf{(e.g.,inputDEM.tif)}. \\
+\texttt{output} & Output DEM (GeoTIFF) with flat areas carved in V-shape \textbf{(e.g., \texttt{outputDEM.tif})}. \\
+\end{longtable}
+
+The following example demonstrates how to use \texttt{carvev} tool from the command line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{th}\NormalTok{ carvev inputDEM.tif outputDEM.tif}
+\end{Highlighting}
+\end{Shaded}
+
+\emph{Reference}:
+
+Jardim, A. C. (2017). \emph{Direções de fluxo em modelos digitais de elevação: um método com foco na qualidade da estimativa e processamento de grande volume de dados} {[}Doctoral dissertation, Instituto Nacional de Pesquisas Espaciais (INPE){]}. \href{http://mtc-m21b.sid.inpe.br/col/sid.inpe.br/mtc-m21b/2017/05.17.13.26/doc/publicacao.pdf?metadatarepository=sid.inpe.br/mtc-m21b/2017/05.17.13.26.57&mirror=sid.inpe.br/mtc-m21b/2013/09.26.14.25.22&languagebutton=en}{https://sid.inpe.br/mtc-m21b/2017/05.17.13.26}
+
+\emph{See also}: \hyperref[flatareas]{flatareas}, \hyperref[carve]{carve}.
+
+\subsection{carve}\label{carve}
+
+\texttt{carve} removes \textbf{flat areas} from a DEM by carving a gentle slope \textbf{inside the flat mask produced by \texttt{flatareas}}, optionally guided by a \textbf{reference drainage network} (vector or raster). In contrast to \texttt{carvev} (which converges toward the geometric center of the flat), \texttt{carve} can force the lowest elevations to align with \textbf{mapped channels}, producing flow paths that better match observed hydrography.
+
+\begin{quote}
+\textbf{Workflow requirement.} Run \texttt{flatareas} \textbf{first} to generate the flat-area raster; pass this raster to \texttt{carve} together with the original DEM and the reference drainage network (if used).
+\end{quote}
+
+\textbf{How it works (summary).}\\
+1) From the input \textbf{flat-area mask}, \texttt{carve} selects the \textbf{border cells} of each flat region according to a user-chosen neighborhood (orthogonal, diagonal, or all directions).\\
+2) If a \textbf{reference drainage} is enabled, cells on the drainage within the flat are treated as the \textbf{lowest targets}, so the carving preferentially guides slopes \textbf{toward the mapped channel}.\\
+3) The algorithm iteratively \textbf{decrements} border elevations and re-identifies new borders, moving inward like a \textbf{stepped V-profile} until the flat is removed. If drainage is not used, the carving converges \textbf{toward the center} (behavior similar to \texttt{carvev}).\\
+4) Any remaining uncarved flat cells at the end are adjusted with the last decrement step; if drainage is active, stream cells receive the \textbf{smallest (lowest) elevation} to ensure convergence to the channel.
+
+\pandocbounded{\includegraphics[keepaspectratio]{fig/th_carve.png}}
+\textbf{Figure - Comparison of the final stage between \texttt{carvev} and \texttt{carve}}. (a) original V-shaped notch (\texttt{carvev}, centered), (b) improved notch (\texttt{carve}, aligned with the reference drainage), the green pixels correspond to a reference drainage.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Parameters}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.0840}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.9160}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Flag / Value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{dem} & Input DEM (GeoTIFF) (e.g., \textbf{inputDEM.tif}). \\
+\texttt{drainage} & Input \textbf{reference drainage} (vector \texttt{.shp} or raster). When enabled (\texttt{DRNON}), carving aligns the lowest elevations with the drainage inside each flat. If disabled (\texttt{DRNOFF}), carving converges toward the \textbf{center} (like \texttt{carvev}). \\
+\texttt{-\/-flat} & Input \textbf{flat-areas raster} (GeoTIFF) produced by \texttt{flatareas} (e.g., \textbf{inputFlatAreas.tif}). \textbf{Required.} \\
+\texttt{DRNON\ \textbar{}\ DRNOFF} & Use drainage? \texttt{DRNON} = \textbf{use} drainage to guide carving; \texttt{DRNOFF} = \textbf{do not} use drainage (center-focused carving). \\
+\texttt{CROSS\ \textbar{}\ DIAG\ \textbar{}\ ALL} & Border-definition rule for each iteration: \texttt{CROSS} = orthogonal neighbors; \texttt{DIAG} = diagonal neighbors; \texttt{ALL} = eight-direction neighbors. \\
+\texttt{-o,\ -\/-output} & Output DEM (GeoTIFF) with flat areas carved (e.g., \textbf{outputDEM.tif}). \\
+\end{longtable}
+
+The following example demonstrates how to use \texttt{carve} tool from the command line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{th}\NormalTok{ carve inputDEM.tif inputDrainage.shp inputFlatAreas.tif DRNON}\KeywordTok{|}\ExtensionTok{DRNOFF}\NormalTok{ CROSS}\KeywordTok{|}\ExtensionTok{DIAG}\KeywordTok{|}\ExtensionTok{ALL}\NormalTok{ outputDEM.tif}
+\end{Highlighting}
+\end{Shaded}
+
+Example (illustrative):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{th}\NormalTok{ carve inputDEM.tif inputDrainage.shp FlatAreas.tif DRNON ALL outputDEM.tif}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Author}: Dr.~Henrique Rennó de Azeredo Freitas
+
+\emph{See also}: \hyperref[flatareas]{flatareas}, \hyperref[carvev]{carvev}.
+
+\subsection{fill}\label{fill}
+
+\texttt{fill} repairs missing-data holes (voids/NoData) in a DEM by fusing it with a reference DEM that provides elevation inside the voids. The tool uses a separate, often coarser-resolution, reference DEM to supply elevation values for these regions. This is \textbf{not} the same as the ``\textbf{fill sinks}'' hydrologic operation found in SAGA GIS, GRASS, etc.\\
+- \textbf{This tool:} fills voids where the DEM has no data (e.g., SRTM gaps).\\
+- \textbf{Fill sinks (other software):} alters elevations to remove hydrologic depressions in valid data.\\
+Use \texttt{fill} early in the workflow to produce a complete, gap-free DEM before hydrologic conditioning (\texttt{agreedem}, \texttt{flatareas}/\texttt{carve} or \texttt{carvev}, \texttt{simplepits}, \texttt{pfs}, etc.).
+
+\textbf{How it works (summary).}\\
+\texttt{fill} implements a modified \textbf{Delta Surface Fill} (Grohman et al., 2006): it derives a smooth difference (``delta'') between overlapping, valid portions of the input DEM and the reference DEM, then uses that delta to \textbf{blend} elevations seamlessly inside voids so that transitions at void boundaries are \textbf{undetectable}.
+
+\begin{quote}
+\textbf{Best practices.} Make sure the input and reference DEMs are in the \textbf{same projection}.
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Parameters}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.1953}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.8047}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Flag
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{dem} & Input DEM (GeoTIFF) with voids, e.g., \texttt{inputDEM.tif}. \\
+\texttt{reference} & Reference DEM (GeoTIFF) that supplies elevations inside voids, e.g., \texttt{referenceDEM.tif}. \\
+\texttt{output} & Output void-filled DEM (GeoTIFF), e.g., \texttt{outputDEM.tif}. \\
+\end{longtable}
+
+The following example demonstrates how to use \texttt{fill} tool from the command line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{th}\NormalTok{ fill inputDEM.tif referenceDEM.tif outputDEM.tif}
+\end{Highlighting}
+\end{Shaded}
+
+\emph{Reference}:
+
+Grohman, G., Kroenung, G. and Strebeck, J., 2006. Filling SRTM voids: The delta surface fill method. Photogrammetric Engineering and Remote Sensing, 72(3), pp.213-216.
+
+\emph{See also}: \hyperref[simplepits]{simplepits}, \hyperref[removepits]{removepits}.
+
 \subsection{pfs}\label{pfs}
 
 \emph{pfs} removes depressions from a Digital Elevation Model (DEM) using a priority-first search algorithm. The tool initiates a grid search from each pit cell to locate the nearest spill point with a lower elevation. It employs a priority queue to evaluate potential paths, constructing a descending elevation trajectory to the outlet.
@@ -706,15 +795,113 @@ Jardim, A. C. (2017). \emph{Direções de fluxo em modelos digitais de elevaçã
 
 \subsection{pfsd}\label{pfsd}
 
-\emph{pfsd} removes depressions from a Digital Elevation Model (DEM) using a priority-first search algorithm that incorporates a reference drainage network. The tool prioritizes the processing of pits located on the drainage network before addressing upstream depressions. It constructs hydrologic outlets by carving descending elevation paths to the nearest lower cell.
+\texttt{pfsd} removes all remaining pits by carving paths to outlet cells using the same \textbf{Priority-First Search (PFS)} algorithm implemented in \texttt{pfs}, with one key enhancement: processing is seeded from the reference drainage network and proceeds upstream into adjacent depressions. By anchoring the search to mapped channels, \texttt{pfsd} accelerates convergence, improves path selection near wide flats, and yields a pitless DEM whose drainage is consistent with observed hydrography.
 
-This method ensures the resulting drainage structure aligns with the provided network. The algorithm differs from pfs by utilizing the drainage network to guide the depression-removal sequence, enhancing hydrological consistency with known channel locations.
+\textbf{How it works (summary).}\\
+- Treat the DEM as a graph (cells = nodes; 8-connected neighbors = edges).\\
+- Initialize the PFS frontier on drainage cells (vector lines rasterized internally if needed).\\
+- For each encountered pit, build a candidate tree of paths ordered by lower elevation and, on ties, shorter distance to the channel; commit the first path that satisfies the outlet criteria.\\
+- Carve a gentle linear downslope along the committed path (small per-cell decrements), ensuring continuous flow from the pit to the outlet without over-smoothing.\\
+- Iterate upstream until no depressions remain.
+
+\textbf{When to use.} Choose \texttt{pfsd} when a reference drainage is available and you want pit removal to follow mapped channels. For projects without a drainage reference, use \texttt{pfs}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Workflow note.} A common conditioning chain is:
+\texttt{agreedem} (optional) → \texttt{flatareas} + \texttt{carve} (or \texttt{carvev}) → \texttt{simplepits} → \textbf{\texttt{pfsd}}.
+Using \texttt{pfsd} at the end aligns remaining pit removal with the reference drainage, improving hydrologic realism and efficiency.
+
+\textbf{Parameters}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.1694}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.8306}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Flag
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{-dem} & Input DEM (GeoTIFF) (e.g., \textbf{inputDEM.tif}). \\
+\texttt{drainage} & Reference drainage network (vector \texttt{.shp} or raster). Used to seed PFS from channels upstream. \\
+\texttt{-output} & Output \textbf{pitless} DEM (GeoTIFF) after PFS carving (e.g., \textbf{outputDEM.tif}). \\
+\end{longtable}
+
+The following example demonstrates how to use \texttt{pfsd} tool from the command line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{th}\NormalTok{ pfsd inputDEM.tif inputDrainage.shp outputDEM.tif}
+\end{Highlighting}
+\end{Shaded}
+
+\emph{Reference}:
+
+Jones, R. (2002). Algorithms for using a DEM for mapping catchment areas of stream sediment samples. Computers \& geosciences, v. 28, n.~9, p.~1051--1060. \url{https://doi.org/10.1016/S0098-3004(02)00022-5}
+
+\emph{Author}: Dr.~Henrique Rennó de Azeredo Freitas
+
+\emph{See also}: \hyperref[pfs]{pfs}, \hyperref[removepits]{removepits}.
 
 \subsection{removepits}\label{removepits}
 
-\emph{removepits} processes a Digital Elevation Model (DEM) to eliminate hydrological depressions and flat areas. This tool executes a sequence of operations, specifically the carvev, simplepits, and pfs algorithms, to ensure comprehensive hydrological correction. It produces a fully connected drainage surface where water can flow uninterrupted to the watershed outlet.
+\texttt{removepits} performs a full hydrologic correction of a DEM using a \textbf{hybrid approach} that both fills and carves where appropriate, minimizing unnecessary elevation changes while ensuring continuous drainage. It is the \textbf{preferred one-pass procedure} when you want a \textbf{pitless DEM} without supplying a reference drainage network.
 
-The procedure first addresses flat regions by carving drainage paths, then removes simple pits through elevation filling, and finally resolves complex depressions via priority-first search. The output is a pit-free DEM suitable for deriving accurate flow direction and accumulation networks.
+\textbf{What it does (three phases).}\\
+\texttt{removepits} internally executes, in sequence:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  \textbf{\texttt{carvev}} --- identifies flat areas and carves them \textbf{V-shaped} from the borders toward the center, guiding flow through the flat midline and drastically reducing the number of depressions in these regions;\\
+\item
+  \textbf{\texttt{simplepits}} --- applies \textbf{selective single-cell filling} to remove only those depressions that can be fixed by a minimal local raise \textbf{without} creating new pits;\\
+\item
+  \textbf{\texttt{pfs}} --- uses \textbf{Priority-First Search} to \textbf{carve} a gentle downslope path from any remaining (complex) pits to an outlet cell, completing the elimination of depressions.
+\end{enumerate}
+
+By combining targeted fill sinks (phase 2) with controlled carving (phases 1 and 3), \texttt{removepits} is a \textbf{hybrid method} designed to preserve local relief while producing reliable D8 flow directions across the entire grid.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Parameters}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.1382}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.8618}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Flag
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{dem} & Input DEM (GeoTIFF) (e.g., \emph{inputDEM.tif}). \\
+\texttt{output} & Output \textbf{pitless} DEM (GeoTIFF) with flats carved and simple/complex pits removed (\emph{e.g., `outputDEM.tif}). \\
+\end{longtable}
+
+The following example demonstrates how to use \texttt{removepits} tool from the command line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{th}\NormalTok{ removepits inputDEM.tif outputDEM.tif}
+\end{Highlighting}
+\end{Shaded}
+
+\emph{Reference}:
+
+Jardim, A. C. (2017). \emph{Direções de fluxo em modelos digitais de elevação: um método com foco na qualidade da estimativa e processamento de grande volume de dados} {[}Doctoral dissertation, Instituto Nacional de Pesquisas Espaciais (INPE){]}. \href{http://mtc-m21b.sid.inpe.br/col/sid.inpe.br/mtc-m21b/2017/05.17.13.26/doc/publicacao.pdf?metadatarepository=sid.inpe.br/mtc-m21b/2017/05.17.13.26.57&mirror=sid.inpe.br/mtc-m21b/2013/09.26.14.25.22&languagebutton=en}{https://sid.inpe.br/mtc-m21b/2017/05.17.13.26}
+
+\emph{See also}: \hyperref[carvev]{carvev}, \hyperref[simplepits]{simplepits}, \hyperref[pfs]{pfs}.
 
 \section{Flow Analysis, Drainage Network Extraction and Characterization}\label{Flow-Analysis-Drainage-Network-Extraction-and-Characterization}
 
@@ -752,11 +939,248 @@ The procedure first addresses flat regions by carving drainage paths, then remov
 
 \subsection{d8}\label{d8}
 
+\texttt{d8} computes the local drainage direction (flow direction) for each DEM cell using the classic \textbf{D8} method (O'Callaghan \& Mark, 1984). For every valid cell, the algorithm compares the eight neighbors and assigns the direction of steepest descent. Cells with no downslope neighbor (e.g., flats/pits not yet conditioned, borders, or NoData) receive 0.
+
+\begin{quote}
+\textbf{Prerequisite.} Use a \textbf{hydrologically conditioned} DEM (pitless and flat areas treated), typically produced with \texttt{removepits} (or the equivalent sequence \texttt{carvev} → \texttt{simplepits} → \texttt{pfs}, or \texttt{pfsd} when a reference drainage is used).
+\end{quote}
+
+\textbf{Direction codes (powers of two).}\\
+The output raster stores a power-of-two code indicating the outflow neighbor:
+
+\begin{longtable}[]{@{}rll@{}}
+\toprule\noalign{}
+Code & Direction & Offset (row, col) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & E & (0, +1) \\
+2 & SE & (+1, +1) \\
+4 & S & (+1, 0) \\
+8 & SW & (+1, −1) \\
+16 & W & (0, −1) \\
+32 & NW & (−1, −1) \\
+64 & N & (−1, 0) \\
+128 & NE & (−1, +1) \\
+0 & Invalid / No downslope / NoData & \\
+\end{longtable}
+
+\pandocbounded{\includegraphics[keepaspectratio]{fig/th_d8_flow_directions.png}}
+
+\textbf{Figure. Codes and corresponding flow directions (compass layout)}.
+
+\begin{quote}
+\textbf{Notes.}\\
+• Ties are uncommon after proper conditioning; if present, the tool resolves to one neighbor or yields 0 when no descent exists.\\
+• Cells touching NoData or the DEM boundary may legitimately output 0.\\
+• The D8 flow direction is the basis for contributing area, stream extraction, stream ordering, and watershed delineation.
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Parameters}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.1441}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.8559}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Flag
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{dem} & Input \textbf{hydrologically conditioned} DEM (GeoTIFF) (e.g., \emph{inputDEM.tif}). \\
+\texttt{output} & Output \textbf{D8 flow direction} raster (GeoTIFF) (e.g., \emph{flowdir.tif}). \\
+\end{longtable}
+
+The following example demonstrates how to use \texttt{d8} tool from the command line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{th}\NormalTok{ d8 inputDEM.tif flowdir.tif}
+\end{Highlighting}
+\end{Shaded}
+
+\emph{Reference}:
+
+O'Callaghan, J. F., \& Mark, D. M. (1984). The extraction of drainage networks from digital elevation data. Computer vision, graphics, and image processing, 28(3), 323-344.\url{https://doi.org/10.1016/S0734-189X(84)80011-0}
+
+\emph{See also}: \hyperref[d8ca]{d8ca}.
+
 \subsection{d8ca}\label{d8ca}
+
+\texttt{d8ca} computes the \textbf{contributing area} (a.k.a. flow accumulation) by following a \textbf{D8 flow-direction} grid and counting how many cells drain to each location, including the cell itself (single-flow-direction; no divergence). This produces a raster in which hillslopes have small values and channels concentrate large values.
+
+\begin{quote}
+\textbf{Prerequisite.} Use a D8 flow-direction raster produced by \texttt{d8} from a hydrologically conditioned (pitless) DEM.
+\end{quote}
+
+\pandocbounded{\includegraphics[keepaspectratio]{fig/th_d8ca.png}}
+
+\textbf{Figure.} Contributing area derived from a D8 grid.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Behavior \& output}
+- \textbf{Method:} Single-flow-direction (\textbf{SFD}): each cell routes its discharge to one downslope neighbor (O'Callaghan \& Mark, 1984).\\
+- \textbf{Default units:} cell counts (number of upslope cells).\\
+- \textbf{NoData handling:} cells with NoData in the input D8 raster become \textbf{NoData} in the output.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Parameters}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.1345}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.8655}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Flag
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{input} & Input D8 flow-direction raster (GeoTIFF) (e.g., \emph{inputD8.tif}). \\
+\texttt{output} & Output D8 contributing area (GeoTIFF) (e.g., \emph{outputD8ContributingArea.tif}). \\
+\end{longtable}
+
+The following example demonstrates how to use \texttt{d8ca} tool from the command line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{th}\NormalTok{ d8ca inputD8.tif outputD8ContributingArea.tif}
+\end{Highlighting}
+\end{Shaded}
+
+\emph{Reference}:
+
+O'Callaghan, J. F., \& Mark, D. M. (1984). The extraction of drainage networks from digital elevation data. Computer vision, graphics, and image processing, 28(3), 323-344.\url{https://doi.org/10.1016/S0734-189X(84)80011-0}
+
+\emph{See also}: \hyperref[d8]{d8}.
 
 \subsection{d8drainage}\label{d8drainage}
 
+\texttt{d8drainage} maps the drainage network by applying a threshold to a D8 contributing area raster (\texttt{d8ca}). Each cell is assigned 1 (stream) if its contributing area is greater than or equal to the specified threshold, and 0 otherwise. The result is a binary stream grid suitable for stream ordering, vectorization, and watershed delineation.
+
+\pandocbounded{\includegraphics[keepaspectratio]{fig/th_d8drainage.png}}
+
+\textbf{Figure - Drainage network derived from a D8 contributing-area grid using a minimum-area threshold}.
+
+\begin{quote}
+\textbf{Prerequisite.} Use a contributing-area raster produced by \texttt{d8ca} from a hydrologically conditioned DEM and its corresponding \texttt{d8} flow directions.
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Choosing the threshold (guidance)}\\
+- The threshold represents the \textbf{minimum upslope area} needed to initiate/maintain a channel (area used as a surrogate for discharge).\\
+- \textbf{Smaller} thresholds ⇒ \textbf{denser} networks; \textbf{larger} thresholds ⇒ \textbf{sparser} networks.\\
+- There is no universal value: it depends on \textbf{terrain, climate, lithology}, and \textbf{grid resolution}.\\
+- Common practice: inspect maps/imagery, test a range of values, and select the one that best matches \textbf{known channels}.
+
+\textbf{Behavior \& data handling}\\
+- Input NoData cells remain \textbf{NoData} in the output (not classified as streams).\\
+- Threshold is provided \textbf{in cells} (i.e., count of upslope cells).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Parameters}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.1462}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.8538}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Flag
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{input} & Input \textbf{D8 contributing area} raster (GeoTIFF), (e.g.~\emph{inputContributingArea.tif}). \\
+\texttt{output} & Output \textbf{binary drainage network} raster (GeoTIFF) (e.g., \emph{outputDrainage.tif} (1 = stream, 0 = non-stream). \\
+\texttt{thresholdValue} & \textbf{Minimum contributing area} (in cells) to classify a cell as stream. \\
+\end{longtable}
+
+The following example demonstrates how to use \texttt{d8ca} tool from the command line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{th}\NormalTok{ d8drainage inputContributingArea.tif outputDrainage.tif thresholdValue}
+\end{Highlighting}
+\end{Shaded}
+
+Example:
+
+\begin{verbatim}
+th d8drainage d8ca.tif drainage.tif 2000
+\end{verbatim}
+
+\begin{quote}
+\textbf{Tip} Start with a broad sweep (e.g., 300, 500, 1000, 2000, 5000 cells), compare against known hydrography or high-resolution imagery, then refine the threshold for your study area..
+\end{quote}
+
+\emph{See also}: \hyperref[d8]{d8}, \hyperref[d8ca]{d8ca}.
+
 \subsection{d8drainagev}\label{d8drainagev}
+
+\texttt{d8drainagev} converts a binary drainage raster (e.g., from \texttt{d8drainage}) into vector polylines by following the D8 flow-direction raster. The tool traverses stream cells from sources (no inflowing neighbors) downstream along the D8 directions, assembling connected cell pairs into line features that represent stream segments.
+
+\textbf{How it works (summary).}\\
+- Reads the \textbf{drainage raster} (1 = stream, 0 = non-stream; NoData ignored) and the matching \textbf{D8 direction} raster.\\
+- Detects \textbf{headwater cells} (stream cells with no upstream contributors) and traces \textbf{downstream paths} by following the D8 pointer of each cell.\\
+- Builds \textbf{polyline features} for each connected path; branching and confluences are preserved by starting new lines as needed.\\
+- Outputs a \textbf{vector line} dataset suitable for ordering, attribution, and cartographic display.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Parameters}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.1638}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.8362}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Flag
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{drainage} & Input \textbf{drainage network} raster (GeoTIFF), e.g., \texttt{inputDrainage.tif} (1 = stream, 0 = else). \\
+\texttt{d8} & Input \textbf{D8 flow-direction} raster (GeoTIFF), e.g., \texttt{inputD8.tif}. \\
+\texttt{output} & Output \textbf{vector drainage network} (e.g., ESRI Shapefile), e.g., \texttt{outputDrainage.shp}. \\
+\end{longtable}
+
+\begin{quote}
+\textbf{Notes}
+• Ensure the drainage raster is topologically coherent with the D8 grid (both produced from the same DEM).
+• The drainage grid and D8 grid must share the same extent, pixel size, and alignment
+• NoData and non-stream cells are skipped; only cells marked as stream are traced.
+• The resulting lines can be post-processed (e.g., smoothing, ordering, attribute joins) according to project needs.
+\end{quote}
+
+The following example demonstrates how to use \texttt{d8ca} tool from the command line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{th}\NormalTok{ d8drainagev inputDrainage.tif inputD8.tif outputDrainage.shp}
+\end{Highlighting}
+\end{Shaded}
+
+\emph{See also}: \hyperref[d8]{d8}, \hyperref[d8ca]{d8ca}, \hyperref[d8drainage]{d8drainage}.
 
 \subsection{segments}\label{segments}
 
