@@ -23,7 +23,7 @@
 <meta name="author" content="Division of Earth Observation and Geoinformatics - DIOTG" />
 
 
-<meta name="date" content="2025-10-06" />
+<meta name="date" content="2025-10-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -292,8 +292,8 @@ div.csl-indent {
 </ul>
 <div id="simplepits" class="section level3 hasAnchor" number="3.1.1">
 <h3><span class="header-section-number">3.1.1</span> simplepits<a href="hydrological-analysis.html#simplepits" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><code>simplepits</code> is an initial, targeted step for removing hydrological depressions (pits) from a Digital Elevation Model (DEM) while keeping changes to the terrain as small as possible. In pit removal there are three general strategies—fill, carve/breach, or hybrid. Filling is the simplest, but applying it indiscriminately can trigger a cascade: fixing one pit creates new pits in neighboring cells, which leads to further fills and can produce artificial flat areas that were not present in the original DEM. To avoid this, <code>simplepits</code> focuses only on <strong>simple pits</strong>—those that can be eliminated by a single, localized elevation increase without causing any neighboring cell to become a new pit. The algorithm proceeds with a controlled trial-and-error step: it tentatively raises the pit cell by a small amount, checks the surrounding cells, and <strong>accepts</strong> the change only if no new pits appear. If any adjacent cell becomes a pit, the change is <strong>reverted</strong> and that cell is labeled a <strong>complex pit</strong> to be handled later. Operationally, it runs in linear time with respect to the number of pit cells and is intended as a conservative first pass before more comprehensive conditioning.</p>
-<p>In TerraHidro there are two functionalities for pit removal: <code>simplepits</code> and <a href="hydrological-analysis.html#pfs"><code>pfs</code></a>. The <code>simplepits</code> functionality modifies <strong>only the pit cell</strong>. A new elevation is assigned to that cell based on the <strong>lowest neighboring elevation plus a predefined increment</strong> (in practice, <code>1e-3</code>). After this increment is applied, <strong>all neighboring cells</strong> of the pit must be checked to ensure that no new pits were created. If <strong>none</strong> of the neighbors becomes a pit, the original pit is considered resolved by a simple, local operation and is classified as a <strong>simple pit</strong>. If <strong>any</strong> neighbor becomes a pit, the modification is <strong>undone</strong> and that pit cell is deferred to <code>pfs</code>, which handles <strong>complex pits</strong>.</p>
+<p><code>simplepits</code> is an initial, targeted step for removing hydrological depressions (pits) from a Digital Elevation Model (DEM) while keeping changes to the terrain as small as possible. In pit removal there are three general strategies—fill, carve/breach, or hybrid. Filling is the simplest, but applying it indiscriminately can trigger a cascade: fixing one pit creates new pits in neighboring cells, which leads to further fills and can produce artificial flat areas that were not present in the original DEM. To avoid this, <code>simplepits</code> focuses only on simple pits — those that can be eliminated by a single, localized elevation increase without causing any neighboring cell to become a new pit. The algorithm proceeds with a controlled trial-and-error step: it tentatively raises the pit cell by a small amount, checks the surrounding cells, and accepts the change only if no new pits appear. If any adjacent cell becomes a pit, the change is reverted and that cell is labeled a complex pit to be handled later. Operationally, it runs in linear time with respect to the number of pit cells and is intended as a conservative first pass before more comprehensive conditioning.</p>
+<p>In TerraHidro there are two functionalities for pit removal: <code>simplepits</code> and <a href="hydrological-analysis.html#pfs"><code>pfs</code></a>. The <code>simplepits</code> functionality modifies only the pit cell. A new elevation is assigned to that cell based on the lowest neighboring elevation plus a predefined increment (in practice, <code>1e-3</code>). After this increment is applied, all neighboring cells** of the pit must be checked to ensure that no new pits were created. If none of the neighbors becomes a pit, the original pit is considered resolved by a simple, local operation and is classified as a simple pit. If any neighbor becomes a pit, the modification is undone and that pit cell is deferred to <code>pfs</code>, which handles complex pits.</p>
 <p><img src="fig/simplepits.png" />
 <strong>Figure - Simple pit resolution (a–b).</strong> (a) Initial DEM with pit cell C2 (orange) and D8 flow directions (blue). (b) C2 is raised to the lowest neighboring cell (D3) by a small increment, eliminating the pit without creating adjacent pits; the edit is accepted as a simple-pit case. Source: Jardim (2017).</p>
 <table>
@@ -322,12 +322,12 @@ div.csl-indent {
 </div>
 <div id="agreedem" class="section level3 hasAnchor" number="3.1.2">
 <h3><span class="header-section-number">3.1.2</span> agreedem<a href="hydrological-analysis.html#agreedem" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><code>agreedem</code> modifies a Digital Elevation Model (DEM) <strong>in and around a known drainage network</strong> to improve the agreement between automatically derived flow directions and <strong>observed/reference channels</strong>. When the drainage extracted from a raw DEM does not align with mapped streams, <code>agreedem</code> “guides” flow by <strong>sharpening (trenching/burning)</strong> the elevations along the reference network and optionally <strong>smoothing</strong> the surrounding cells within a distance buffer. This targeted editing is especially effective over <strong>low-relief and flat areas</strong>, where automatic drainage extraction is most ambiguous and computationally costly (see Clarke &amp; Burnett, 2003).</p>
-<p><code>agreedem</code> is <strong>not</strong> a complete pit/flat conditioning method on its own. It only edits elevations <strong>on</strong> the reference lines and <strong>nearby</strong> cells; therefore, a hydrologically conditioned DEM (HC-DEM) still requires <strong>flat-area handling</strong> and <strong>pit removal</strong> (e.g., <code>simplepits</code> then <code>pfs</code>) so that D8 flow directions are defined <strong>everywhere</strong>. In practice, drainage data are supplied as <strong>vector lines</strong> and first converted to a raster grid; each stream cell receives an assigned “burn” value (<strong>stream burning</strong>; Wang et al., 2011), producing a gridded drainage mask that <code>agreedem</code> uses together with the original DEM.</p>
+<p><code>agreedem</code> modifies a Digital Elevation Model (DEM) in and around a known drainage network to improve the agreement between automatically derived flow directions and observed/reference channels. When the drainage extracted from a raw DEM does not align with mapped streams, <code>agreedem</code> “guides” flow by sharpening (trenching/burning) the elevations along the reference network and optionally smoothing the surrounding cells within a distance buffer. This targeted editing is especially effective over low-relief and flat areas, where automatic drainage extraction is most ambiguous and computationally costly (see Clarke &amp; Burnett, 2003).</p>
+<p><code>agreedem</code> is <strong>not</strong> a complete pit/flat conditioning method on its own. It only edits elevations on the reference lines and nearby cells; therefore, a hydrologically conditioned DEM (HC-DEM) still requires flat-area handling** and <strong>pit removal</strong> (e.g., <code>simplepits</code> then <code>pfs</code>) so that D8 flow directions are defined everywhere. In practice, drainage data are supplied as vector lines and first converted to a raster grid; each stream cell receives an assigned “burn” value (stream burning; Wang et al., 2011), producing a gridded drainage mask that <code>agreedem</code> uses together with the original DEM.</p>
 <p>The reconditioning occurs in two coupled steps:</p>
 <ul>
-<li><strong>Sharpening (trenching/burning):</strong> a fixed decrement is <strong>subtracted</strong> from the elevation of every <strong>drainage cell</strong> to carve a narrow channel along the reference lines. This intentionally introduces artificial micro-valleys that act as <strong>flow guides</strong> for automatic extraction.</li>
-<li><strong>Smoothing (buffered taper):</strong> within a user-defined <strong>buffer radius (in cells)</strong> around the drainage, additional decrements are applied that <strong>decrease with distance</strong> from the line (distance-weighted). This creates a small <strong>stepped cross-section</strong> that transitions the trench back to the surrounding terrain, reducing artifacts and improving convergence of flow to the channel.</li>
+<li><strong>Sharpening (trenching/burning):</strong> a fixed decrement is subtracted from the elevation of every drainage cell to carve a narrow channel along the reference lines. This intentionally introduces artificial micro-valleys that act as <strong>flow guides</strong> for automatic extraction.</li>
+<li><strong>Smoothing (buffered taper):</strong> within a user-defined buffer radius (in cells) around the drainage, additional decrements are applied that decrease with distance from the line (distance-weighted). This creates a small stepped cross-section that transitions the trench back to the surrounding terrain, reducing artifacts and improving convergence of flow to the channel.</li>
 </ul>
 <p><img src="fig/th_agreedem.png" /></p>
 <p><strong>Figure 3.1. Reconditioning (AgreeDEM).</strong> Cross-section example showing a 3×3 buffer where the nearest ring to the channel receives the largest decrement, the next ring a smaller decrement, and so on; the drainage cells themselves receive a larger <strong>burn</strong> depth. (Illustrative values follow the narrative.)</p>
@@ -350,11 +350,11 @@ div.csl-indent {
 <tbody>
 <tr class="odd">
 <td><code>dem</code></td>
-<td>Input DEM raster file (GeoTIFF), e.g., <code>inputDEM.tif</code>.</td>
+<td>Input DEM raster file (GeoTIFF) (e.g., <em>inputDEM.tif</em>).</td>
 </tr>
 <tr class="even">
 <td><code>drainage</code></td>
-<td>Input drainage network (vector <code>.shp</code> or raster grid). Vector lines are rasterized internally/externally to a grid for stream burning, e.g., <code>inputDrainage.shp</code>.</td>
+<td>Input drainage network (vector <code>.shp</code> or raster grid). Vector lines are rasterized internally/externally to a grid for stream burning (e.g., <em>inputDrainage.shp</em>).</td>
 </tr>
 <tr class="odd">
 <td><code>burn</code></td>
@@ -362,7 +362,7 @@ div.csl-indent {
 </tr>
 <tr class="even">
 <td><code>buffer</code></td>
-<td>Buffer radius <strong>in cells</strong> around drainage for smoothing (distance-weighted taper), e.g., <code>3</code>.</td>
+<td>Buffer radius in cells around drainage for smoothing (distance-weighted taper), e.g., <code>3</code>.</td>
 </tr>
 <tr class="odd">
 <td><code>smooth</code></td>
@@ -370,11 +370,11 @@ div.csl-indent {
 </tr>
 <tr class="even">
 <td><code>burn-only</code></td>
-<td>Optional switch to <strong>disable smoothing</strong> and apply trenching only on drainage cells.</td>
+<td>Optional switch to disable smoothing and apply trenching only on drainage cells.</td>
 </tr>
 <tr class="odd">
 <td><code>-output</code></td>
-<td>Output reconditioned DEM (GeoTIFF), e.g., <code>outputDEM.tif</code>.</td>
+<td>Output reconditioned DEM (GeoTIFF) (e.g., <em>outputDEM.tif</em>).</td>
 </tr>
 </tbody>
 </table>
@@ -391,11 +391,11 @@ div.csl-indent {
 <h3><span class="header-section-number">3.1.3</span> flatareas<a href="hydrological-analysis.html#flatareas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><em>flatareas</em> identifies contiguous regions of uniform elevation within a Digital Elevation Model (DEM). The tool scans the input raster for adjacent cells possessing identical elevation values. It then groups these cells into distinct flat features.</p>
 <p>The algorithm requires a user-defined minimum area threshold, specified as a number of cells. This parameter excludes smaller, potentially insignificant flat zones from the output. The result is a raster layer where each flat area is classified, providing a basis for subsequent hydrological conditioning procedures.</p>
-<p><code>flatareas</code> identifies <strong>flat areas</strong>—contiguous clusters of cells with the <strong>same elevation</strong>—and outputs a raster mask to be used in the next step (carving) so that flow lines can pass through the <strong>center of wide rivers</strong> and large flats. Flat areas are common in DEMs such as <strong>SRTM</strong>, <strong>AW3D30</strong>, and <strong>Copernicus DEM</strong> where river widths exceed grid resolution; they often appear as a “staircase” along the longitudinal profile, and every cell within a flat behaves like a pit, increasing the cost of hydrologic conditioning. By first mapping these flats, subsequent processing can <strong>dig a V-shaped channel</strong> from the edges toward the center, reducing the number of pits and guiding drainage.</p>
-<p>The original detection approach uses a simple <strong>image filter</strong> rather than an expensive region-growing segmentation. The filter has two parts: an <strong>inner 3×3 square</strong> (central test) and an <strong>outer cross</strong> (expansion). The kernel is swept from the upper-left to the lower-right of the DEM. At each position, if all cells in the inner square share the central cell’s elevation, then any cells in the outer cross that also match are <strong>marked as flat</strong>. Cells with invalid/NoData elevation (e.g., ocean mask values such as <code>-32768</code>) are ignored. This produces large connected flat patches efficiently. In Figure below (Identifying flat areas), intermediate steps (e.g., 26a and 26b) show the inner test and subsequent marking; by the final pass (step 112) most flat cells are identified. A few unmarked cells may remain, but they do <strong>not</strong> affect the next stage, which <strong>carves</strong> these flats.</p>
-<p>An enhanced variant uses a <strong>breadth-first flood fill</strong> (8-connected: orthogonal and diagonal neighbors), starting from each valid cell, to visit all equal-elevation neighbors exactly once. This ensures complete detection with <strong><span class="math inline">\(O(n)\)</span></strong> complexity (each DEM cell is processed once) and naturally selects diagonal borders as well as orthogonal ones. After each component is discovered, it is retained as a flat area only if it meets the <strong>minimum size</strong> (cell count) specified by the user.</p>
+<p><code>flatareas</code> identifies flat areas—contiguous clusters of cells with the same elevation—and outputs a raster mask to be used in the next step (carving) so that flow lines can pass through the center of wide rivers and large flats. Flat areas are common in DEMs such as SRTM, AW3D30, and Copernicus DEM where river widths exceed grid resolution; they often appear as a “staircase” along the longitudinal profile, and every cell within a flat behaves like a pit, increasing the cost of hydrologic conditioning. By first mapping these flats, subsequent processing can dig a V-shaped channel from the edges toward the center, reducing the number of pits and guiding drainage.</p>
+<p>The original detection approach uses a simple image filter rather than an expensive region-growing segmentation. The filter has two parts: an inner 3×3 square (central test) and an outer cross (expansion). The kernel is swept from the upper-left to the lower-right of the DEM. At each position, if all cells in the inner square share the central cell’s elevation, then any cells in the outer cross that also match are marked as flat. Cells with invalid/NoData elevation (e.g., ocean mask values such as <code>-32768</code>) are ignored. This produces large connected flat patches efficiently. In Figure below (Identifying flat areas), intermediate steps (e.g., 26a and 26b) show the inner test and subsequent marking; by the final pass (step 112) most flat cells are identified. A few unmarked cells may remain, but they do not affect the next stage, which carves these flats.</p>
+<p>An enhanced variant uses a breadth-first flood fill (8-connected: orthogonal and diagonal neighbors), starting from each valid cell, to visit all equal-elevation neighbors exactly once. This ensures complete detection with <span class="math inline">\(O(n)\)</span> complexity (each DEM cell is processed once) and naturally selects diagonal borders as well as orthogonal ones. After each component is discovered, it is retained as a flat area only if it meets the minimum size (cell count) specified by the user.</p>
 <p><img src="fig/th_flatareas.png" />
-<strong>Figure 3.2. Identifying flat areas.</strong> DEM cells with distinct elevations (brown) surround a flat river reach (white); gray cells are invalid/NoData (e.g., ocean/border). The 3×3 <strong>inner square</strong> (red) and <strong>outer cross</strong> (green) filter identify and mark the flat region (orange). By step 112, nearly all flat cells are tagged; any remaining unmarked cells are corrected during the subsequent carving stage. Source: Jardim (2017).</p>
+<strong>Figure 3.2. Identifying flat areas.</strong> DEM cells with distinct elevations (brown) surround a flat river reach (white); gray cells are invalid/NoData (e.g., ocean/border). The 3×3 inner square (red) and outer cross (green) filter identify and mark the flat region (orange). By step 112, nearly all flat cells are tagged; any remaining unmarked cells are corrected during the subsequent carving stage. Source: Jardim (2017).</p>
 <hr />
 <p><strong>Parameters</strong></p>
 <table>
@@ -416,11 +416,11 @@ div.csl-indent {
 </tr>
 <tr class="even">
 <td><code>min-cells</code></td>
-<td>Positive integer for the <strong>minimum contiguous cell count</strong> required to classify a region as a flat area.</td>
+<td>Positive integer for the minimum contiguous cell count required to classify a region as a flat area.</td>
 </tr>
 <tr class="odd">
 <td><code>output</code></td>
-<td>Output <strong>flat-areas mask</strong> (GeoTIFF), e.g., <code>outputFlatAreas.tif</code> (e.g., 1 = flat, 0 = non-flat).</td>
+<td>Output flat-areas mask (GeoTIFF), e.g., <code>outputFlatAreas.tif</code> (e.g., 1 = flat, 0 = non-flat).</td>
 </tr>
 </tbody>
 </table>
@@ -434,9 +434,9 @@ div.csl-indent {
 </div>
 <div id="carvev" class="section level3 hasAnchor" number="3.1.4">
 <h3><span class="header-section-number">3.1.4</span> carvev<a href="hydrological-analysis.html#carvev" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><code>carvev</code> detects <strong>flat areas</strong> in a DEM and <strong>carves them from the borders toward the center</strong> to form a V-shaped cross-section, guiding drainage through the midline of wide rivers and extensive flats. Unlike workflows that first require an explicit flat-area mask, <code>carvev</code> <strong>identifies flats internally</strong> and then performs the carving step; you do <strong>not</strong> need to run <code>flatareas</code> beforehand.</p>
-<p>The algorithm first locates the <strong>orthogonal border</strong> of each flat (only horizontal/vertical adjacencies are considered borders; neighbors marked as invalid/NoData—e.g., ocean or DEM edges—are not treated as borders). It then <strong>decrements the elevation</strong> of all border cells by a small initial step and removes those cells from the flat set. The process repeats in <strong>rounds</strong>, each time re-identifying the new orthogonal border and applying decrements, progressively moving inward until <strong>no flat cells remain</strong>. This produces a <strong>stepped V profile</strong>: higher steps at the outer edges, lower steps toward the center, so that subsequent flow-direction and contributing-area calculations follow the <strong>centerline</strong> of the river/plain rather than hugging one bank. Special handling avoids carving from ocean/border toward the interior, preventing unrealistic flow from sea to land.</p>
-<p>This pre-processing <strong>drastically reduces the number of pits</strong> in flats and accelerates downstream conditioning: after <code>carvev</code>, only a smaller set of residual depressions typically remains for <code>simplepits</code> and <code>pfs</code>, improving both robustness and performance.</p>
+<p><code>carvev</code> detects flat areas in a DEM and carves them from the borders toward the center to form a V-shaped cross-section, guiding drainage through the midline of wide rivers and extensive flats. Unlike workflows that first require an explicit flat-area mask, <code>carvev</code> identifies flats internally and then performs the carving step; you do not need to run <code>flatareas</code> beforehand.</p>
+<p>The algorithm first locates the orthogonal border of each flat (only horizontal/vertical adjacencies are considered borders; neighbors marked as invalid/NoData—e.g., ocean or DEM edges—are not treated as borders). It then decrements the elevation of all border cells by a small initial step and removes those cells from the flat set. The process repeats in rounds, each time re-identifying the new orthogonal border and applying decrements, progressively moving inward until no flat cells remain. This produces a stepped V profile: higher steps at the outer edges, lower steps toward the center, so that subsequent flow-direction and contributing-area calculations follow the centerline of the river/plain rather than hugging one bank. Special handling avoids carving from ocean/border toward the interior, preventing unrealistic flow from sea to land.</p>
+<p>This pre-processing drastically reduces the number of pits in flats and accelerates downstream conditioning: after <code>carvev</code>, only a smaller set of residual depressions typically remains for <code>simplepits</code> and <code>pfs</code>, improving both robustness and performance.</p>
 <p><img src="fig/th_carvev.png" />
 <strong>Figure - Demonstration of V-shaped carving of flat areas</strong>. (a) Identify flats and their <strong>orthogonal borders</strong>; (b–e) iteratively decrement border elevations and move inward, forming a stepped V profile centered on the flat’s midline.</p>
 <hr />
@@ -455,11 +455,11 @@ div.csl-indent {
 <tbody>
 <tr class="odd">
 <td><code>dem</code></td>
-<td>Input DEM raster (GeoTIFF), e.g., <strong>(e.g.,inputDEM.tif)</strong>.</td>
+<td>Input DEM raster (GeoTIFF), e.g., <em>(e.g.,inputDEM.tif)</em>.</td>
 </tr>
 <tr class="even">
 <td><code>output</code></td>
-<td>Output DEM (GeoTIFF) with flat areas carved in V-shape <strong>(e.g., <code>outputDEM.tif</code>)</strong>.</td>
+<td>Output DEM (GeoTIFF) with flat areas carved in V-shape <em>(e.g., <code>outputDEM.tif</code>)</em>.</td>
 </tr>
 </tbody>
 </table>
@@ -471,15 +471,15 @@ div.csl-indent {
 </div>
 <div id="carve" class="section level3 hasAnchor" number="3.1.5">
 <h3><span class="header-section-number">3.1.5</span> carve<a href="hydrological-analysis.html#carve" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><code>carve</code> removes <strong>flat areas</strong> from a DEM by carving a gentle slope <strong>inside the flat mask produced by <code>flatareas</code></strong>, optionally guided by a <strong>reference drainage network</strong> (vector or raster). In contrast to <code>carvev</code> (which converges toward the geometric center of the flat), <code>carve</code> can force the lowest elevations to align with <strong>mapped channels</strong>, producing flow paths that better match observed hydrography.</p>
+<p><code>carve</code> removes flat areas from a DEM by carving a gentle slope inside the flat mask produced by <code>flatareas</code>, optionally guided by a reference drainage network (vector or raster). In contrast to <code>carvev</code> (which converges toward the geometric center of the flat), <code>carve</code> can force the lowest elevations to align with mapped channels, producing flow paths that better match observed hydrography.</p>
 <blockquote>
-<p><strong>Workflow requirement.</strong> Run <code>flatareas</code> <strong>first</strong> to generate the flat-area raster; pass this raster to <code>carve</code> together with the original DEM and the reference drainage network (if used).</p>
+<p><strong>Workflow requirement.</strong> Run <code>flatareas</code> first to generate the flat-area raster; pass this raster to <code>carve</code> together with the original DEM and the reference drainage network (if used).</p>
 </blockquote>
 <p><strong>How it works (summary).</strong><br />
-1) From the input <strong>flat-area mask</strong>, <code>carve</code> selects the <strong>border cells</strong> of each flat region according to a user-chosen neighborhood (orthogonal, diagonal, or all directions).<br />
-2) If a <strong>reference drainage</strong> is enabled, cells on the drainage within the flat are treated as the <strong>lowest targets</strong>, so the carving preferentially guides slopes <strong>toward the mapped channel</strong>.<br />
-3) The algorithm iteratively <strong>decrements</strong> border elevations and re-identifies new borders, moving inward like a <strong>stepped V-profile</strong> until the flat is removed. If drainage is not used, the carving converges <strong>toward the center</strong> (behavior similar to <code>carvev</code>).<br />
-4) Any remaining uncarved flat cells at the end are adjusted with the last decrement step; if drainage is active, stream cells receive the <strong>smallest (lowest) elevation</strong> to ensure convergence to the channel.</p>
+1) From the input flat-area mask, <code>carve</code> selects the border cells of each flat region according to a user-chosen neighborhood (orthogonal, diagonal, or all directions).<br />
+2) If a reference drainage is enabled, cells on the drainage within the flat are treated as the lowest targets, so the carving preferentially guides slopes toward the mapped channel.<br />
+3) The algorithm iteratively decrements border elevations and re-identifies new borders, moving inward like a stepped V-profile until the flat is removed. If drainage is not used, the carving converges toward the center (behavior similar to <code>carvev</code>).<br />
+4) Any remaining uncarved flat cells at the end are adjusted with the last decrement step; if drainage is active, stream cells receive the smallest (lowest) elevation to ensure convergence to the channel.</p>
 <p><img src="fig/th_carve.png" />
 <strong>Figure - Comparison of the final stage between <code>carvev</code> and <code>carve</code></strong>. (a) original V-shaped notch (<code>carvev</code>, centered), (b) improved notch (<code>carve</code>, aligned with the reference drainage), the green pixels correspond to a reference drainage.</p>
 <hr />
@@ -491,26 +491,26 @@ div.csl-indent {
 </colgroup>
 <thead>
 <tr class="header">
-<th>Flag / Value</th>
+<th>Flag</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><code>dem</code></td>
-<td>Input DEM (GeoTIFF) (e.g., <strong>inputDEM.tif</strong>).</td>
+<td>Input DEM (GeoTIFF) (e.g., <em>inputDEM.tif</em>).</td>
 </tr>
 <tr class="even">
 <td><code>drainage</code></td>
-<td>Input <strong>reference drainage</strong> (vector <code>.shp</code> or raster). When enabled (<code>DRNON</code>), carving aligns the lowest elevations with the drainage inside each flat. If disabled (<code>DRNOFF</code>), carving converges toward the <strong>center</strong> (like <code>carvev</code>).</td>
+<td>Input reference drainage (vector <code>.shp</code> or raster). When enabled (<code>DRNON</code>), carving aligns the lowest elevations with the drainage inside each flat. If disabled (<code>DRNOFF</code>), carving converges toward the center (like <code>carvev</code>).</td>
 </tr>
 <tr class="odd">
 <td><code>--flat</code></td>
-<td>Input <strong>flat-areas raster</strong> (GeoTIFF) produced by <code>flatareas</code> (e.g., <strong>inputFlatAreas.tif</strong>). <strong>Required.</strong></td>
+<td>Input flat-areas raster (GeoTIFF) produced by <code>flatareas</code> (e.g., <em>inputFlatAreas.tif</em>). <strong>Required.</strong></td>
 </tr>
 <tr class="even">
 <td><code>DRNON | DRNOFF</code></td>
-<td>Use drainage? <code>DRNON</code> = <strong>use</strong> drainage to guide carving; <code>DRNOFF</code> = <strong>do not</strong> use drainage (center-focused carving).</td>
+<td>Use drainage? <code>DRNON</code> = use drainage to guide carving; <code>DRNOFF</code> = do not use drainage (center-focused carving).</td>
 </tr>
 <tr class="odd">
 <td><code>CROSS | DIAG | ALL</code></td>
@@ -518,7 +518,7 @@ div.csl-indent {
 </tr>
 <tr class="even">
 <td><code>-o, --output</code></td>
-<td>Output DEM (GeoTIFF) with flat areas carved (e.g., <strong>outputDEM.tif</strong>).</td>
+<td>Output DEM (GeoTIFF) with flat areas carved (e.g., <em>outputDEM.tif</em>).</td>
 </tr>
 </tbody>
 </table>
@@ -531,14 +531,14 @@ div.csl-indent {
 </div>
 <div id="fill" class="section level3 hasAnchor" number="3.1.6">
 <h3><span class="header-section-number">3.1.6</span> fill<a href="hydrological-analysis.html#fill" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><code>fill</code> repairs missing-data holes (voids/NoData) in a DEM by fusing it with a reference DEM that provides elevation inside the voids. The tool uses a separate, often coarser-resolution, reference DEM to supply elevation values for these regions. This is <strong>not</strong> the same as the “<strong>fill sinks</strong>” hydrologic operation found in SAGA GIS, GRASS, etc.<br />
-- <strong>This tool:</strong> fills voids where the DEM has no data (e.g., SRTM gaps).<br />
-- <strong>Fill sinks (other software):</strong> alters elevations to remove hydrologic depressions in valid data.<br />
+<p><code>fill</code> repairs missing-data holes (voids/NoData) in a DEM by fusing it with a reference DEM that provides elevation inside the voids. The tool uses a separate, often coarser-resolution, reference DEM to supply elevation values for these regions. This is <strong>not</strong> the same as the “fill sinks” hydrologic operation found in SAGA GIS, GRASS, etc.<br />
+- This tool: fills voids where the DEM has no data (e.g., SRTM gaps).<br />
+- Fill sinks (other software): alters elevations to remove hydrologic depressions in valid data.<br />
 Use <code>fill</code> early in the workflow to produce a complete, gap-free DEM before hydrologic conditioning (<code>agreedem</code>, <code>flatareas</code>/<code>carve</code> or <code>carvev</code>, <code>simplepits</code>, <code>pfs</code>, etc.).</p>
 <p><strong>How it works (summary).</strong><br />
-<code>fill</code> implements a modified <strong>Delta Surface Fill</strong> (Grohman et al., 2006): it derives a smooth difference (“delta”) between overlapping, valid portions of the input DEM and the reference DEM, then uses that delta to <strong>blend</strong> elevations seamlessly inside voids so that transitions at void boundaries are <strong>undetectable</strong>.</p>
+<code>fill</code> implements a modified Delta Surface Fill (Grohman et al., 2006): it derives a smooth difference (“delta”) between overlapping, valid portions of the input DEM and the reference DEM, then uses that delta to blend elevations seamlessly inside voids so that transitions at void boundaries are undetectable.</p>
 <blockquote>
-<p><strong>Best practices.</strong> Make sure the input and reference DEMs are in the <strong>same projection</strong>.</p>
+<p><strong>Best practices.</strong> Make sure the input and reference DEMs are in the same projection.</p>
 </blockquote>
 <hr />
 <p><strong>Parameters</strong></p>
@@ -556,15 +556,15 @@ Use <code>fill</code> early in the workflow to produce a complete, gap-free DEM 
 <tbody>
 <tr class="odd">
 <td><code>dem</code></td>
-<td>Input DEM (GeoTIFF) with voids, e.g., <code>inputDEM.tif</code>.</td>
+<td>Input DEM (GeoTIFF) with voids (e.g., <em>inputDEM.tif</em>).</td>
 </tr>
 <tr class="even">
 <td><code>reference</code></td>
-<td>Reference DEM (GeoTIFF) that supplies elevations inside voids, e.g., <code>referenceDEM.tif</code>.</td>
+<td>Reference DEM (GeoTIFF) that supplies elevations inside voids (e.g., <em>referenceDEM.tif</em>).</td>
 </tr>
 <tr class="odd">
 <td><code>output</code></td>
-<td>Output void-filled DEM (GeoTIFF), e.g., <code>outputDEM.tif</code>.</td>
+<td>Output void-filled DEM (GeoTIFF) (e.g., <em>outputDEM.tif</em>).</td>
 </tr>
 </tbody>
 </table>
@@ -578,14 +578,14 @@ Use <code>fill</code> early in the workflow to produce a complete, gap-free DEM 
 <h3><span class="header-section-number">3.1.7</span> pfs<a href="hydrological-analysis.html#pfs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><em>pfs</em> removes depressions from a Digital Elevation Model (DEM) using a priority-first search algorithm. The tool initiates a grid search from each pit cell to locate the nearest spill point with a lower elevation. It employs a priority queue to evaluate potential paths, constructing a descending elevation trajectory to the outlet.</p>
 <p>This process modifies cell values along the selected path to create a hydrologically continuous surface. The algorithm ensures all depressions are resolved, producing a pit-free DEM suitable for subsequent flow-direction analysis.</p>
-<p><code>pfs</code> removes all remaining depressions from a DEM by <strong>carving a path</strong> from each pit cell to an outlet cell using a <strong>Priority-First Search (PFS)</strong>. Unlike <code>simplepits</code>, which changes only the pit cell, <code>pfs</code> modifies the elevations of <strong>multiple cells</strong> along a selected path so that flow can proceed continuously from the original pit to a lower cell. To <strong>minimize DEM alteration</strong>, the path is chosen to be as <strong>short as possible</strong> toward the <strong>lowest reachable elevation</strong>; if no valid interior cell is found first, the path may end at an invalid cell or at the DEM border.</p>
-<p>The DEM is treated as a <strong>graph</strong> in which each grid cell is a node and neighborhood relations (typically 8-connected) are edges. Starting at the pit (initial node), PFS explores neighboring cells using a <strong>priority queue</strong> ordered by desirability—first by <strong>lower elevation</strong>, and, in case of ties, by <strong>shorter path length</strong> from the pit. As cells are visited, the algorithm maintains a <strong>tree of paths</strong> (parent–child relations) that encodes all partial routes under consideration. When PFS reaches a final cell that satisfies the stop criteria (lower elevation and shortest distance), it <strong>commits the path</strong> from the pit to that outlet and proceeds to modify the DEM along that path.</p>
+<p><code>pfs</code> removes all remaining depressions from a DEM by carving a path from each pit cell to an outlet cell using a <strong>Priority-First Search (PFS)</strong>. Unlike <code>simplepits</code>, which changes only the pit cell, <code>pfs</code> modifies the elevations of multiple cells along a selected path so that flow can proceed continuously from the original pit to a lower cell. To minimize DEM alteration, the path is chosen to be as short as possible toward the lowest reachable elevation; if no valid interior cell is found first, the path may end at an invalid cell or at the DEM border.</p>
+<p>The DEM is treated as a graph in which each grid cell is a node and neighborhood relations (typically 8-connected) are edges. Starting at the pit (initial node), PFS explores neighboring cells using a priority queue ordered by desirability—first by lower elevation, and, in case of ties, by shorter path length from the pit. As cells are visited, the algorithm maintains a tree of paths (parent–child relations) that encodes all partial routes under consideration. When PFS reaches a final cell that satisfies the stop criteria (lower elevation and shortest distance), it commits the path from the pit to that outlet and proceeds to modify the DEM along that path.</p>
 <p><img src="fig/th_pfs1.png" />
 <strong>Figure - PFS search to remove a pit.</strong> The priority queue tracks, for each visited cell, its elevation, the number of steps from the pit (path length), and its parent. The final path (e.g., B2–C2–D3–D4) is committed and marked in the path tree (Jardim, 2017).</p>
-<p>Elevation modification is applied by creating a <strong>linear downslope</strong> along the chosen path: moving outward from the pit, each intermediate cell along the route receives an elevation <strong>slightly lower</strong> than its predecessor, using a small <strong>decrement step</strong> (in practice, <code>1e-3</code>) applied cell by cell; the <strong>first (pit)</strong> and <strong>last (outlet)</strong> cells are not adjusted. This yields a gentle carved profile that preserves local relief while ensuring drainage continuity. To prevent creating a new pit near the outlet, PFS includes a <strong>stop condition</strong> that guarantees the computed elevation at the cell before the outlet will still be <strong>higher</strong> than the outlet’s elevation given the cumulative decrements; otherwise, the route is rejected and search continues. Border or invalid cells may also serve as terminating outlets under the stop criteria.</p>
+<p>Elevation modification is applied by creating a linear downslope along the chosen path: moving outward from the pit, each intermediate cell along the route receives an elevation slightly lower than its predecessor, using a small decrement step (in practice, <code>1e-3</code>) applied cell by cell; the first (pit) and last (outlet) cells are not adjusted. This yields a gentle carved profile that preserves local relief while ensuring drainage continuity. To prevent creating a new pit near the outlet, PFS includes a stop condition that guarantees the computed elevation at the cell before the outlet will still be higher than the outlet’s elevation given the cumulative decrements; otherwise, the route is rejected and search continues. Border or invalid cells may also serve as terminating outlets under the stop criteria.</p>
 <p><img src="fig/th_pfs_grid.png" />
 <strong>Figure - DEM modification by a linear slope</strong> . Example before (a) and after (b) applying a constant decrement along the committed path (illustrated here with a larger step of <code>1e-1</code> for clarity), leaving the pit and outlet cells unaltered (Jardim, 2017).</p>
-<p>In practice, <code>pfs</code> complements <code>simplepits</code>: simple depressions are removed first with single-cell fills; <strong>complex</strong> ones are then resolved by PFS carving. The result is a <strong>pitless DEM</strong> suitable for reliable flow-direction, contributing-area, and drainage-network derivations, with <strong>minimal distortion</strong> relative to the original topography.</p>
+<p>In practice, <code>pfs</code> complements <code>simplepits</code>: simple depressions are removed first with single-cell fills; complex ones are then resolved by PFS carving. The result is a pitless DEM suitable for reliable flow-direction, contributing-area, and drainage-network derivations, with minimal distortion relative to the original topography.</p>
 <table>
 <thead>
 <tr class="header">
@@ -642,7 +642,7 @@ Using <code>pfsd</code> at the end aligns remaining pit removal with the referen
 <tbody>
 <tr class="odd">
 <td><code>-dem</code></td>
-<td>Input DEM (GeoTIFF) (e.g., <strong>inputDEM.tif</strong>).</td>
+<td>Input DEM (GeoTIFF) (e.g., <em>inputDEM.tif</em>).</td>
 </tr>
 <tr class="even">
 <td><code>drainage</code></td>
@@ -650,7 +650,7 @@ Using <code>pfsd</code> at the end aligns remaining pit removal with the referen
 </tr>
 <tr class="odd">
 <td><code>-output</code></td>
-<td>Output <strong>pitless</strong> DEM (GeoTIFF) after PFS carving (e.g., <strong>outputDEM.tif</strong>).</td>
+<td>Output pitless DEM (GeoTIFF) after PFS carving (e.g., <em>outputDEM.tif</em>).</td>
 </tr>
 </tbody>
 </table>
@@ -663,15 +663,15 @@ Using <code>pfsd</code> at the end aligns remaining pit removal with the referen
 </div>
 <div id="removepits" class="section level3 hasAnchor" number="3.1.9">
 <h3><span class="header-section-number">3.1.9</span> removepits<a href="hydrological-analysis.html#removepits" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><code>removepits</code> performs a full hydrologic correction of a DEM using a <strong>hybrid approach</strong> that both fills and carves where appropriate, minimizing unnecessary elevation changes while ensuring continuous drainage. It is the <strong>preferred one-pass procedure</strong> when you want a <strong>pitless DEM</strong> without supplying a reference drainage network.</p>
+<p><code>removepits</code> performs a full hydrologic correction of a DEM using a hybrid approach that both fills and carves where appropriate, minimizing unnecessary elevation changes while ensuring continuous drainage. It is the preferred one-pass procedure when you want a pitless DEM without supplying a reference drainage network.</p>
 <p><strong>What it does (three phases).</strong><br />
 <code>removepits</code> internally executes, in sequence:</p>
 <ol style="list-style-type: decimal">
-<li><strong><code>carvev</code></strong> — identifies flat areas and carves them <strong>V-shaped</strong> from the borders toward the center, guiding flow through the flat midline and drastically reducing the number of depressions in these regions;<br />
+<li><strong><code>carvev</code></strong> — identifies flat areas and carves them <em>V-shaped</em> from the borders toward the center, guiding flow through the flat midline and drastically reducing the number of depressions in these regions;<br />
 </li>
-<li><strong><code>simplepits</code></strong> — applies <strong>selective single-cell filling</strong> to remove only those depressions that can be fixed by a minimal local raise <strong>without</strong> creating new pits;<br />
+<li><strong><code>simplepits</code></strong> — applies selective single-cell filling to remove only those depressions that can be fixed by a minimal local raise without creating new pits;<br />
 </li>
-<li><strong><code>pfs</code></strong> — uses <strong>Priority-First Search</strong> to <strong>carve</strong> a gentle downslope path from any remaining (complex) pits to an outlet cell, completing the elimination of depressions.</li>
+<li><strong><code>pfs</code></strong> — uses Priority-First Search to carve a gentle downslope path from any remaining (complex) pits to an outlet cell, completing the elimination of depressions.</li>
 </ol>
 <p>By combining targeted fill sinks (phase 2) with controlled carving (phases 1 and 3), <code>removepits</code> is a <strong>hybrid method</strong> designed to preserve local relief while producing reliable D8 flow directions across the entire grid.</p>
 <hr />
@@ -694,7 +694,7 @@ Using <code>pfsd</code> at the end aligns remaining pit removal with the referen
 </tr>
 <tr class="even">
 <td><code>output</code></td>
-<td>Output <strong>pitless</strong> DEM (GeoTIFF) with flats carved and simple/complex pits removed (<em>e.g., `outputDEM.tif</em>).</td>
+<td>Output pitless DEM (GeoTIFF) with flats carved and simple/complex pits removed (<em>e.g., outputDEM.tif</em>).</td>
 </tr>
 </tbody>
 </table>
@@ -737,7 +737,7 @@ Using <code>pfsd</code> at the end aligns remaining pit removal with the referen
 <h3><span class="header-section-number">3.2.1</span> d8<a href="hydrological-analysis.html#d8" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><code>d8</code> computes the local drainage direction (flow direction) for each DEM cell using the classic <strong>D8</strong> method (O’Callaghan &amp; Mark, 1984). For every valid cell, the algorithm compares the eight neighbors and assigns the direction of steepest descent. Cells with no downslope neighbor (e.g., flats/pits not yet conditioned, borders, or NoData) receive 0.</p>
 <blockquote>
-<p><strong>Prerequisite.</strong> Use a <strong>hydrologically conditioned</strong> DEM (pitless and flat areas treated), typically produced with <code>removepits</code> (or the equivalent sequence <code>carvev</code> → <code>simplepits</code> → <code>pfs</code>, or <code>pfsd</code> when a reference drainage is used).</p>
+<p><strong>Prerequisite.</strong> Use a hydrologically conditioned DEM (pitless and flat areas treated), typically produced with <code>removepits</code> (or the equivalent sequence <code>carvev</code> → <code>simplepits</code> → <code>pfs</code>, or <code>pfsd</code> when a reference drainage is used).</p>
 </blockquote>
 <p><strong>Direction codes (powers of two).</strong><br />
 The output raster stores a power-of-two code indicating the outflow neighbor:</p>
@@ -798,7 +798,7 @@ The output raster stores a power-of-two code indicating the outflow neighbor:</p
 </tbody>
 </table>
 <p><img src="fig/th_d8_flow_directions.png" /></p>
-<p><strong>Figure. Codes and corresponding flow directions (compass layout)</strong>.</p>
+<p><strong>Figure - Codes and corresponding flow directions (compass layout)</strong>.</p>
 <blockquote>
 <p><strong>Notes.</strong><br />
 • Ties are uncommon after proper conditioning; if present, the tool resolves to one neighbor or yields 0 when no descent exists.<br />
@@ -821,11 +821,11 @@ The output raster stores a power-of-two code indicating the outflow neighbor:</p
 <tbody>
 <tr class="odd">
 <td><code>dem</code></td>
-<td>Input <strong>hydrologically conditioned</strong> DEM (GeoTIFF) (e.g., <em>inputDEM.tif</em>).</td>
+<td>Input hydrologically conditioned DEM (GeoTIFF) (e.g., <em>inputDEM.tif</em>).</td>
 </tr>
 <tr class="even">
 <td><code>output</code></td>
-<td>Output <strong>D8 flow direction</strong> raster (GeoTIFF) (e.g., <em>flowdir.tif</em>).</td>
+<td>Output D8 flow direction raster (GeoTIFF) (e.g., <em>flowdir.tif</em>).</td>
 </tr>
 </tbody>
 </table>
@@ -862,11 +862,11 @@ For each cell, inspect its eight neighbors. If a neighbor’s D8 flow-direction 
 <tbody>
 <tr class="odd">
 <td><code>d8</code></td>
-<td>Input <strong>D8 flow-direction</strong> raster (GeoTIFF) (e.g., <em>inputD8.tif</em>).</td>
+<td>Input D8 flow-direction raster (GeoTIFF) (e.g., <em>inputD8.tif</em>).</td>
 </tr>
 <tr class="even">
 <td><code>output</code></td>
-<td>Output <strong>upstream-pointer</strong> raster (GeoTIFF) (e.g., <em>outputUpstream.tif</em> (sum of D8 codes of inflow cells)).</td>
+<td>Output upstream-pointer raster (GeoTIFF) (e.g., <em>outputUpstream.tif</em> (sum of D8 codes of inflow cells)).</td>
 </tr>
 </tbody>
 </table>
@@ -876,17 +876,17 @@ For each cell, inspect its eight neighbors. If a neighbor’s D8 flow-direction 
 </div>
 <div id="d8ca" class="section level3 hasAnchor" number="3.2.3">
 <h3><span class="header-section-number">3.2.3</span> d8ca<a href="hydrological-analysis.html#d8ca" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><code>d8ca</code> computes the <strong>contributing area</strong> (a.k.a. flow accumulation) by following a <strong>D8 flow-direction</strong> grid and counting how many cells drain to each location, including the cell itself (single-flow-direction; no divergence). This produces a raster in which hillslopes have small values and channels concentrate large values.</p>
+<p><code>d8ca</code> computes the contributing area (a.k.a. flow accumulation) by following a <strong>D8 flow-direction</strong> grid and counting how many cells drain to each location, including the cell itself (single-flow-direction; no divergence). This produces a raster in which hillslopes have small values and channels concentrate large values.</p>
 <blockquote>
 <p><strong>Prerequisite.</strong> Use a D8 flow-direction raster produced by <code>d8</code> from a hydrologically conditioned (pitless) DEM.</p>
 </blockquote>
 <p><img src="fig/th_d8ca.png" /></p>
-<p><strong>Figure.</strong> Contributing area derived from a D8 grid.</p>
+<p><strong>Figure - Contributing area derived from a D8 grid.</strong></p>
 <hr />
 <p><strong>Behavior &amp; output</strong>
-- <strong>Method:</strong> Single-flow-direction (<strong>SFD</strong>): each cell routes its discharge to one downslope neighbor (O’Callaghan &amp; Mark, 1984).<br />
-- <strong>Default units:</strong> cell counts (number of upslope cells).<br />
-- <strong>NoData handling:</strong> cells with NoData in the input D8 raster become <strong>NoData</strong> in the output.</p>
+- Method: Single-flow-direction (<em>SFD</em>): each cell routes its discharge to one downslope neighbor (O’Callaghan &amp; Mark, 1984).<br />
+- Default units: cell counts (number of upslope cells).<br />
+- NoData handling: cells with NoData in the input D8 raster become NoData in the output.</p>
 <hr />
 <p><strong>Parameters</strong></p>
 <table>
@@ -927,13 +927,13 @@ For each cell, inspect its eight neighbors. If a neighbor’s D8 flow-direction 
 </blockquote>
 <hr />
 <p><strong>Choosing the threshold (guidance)</strong><br />
-- The threshold represents the <strong>minimum upslope area</strong> needed to initiate/maintain a channel (area used as a surrogate for discharge).<br />
-- <strong>Smaller</strong> thresholds ⇒ <strong>denser</strong> networks; <strong>larger</strong> thresholds ⇒ <strong>sparser</strong> networks.<br />
-- There is no universal value: it depends on <strong>terrain, climate, lithology</strong>, and <strong>grid resolution</strong>.<br />
-- Common practice: inspect maps/imagery, test a range of values, and select the one that best matches <strong>known channels</strong>.</p>
+- The threshold represents the minimum upslope area needed to initiate/maintain a channel (area used as a surrogate for discharge).<br />
+- Smaller thresholds ⇒ denser networks; larger thresholds ⇒ <em>parser</em> networks.<br />
+- There is no universal value: it depends on <strong>terrain, climate, lithology, and </strong>grid resolution**.<br />
+- Common practice: inspect maps/imagery, test a range of values, and select the one that best matches known channels.</p>
 <p><strong>Behavior &amp; data handling</strong><br />
-- Input NoData cells remain <strong>NoData</strong> in the output (not classified as streams).<br />
-- Threshold is provided <strong>in cells</strong> (i.e., count of upslope cells).</p>
+- Input NoData cells remain NoData in the output (not classified as streams).<br />
+- Threshold is provided in cells (i.e., count of upslope cells).</p>
 <hr />
 <p><strong>Parameters</strong></p>
 <table>
@@ -950,15 +950,15 @@ For each cell, inspect its eight neighbors. If a neighbor’s D8 flow-direction 
 <tbody>
 <tr class="odd">
 <td><code>input</code></td>
-<td>Input <strong>D8 contributing area</strong> raster (GeoTIFF), (e.g. <em>inputContributingArea.tif</em>).</td>
+<td>Input D8 contributing area raster (GeoTIFF), (e.g. <em>inputContributingArea.tif</em>).</td>
 </tr>
 <tr class="even">
 <td><code>output</code></td>
-<td>Output <strong>binary drainage network</strong> raster (GeoTIFF) (e.g., <em>outputDrainage.tif</em> (1 = stream, 0 = non-stream).</td>
+<td>Output binary drainage network raster (GeoTIFF) (e.g., <em>outputDrainage.tif</em> (1 = stream, 0 = non-stream).</td>
 </tr>
 <tr class="odd">
 <td><code>thresholdValue</code></td>
-<td><strong>Minimum contributing area</strong> (in cells) to classify a cell as stream.</td>
+<td>Minimum contributing area (in cells) to classify a cell as stream.</td>
 </tr>
 </tbody>
 </table>
@@ -975,10 +975,10 @@ For each cell, inspect its eight neighbors. If a neighbor’s D8 flow-direction 
 <h3><span class="header-section-number">3.2.5</span> d8drainagev<a href="hydrological-analysis.html#d8drainagev" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><code>d8drainagev</code> converts a binary drainage raster (e.g., from <code>d8drainage</code>) into vector polylines by following the D8 flow-direction raster. The tool traverses stream cells from sources (no inflowing neighbors) downstream along the D8 directions, assembling connected cell pairs into line features that represent stream segments.</p>
 <p><strong>How it works (summary).</strong><br />
-- Reads the <strong>drainage raster</strong> (1 = stream, 0 = non-stream; NoData ignored) and the matching <strong>D8 direction</strong> raster.<br />
-- Detects <strong>headwater cells</strong> (stream cells with no upstream contributors) and traces <strong>downstream paths</strong> by following the D8 pointer of each cell.<br />
-- Builds <strong>polyline features</strong> for each connected path; branching and confluences are preserved by starting new lines as needed.<br />
-- Outputs a <strong>vector line</strong> dataset suitable for ordering, attribution, and cartographic display.</p>
+- Reads the drainage raster (1 = stream, 0 = non-stream; NoData ignored) and the matching D8 direction raster.<br />
+- Detects headwater cells (stream cells with no upstream contributors) and traces downstream paths by following the D8 pointer of each cell.<br />
+- Builds polyline features for each connected path; branching and confluences are preserved by starting new lines as needed.<br />
+- Outputs a vector line dataset suitable for ordering, attribution, and cartographic display.</p>
 <hr />
 <p><strong>Parameters</strong></p>
 <table>
@@ -1216,6 +1216,59 @@ Starting at the mouth, the algorithm moves upstream using the <code>d8toupstream
 </ul>
 <div id="tpi" class="section level3 hasAnchor" number="3.4.1">
 <h3><span class="header-section-number">3.4.1</span> tpi<a href="hydrological-analysis.html#tpi" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>tpi</code> computes the <strong>Topographic Position Index (TPI)</strong>—the difference between the elevation of a focal cell and the mean elevation of its surrounding neighborhood (excluding the focal cell). Positive TPI values indicate local highs (ridges/crests), negative values indicate local lows (valleys/concavities), and values near zero indicate flats or uniform slopes. TPI is scale-dependent: the neighborhood size (window) controls which landforms are emphasized (Weiss, 2001; Jenness, 2006).</p>
+<p><strong>Method (moving window).</strong><br />
+For each cell, compute the <strong>local mean</strong> of neighbors within a user-defined <strong>SQUARE</strong> or <strong>CIRCLE</strong> window of given size (in cells), then subtract that mean from the focal elevation. Larger windows capture broader landforms; smaller windows highlight fine-scale features (Weiss, 2001; Jenness, 2006).</p>
+<p><strong>Interpretation.</strong><br />
+• <strong>TPI » 0</strong> → ridges/peaks/crests<br />
+• <strong>TPI « 0</strong> → valleys/channels/depressions<br />
+• <strong>TPI ≈ 0</strong> → planar or uniformly inclined surfaces</p>
+<blockquote>
+<p><strong>Notes</strong>
+• Choose the window size to match the target landform scale; multi-scale analyses often compute TPI at several sizes (Weiss, 2001).
+• The approach popularized by Jenness (2006) operationalized TPI for GIS users and helped standardize classification combining TPI with slope and thresholds (SD-based).
+• TPI is dimensionally consistent with the DEM: results are in the same units (e.g., meters).
+• The dominance formulation in Muñoz &amp; Valeriano (2014) describes the same concept as the vertical difference to a local average surface.
+—</p>
+</blockquote>
+<p><strong>Parameters</strong></p>
+<table>
+<colgroup>
+<col width="15%" />
+<col width="84%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>-dem</code></td>
+<td>Input DEM (GeoTIFF) (e.g., <em>inputDEM.tif</em>).</td>
+</tr>
+<tr class="even">
+<td><code>inputWindowSize</code></td>
+<td>Neighborhood window size (in <strong>cells</strong>) used to compute the local mean (scale of analysis).</td>
+</tr>
+<tr class="odd">
+<td><code>SQUARE|CIRCLE</code></td>
+<td>Neighborhood shape: <code>SQUARE</code> (square kernel) or <code>CIRCLE</code> (circular kernel).</td>
+</tr>
+<tr class="even">
+<td><code>output</code></td>
+<td>Output TPI raster (same elevation units as the DEM) (e.g., <em>outputTPI.tif</em>).</td>
+</tr>
+</tbody>
+</table>
+<p>The following example demonstrates how to use <code>tpi</code> tool from the command line:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="hydrological-analysis.html#cb23-1" tabindex="-1"></a><span class="ex">th</span> tpi inputDEM.tif inputWindowSize SQUARE<span class="kw">|</span><span class="ex">CIRCLE</span> outputTPI.tif</span></code></pre></div>
+<p><em>References</em>:</p>
+<p>Jenness, J. (2006). Topographic Position Index (tpi_jen.avx) extension for ArcView 3.x (Version 1.2). Jenness Enterprises. <a href="http://www.jennessent.com/arcview/tpi.htm">http://www.jennessent.com/arcview/tpi.htm</a></p>
+<p>Muñoz, V. A., &amp; de Valeriano, M. M. (2014). Mapping of flood-plain by processing of elevation data from remote sensing. In E. Pardo-Igúzquiza, C. Guardiola-Albert, J. Heredia, L. Moreno-Merino, J. Durán, &amp; J. Vargas-Guzmán (Eds.), Mathematics of Planet Earth (Lecture Notes in Earth System Sciences, pp. 543–546). Springer. <a href="https://doi.org/10.1007/978-3-642-32408-6_106">https://doi.org/10.1007/978-3-642-32408-6_106</a></p>
+<p>Weiss, A. D. (2001, July). Topographic position and landforms analysis (Poster). ESRI International User Conference, San Diego, CA.</p>
+<p><em>See also</em>: <a href="hydrological-analysis.html#hand">hand</a>.</p>
 </div>
 <div id="hand" class="section level3 hasAnchor" number="3.4.2">
 <h3><span class="header-section-number">3.4.2</span> hand<a href="hydrological-analysis.html#hand" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -1225,7 +1278,9 @@ Given a hydrologically conditioned DEM, a D8 flow grid, and a drainage mask, eac
 <blockquote>
 <p><strong>Prerequisites.</strong> Use a pitless DEM (e.g., <code>removepits</code>), its D8 directions (<code>d8</code>), and a drainage grid (<code>d8drainage</code>). Ensure rasters share the same extent, resolution, and alignment.</p>
 </blockquote>
-<p><strong>Figure.</strong> HAND map: drainage cells at 0 m (valley bottoms) and increasing HAND values upslope.</p>
+<p><img src="fig/th_hand.png" />
+<strong>Figure.</strong> HAND map: drainage cells at 0 m (valley bottoms) and increasing HAND values upslope.
+<strong>Figure - HAND calculation scheme</strong>. Drainage-network cells are shown as blue squares, and flow path considers exclusively the black-arrow directions (Source: Rennó et al, 2008).</p>
 <hr />
 <p><strong>Parameters</strong></p>
 <table>
@@ -1258,8 +1313,14 @@ Given a hydrologically conditioned DEM, a D8 flow grid, and a drainage mask, eac
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p><strong>Notes.</strong><br />
+• HAND is relative to the mapped drainage; choosing an appropriate drainage threshold (from d8drainage) affects HAND smoothness and valley width representation.<br />
+• Small negative differences caused by noise are typically clamped to 0.
+• Derived HAND classes can support terrain zoning (e.g., waterlogged / ecotone / upland) and hydrologic modeling (e.g. classes from highest to lowest susceptibility to flooding).</p>
+</blockquote>
 <p>The following example demonstrates how to use <code>hand</code> tool from the command line:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="hydrological-analysis.html#cb23-1" tabindex="-1"></a><span class="ex">th</span> hand inputDEM.tif inputD8.tif inputDrainage.tif outputHAND.tif</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="hydrological-analysis.html#cb24-1" tabindex="-1"></a><span class="ex">th</span> hand inputDEM.tif inputD8.tif inputDrainage.tif outputHAND.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>Rennó, C. D., Nobre, A. D., Cuartas, L. A., Soares, J. V., Hodnett, M. G., Tomasella, J., &amp; Waterloo, M. J. (2008). HAND, a new terrain descriptor using SRTM-DEM: Mapping terra-firme rainforest environments in Amazonia. Remote Sensing of Environment, 112(9), 3469-3481. <a href="https://doi.org/10.1016/j.rse.2008.03.018">https://doi.org/10.1016/j.rse.2008.03.018</a></p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#d8">d8</a>, <a href="hydrological-analysis.html#d8ca">d8ca</a>.</p>
