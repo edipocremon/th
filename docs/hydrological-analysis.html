@@ -23,7 +23,7 @@
 <meta name="author" content="Division of Earth Observation and Geoinformatics - DIOTG" />
 
 
-<meta name="date" content="2025-10-07" />
+<meta name="date" content="2025-10-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -167,15 +167,16 @@ div.csl-indent {
 <li class="chapter" data-level="2" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
 <ul>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#project-highlights"><i class="fa fa-check"></i>Project Highlights</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#downloading-terrahidro"><i class="fa fa-check"></i>Downloading TerraHidro</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#command-line-interface"><i class="fa fa-check"></i>Command-Line Interface</a>
+<ul>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#example-removing-pits-with-the-pfs-operation"><i class="fa fa-check"></i>Example: Removing Pits with the <code>pfs</code> Operation</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#qgis-plugin-installation-and-setup"><i class="fa fa-check"></i>QGIS Plugin Installation and Setup</a>
 <ul>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#installing-the-terrahidro-plugin-in-qgis"><i class="fa fa-check"></i>Installing the TerraHidro Plugin in QGIS</a></li>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#configuring-the-terrahidro-environment-variable-windows"><i class="fa fa-check"></i>Configuring the <code>TERRAHIDRO</code> Environment Variable (Windows)</a></li>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#final-step"><i class="fa fa-check"></i>Final Step</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#command-line-interface"><i class="fa fa-check"></i>Command-Line Interface</a>
-<ul>
-<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#example-removing-pits-with-the-pfs-operation"><i class="fa fa-check"></i>Example: Removing Pits with the <code>pfs</code> Operation</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html"><i class="fa fa-check"></i><b>3</b> Hydrological Analysis</a>
@@ -1347,6 +1348,84 @@ Given a hydrologically conditioned DEM, a D8 flow grid, and a drainage mask, eac
 </ul>
 <div id="gfplain" class="section level3 hasAnchor" number="3.5.1">
 <h3><span class="header-section-number">3.5.1</span> gfplain<a href="hydrological-analysis.html#gfplain" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>gfplain</code> delineates floodplains and computes water height by linking topography to a hydrogeomorphic scaling of channel stage (Nardi et al., 2006, 2019). For each drainage‐network cell, a potential water level is assigned using the stream power law<br />
+<span class="math display">\[
+h = a \cdot A^{\,b}
+\]</span>
+where <span class="math inline">\(A\)</span> is the contributing (upslope) area and <span class="math inline">\(a, b\)</span> are empirical parameters. The resulting channel water surface <span class="math inline">\((z + h)\)</span> is then compared against surrounding terrain to flag cells whose elevations are lower than that level as floodplain. This produces (1) a binary floodplain raster and (2) a water-height raster consistent with the selected scaling.</p>
+<p><strong>Concept &amp; workflow (summary).</strong><br />
+1) Prepare inputs: compute D8 flow directions and contributing area, then derive a drainage mask (e.g., by area threshold).<br />
+2) For each stream cell, estimate a water level using the stream power law, and add it to the channel elevation.<br />
+3) Map the floodplain as all cells connected to the channel that lie below this water level; also save the resulting water-height grid.</p>
+<blockquote>
+<p><strong>About the power law parameters.</strong><br />
+• <strong><span class="math inline">\(a\)</span> (coefficient)</strong> scales the overall magnitude of stage—larger <span class="math inline">\(a\)</span> yields higher channel levels and broader mapped floodplains for a given <span class="math inline">\(A\)</span>. In practice, <span class="math inline">\(a\)</span> can reflect the event severity (e.g., return period) and reach characteristics and is typically calibrated against observed/benchmark flood extents or hydrodynamic outputs.</p>
+</blockquote>
+<blockquote>
+<p>• <strong><span class="math inline">\(b\)</span> (exponent)</strong> controls how stage grows with river size; empirical studies report positive values that capture hydro-climatic and geomorphic controls (e.g., wider/deeper valleys downstream). Tuning <span class="math inline">\(b\)</span> affects longitudinal consistency of mapped floodplains across orders.</p>
+</blockquote>
+<p><strong>Figure.</strong> Hydrogeomorphic delineation: (a) D8 and contributing area; (b) stage from <span class="math inline">\(h=aA^b\)</span>; (c) floodplain cells below channel water level.</p>
+<hr />
+<p><strong>Parameters</strong></p>
+<table>
+<colgroup>
+<col width="17%" />
+<col width="82%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>dem</code></td>
+<td>Input DEM (GeoTIFF) (e.g., <em>inputDEM.tif</em>).</td>
+</tr>
+<tr class="even">
+<td><code>d8</code></td>
+<td>Input D8 flow directions (GeoTIFF) (e.g., inputD8.tif*).</td>
+</tr>
+<tr class="odd">
+<td><code>accum</code></td>
+<td>Input contributing area raster (GeoTIFF) (e.g., <em>inputContributingArea.tif</em>).</td>
+</tr>
+<tr class="even">
+<td><code>drainage</code></td>
+<td>Input drainage network raster (GeoTIFF; 1 = stream, 0 = non-stream), e.g., <code>inputDrainage.tif</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>a</code></td>
+<td>Coefficient <span class="math inline">\(a\)</span> in <span class="math inline">\(h=aA^b\)</span>. Sets overall stage magnitude (event/region scale).</td>
+</tr>
+<tr class="even">
+<td><code>b</code></td>
+<td>Exponent <span class="math inline">\(b\)</span> in <span class="math inline">\(h=aA^b\)</span>. Controls stage growth with <span class="math inline">\(A\)</span> (network scaling).</td>
+</tr>
+<tr class="odd">
+<td><code>floodplain</code></td>
+<td>Output floodplain mask (GeoTIFF; 1 = floodplain) (e.g., <em>outputFloodplain.tif</em>).</td>
+</tr>
+<tr class="even">
+<td><code>waterheight</code></td>
+<td>Output water height grid (GeoTIFF) computed from <span class="math inline">\(h=aA^b\)</span> (e.g., <em>outputWaterHeight.tif</em>).</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Notes</strong><br />
+• Use a hydrologically conditioned DEM and aligned rasters (same extent/resolution). The drainage mask typically derives from a threshold applied to contributing area.
+• Calibrate <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span> with local evidence (gauges, reference flood maps, or 2D models) for event-specific applications; defaults may be used for reconnaissance mapping, acknowledging uncertainty.
+• The method targets rapid, large-area mapping and complements physics-based simulations; it follows the hydrogeomorphic lineage from Nardi et al. (2006) to the global GFPLAIN framework.</p>
+</blockquote>
+<p>The following example demonstrates how to use <code>gfplain</code> tool from the command line:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="hydrological-analysis.html#cb25-1" tabindex="-1"></a><span class="ex">th</span> gfplain inputDEM.tif inputD8.tif inputContributingArea.tif inputDrainage.tif <span class="dt">\</span></span>
+<span id="cb25-2"><a href="hydrological-analysis.html#cb25-2" tabindex="-1"></a>           inputA inputB outputFloodplain.tif outputWaterHeight.tif</span></code></pre></div>
+<p><em>Reference</em>:</p>
+<p>Nardi, F., Vivoni, E. R. &amp; Grimaldi, S (2006). Investigating a floodplain scaling relation using a hydrogeomorphic delineation method. Water Resources Research, 42, W09409. <a href="https://doi.org/10.1029/2005WR004155">https://doi.org/10.1029/2005WR004155</a></p>
+<p>Nardi, F., Annis, A., Di Baldassarre, G., Vivoni, E. R., &amp; Grimaldi, S. (2019). GFPLAIN250m, a global high-resolution dataset of Earth’s floodplains. Sci Data, 6, 180309. <a href="https://doi.org/10.1038/sdata.2018.309">https://doi.org/10.1038/sdata.2018.309</a></p>
+<p><em>See also</em>: <a href="hydrological-analysis.html#hand">hand</a>, <a href="hydrological-analysis.html#tpi">tpi</a>.</p>
 </div>
 <div id="flowpath" class="section level3 hasAnchor" number="3.5.2">
 <h3><span class="header-section-number">3.5.2</span> flowpath<a href="hydrological-analysis.html#flowpath" class="anchor-section" aria-label="Anchor link to header"></a></h3>
