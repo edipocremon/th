@@ -23,7 +23,7 @@
 <meta name="author" content="Division of Earth Observation and Geoinformatics - DIOTG" />
 
 
-<meta name="date" content="2025-10-06" />
+<meta name="date" content="2025-10-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -123,29 +123,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 </style>
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -167,15 +144,16 @@ div.csl-indent {
 <li class="chapter" data-level="2" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
 <ul>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#project-highlights"><i class="fa fa-check"></i>Project Highlights</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#downloading-terrahidro"><i class="fa fa-check"></i>Downloading TerraHidro</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#command-line-interface"><i class="fa fa-check"></i>Command-Line Interface</a>
+<ul>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#example-removing-pits-with-the-pfs-operation"><i class="fa fa-check"></i>Example: Removing Pits with the <code>pfs</code> Operation</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#qgis-plugin-installation-and-setup"><i class="fa fa-check"></i>QGIS Plugin Installation and Setup</a>
 <ul>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#installing-the-terrahidro-plugin-in-qgis"><i class="fa fa-check"></i>Installing the TerraHidro Plugin in QGIS</a></li>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#configuring-the-terrahidro-environment-variable-windows"><i class="fa fa-check"></i>Configuring the <code>TERRAHIDRO</code> Environment Variable (Windows)</a></li>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#final-step"><i class="fa fa-check"></i>Final Step</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#command-line-interface"><i class="fa fa-check"></i>Command-Line Interface</a>
-<ul>
-<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#example-removing-pits-with-the-pfs-operation"><i class="fa fa-check"></i>Example: Removing Pits with the <code>pfs</code> Operation</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html"><i class="fa fa-check"></i><b>3</b> Hydrological Analysis</a>
@@ -195,19 +173,20 @@ div.csl-indent {
 <li class="chapter" data-level="3.2" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#Flow-Analysis-Drainage-Network-Extraction-and-Characterization"><i class="fa fa-check"></i><b>3.2</b> Flow Analysis, Drainage Network Extraction and Characterization</a>
 <ul>
 <li class="chapter" data-level="3.2.1" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#d8"><i class="fa fa-check"></i><b>3.2.1</b> d8</a></li>
-<li class="chapter" data-level="3.2.2" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#d8ca"><i class="fa fa-check"></i><b>3.2.2</b> d8ca</a></li>
-<li class="chapter" data-level="3.2.3" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#d8drainage"><i class="fa fa-check"></i><b>3.2.3</b> d8drainage</a></li>
-<li class="chapter" data-level="3.2.4" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#d8drainagev"><i class="fa fa-check"></i><b>3.2.4</b> d8drainagev</a></li>
-<li class="chapter" data-level="3.2.5" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#segments"><i class="fa fa-check"></i><b>3.2.5</b> segments</a></li>
-<li class="chapter" data-level="3.2.6" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#minibasins"><i class="fa fa-check"></i><b>3.2.6</b> minibasins</a></li>
-<li class="chapter" data-level="3.2.7" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#outletbasin"><i class="fa fa-check"></i><b>3.2.7</b> outletbasin</a></li>
-<li class="chapter" data-level="3.2.8" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#mainriver"><i class="fa fa-check"></i><b>3.2.8</b> mainriver</a></li>
-<li class="chapter" data-level="3.2.9" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#shreve"><i class="fa fa-check"></i><b>3.2.9</b> shreve</a></li>
-<li class="chapter" data-level="3.2.10" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#strahler"><i class="fa fa-check"></i><b>3.2.10</b> strahler</a></li>
-<li class="chapter" data-level="3.2.11" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#ottorivers"><i class="fa fa-check"></i><b>3.2.11</b> ottorivers</a></li>
-<li class="chapter" data-level="3.2.12" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#mouths"><i class="fa fa-check"></i><b>3.2.12</b> mouths</a></li>
-<li class="chapter" data-level="3.2.13" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#orderedmouths"><i class="fa fa-check"></i><b>3.2.13</b> orderedmouths</a></li>
-<li class="chapter" data-level="3.2.14" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#ottorivers"><i class="fa fa-check"></i><b>3.2.14</b> ottorivers</a></li>
+<li class="chapter" data-level="3.2.2" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#d8toupstream"><i class="fa fa-check"></i><b>3.2.2</b> d8toupstream</a></li>
+<li class="chapter" data-level="3.2.3" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#d8ca"><i class="fa fa-check"></i><b>3.2.3</b> d8ca</a></li>
+<li class="chapter" data-level="3.2.4" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#d8drainage"><i class="fa fa-check"></i><b>3.2.4</b> d8drainage</a></li>
+<li class="chapter" data-level="3.2.5" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#d8drainagev"><i class="fa fa-check"></i><b>3.2.5</b> d8drainagev</a></li>
+<li class="chapter" data-level="3.2.6" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#flowpath"><i class="fa fa-check"></i><b>3.2.6</b> flowpath</a></li>
+<li class="chapter" data-level="3.2.7" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#segments"><i class="fa fa-check"></i><b>3.2.7</b> segments</a></li>
+<li class="chapter" data-level="3.2.8" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#outletbasin"><i class="fa fa-check"></i><b>3.2.8</b> outletbasin</a></li>
+<li class="chapter" data-level="3.2.9" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#mainriver"><i class="fa fa-check"></i><b>3.2.9</b> mainriver</a></li>
+<li class="chapter" data-level="3.2.10" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#shreve"><i class="fa fa-check"></i><b>3.2.10</b> shreve</a></li>
+<li class="chapter" data-level="3.2.11" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#strahler"><i class="fa fa-check"></i><b>3.2.11</b> strahler</a></li>
+<li class="chapter" data-level="3.2.12" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#ottorivers"><i class="fa fa-check"></i><b>3.2.12</b> ottorivers</a></li>
+<li class="chapter" data-level="3.2.13" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#mouths"><i class="fa fa-check"></i><b>3.2.13</b> mouths</a></li>
+<li class="chapter" data-level="3.2.14" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#orderedmouths"><i class="fa fa-check"></i><b>3.2.14</b> orderedmouths</a></li>
+<li class="chapter" data-level="3.2.15" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#ottorivers"><i class="fa fa-check"></i><b>3.2.15</b> ottorivers</a></li>
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#Basin-and-Sub-basin-Delineation"><i class="fa fa-check"></i><b>3.3</b> Basin and Sub-basin Delineation</a>
 <ul>
@@ -225,35 +204,16 @@ div.csl-indent {
 <li class="chapter" data-level="3.5" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#Applied-Hydrology-Risk-Management"><i class="fa fa-check"></i><b>3.5</b> Applied Hydrology &amp; Risk Management</a>
 <ul>
 <li class="chapter" data-level="3.5.1" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#gfplain"><i class="fa fa-check"></i><b>3.5.1</b> gfplain</a></li>
-<li class="chapter" data-level="3.5.2" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#flowpath"><i class="fa fa-check"></i><b>3.5.2</b> flowpath</a></li>
-<li class="chapter" data-level="3.5.3" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#damcourse"><i class="fa fa-check"></i><b>3.5.3</b> damcourse</a></li>
-<li class="chapter" data-level="3.5.4" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#damsections"><i class="fa fa-check"></i><b>3.5.4</b> damsections</a></li>
-<li class="chapter" data-level="3.5.5" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#dambreak"><i class="fa fa-check"></i><b>3.5.5</b> dambreak</a></li>
+<li class="chapter" data-level="3.5.2" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#damcourse"><i class="fa fa-check"></i><b>3.5.2</b> damcourse</a></li>
+<li class="chapter" data-level="3.5.3" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#damsections"><i class="fa fa-check"></i><b>3.5.3</b> damsections</a></li>
+<li class="chapter" data-level="3.5.4" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#dambreak"><i class="fa fa-check"></i><b>3.5.4</b> dambreak</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="parts.html"><a href="parts.html"><i class="fa fa-check"></i><b>4</b> Parts</a></li>
-<li class="chapter" data-level="5" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html"><i class="fa fa-check"></i><b>5</b> Footnotes and citations</a>
+<li class="chapter" data-level="4" data-path="how-to-cite.html"><a href="how-to-cite.html"><i class="fa fa-check"></i><b>4</b> How to Cite</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#footnotes"><i class="fa fa-check"></i><b>5.1</b> Footnotes</a></li>
-<li class="chapter" data-level="5.2" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#citations"><i class="fa fa-check"></i><b>5.2</b> Citations</a></li>
+<li class="chapter" data-level="4.1" data-path="how-to-cite.html"><a href="how-to-cite.html#apa"><i class="fa fa-check"></i><b>4.1</b> APA</a></li>
+<li class="chapter" data-level="4.2" data-path="how-to-cite.html"><a href="how-to-cite.html#bibtex"><i class="fa fa-check"></i><b>4.2</b> BibTeX</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="blocks.html"><a href="blocks.html"><i class="fa fa-check"></i><b>6</b> Blocks</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="blocks.html"><a href="blocks.html#equations"><i class="fa fa-check"></i><b>6.1</b> Equations</a>
-<ul>
-<li class="chapter" data-level="6.1.1" data-path="blocks.html"><a href="blocks.html#AverageFlowpathSlope"><i class="fa fa-check"></i><b>6.1.1</b> AverageFlowpathSlope</a></li>
-<li class="chapter" data-level="6.1.2" data-path="blocks.html"><a href="blocks.html#AverageUpslopeFlowpathLength"><i class="fa fa-check"></i><b>6.1.2</b> AverageUpslopeFlowpathLength</a></li>
-</ul></li>
-<li class="chapter" data-level="6.2" data-path="blocks.html"><a href="blocks.html#theorems-and-proofs"><i class="fa fa-check"></i><b>6.2</b> Theorems and proofs</a></li>
-<li class="chapter" data-level="6.3" data-path="blocks.html"><a href="blocks.html#callout-blocks"><i class="fa fa-check"></i><b>6.3</b> Callout blocks</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="sharing-your-book.html"><a href="sharing-your-book.html"><i class="fa fa-check"></i><b>7</b> Sharing your book</a>
-<ul>
-<li class="chapter" data-level="7.1" data-path="sharing-your-book.html"><a href="sharing-your-book.html#publishing"><i class="fa fa-check"></i><b>7.1</b> Publishing</a></li>
-<li class="chapter" data-level="7.2" data-path="sharing-your-book.html"><a href="sharing-your-book.html#pages"><i class="fa fa-check"></i><b>7.2</b> 404 pages</a></li>
-<li class="chapter" data-level="7.3" data-path="sharing-your-book.html"><a href="sharing-your-book.html#metadata-for-sharing"><i class="fa fa-check"></i><b>7.3</b> Metadata for sharing</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -277,11 +237,13 @@ div.csl-indent {
 <div id="header">
 <h1 class="title">TerraHidro User Manual</h1>
 <p class="author"><em>Division of Earth Observation and Geoinformatics - DIOTG</em></p>
-<p class="date"><em>2025-10-06</em></p>
+<p class="date"><em>2025-10-16</em></p>
 </div>
 <div id="preface" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">1</span> Preface<a href="index.html#preface" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="fig/logo_terrahidro.jpg" /></p>
+<div style="display:flex; gap:16px; align-items:center; justify-content:center;">
+<p><img src="fig/logo_terrahidro.jpg" style="width:60%; height:auto;"></p>
+</div>
 <p><a href="http://www.dpi.inpe.br/terrahidro/" class="uri">http://www.dpi.inpe.br/terrahidro/</a> | <a href="mailto:sergio.rosim@inpe.br" class="email">sergio.rosim@inpe.br</a></p>
 <p>TerraHidro Version 5.2.0</p>
 <p>Dr. Sergio Rosim © 20XX-2023</p>
@@ -291,8 +253,11 @@ div.csl-indent {
 <p>September 25, 2025</p>
 <p>Sponsored by:</p>
 <div style="display:flex; gap:16px; align-items:center; justify-content:center;">
-<p><img src="fig/Inpelogo.png" style="width:38%; height:auto;">
-<img src="fig/Ana_Logo.png" style="width:58%; height:auto;"></p>
+<p><img src="fig/Inpelogo.png" style="width:48%; height:auto;"></p>
+</div>
+Supported by:
+<div style="display:flex; gap:16px; align-items:center; justify-content:center;">
+<p><img src="fig/Ana_Logo.png" style="width:58%; height:auto;"></p>
 </div>
 
 </div>
