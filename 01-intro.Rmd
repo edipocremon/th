@@ -35,24 +35,27 @@ Download from the official folder:
 - **Windows (TerraHidro-5.2.0):** [https://drive.google.com/drive/folders/13N77EyJcHiL1u6audwLgqXoTl1mJD-bG?usp=drive_link](https://drive.google.com/drive/folders/13N77EyJcHiL1u6audwLgqXoTl1mJD-bG?usp=drive_link)
 
 **What you get**
+
 TerraHidro is distributed as a self-contained folder (no installer). After download, extract the folder and keep it in an easy-to-reach location.
 
 **Recommended folder location (Windows)**
+
 To avoid problems with plugins and the command line, use a simple path:
 - Only ASCII characters (no accents/ç/ñ/…)
 - Avoid spaces and special symbols (`# $ % & ( ) [ ] { } ! ?` etc.)
 - Keep the path short
 
 **Examples (good):**
+
 `C:\TerraHidro\TerraHidro-5.2.0`
 `C:\Users<username>\Documents\PROGRAMS\TerraHidro-5.2.0`
 `D:\GIS\TerraHidro-5.2.0`
 
 **Examples (avoid):**
+
 `C:\João Paulo\Documentos\Meus Programas\TerraHidro-5.2.0 # accents + spaces`
 `C:\Valdir\OneDrive - Company\TerraHidro-5.2.0 # synced corporate paths`
 `C:\temp\TerraHidro#5.2.0 # special characters`
-
 
 > **Tip.** After extracting, keep **all files together** inside the TerraHidro folder.  
 > The executable (`th.exe`) and its resources must remain in the same directory.

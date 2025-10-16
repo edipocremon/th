@@ -1,15 +1,66 @@
-# Footnotes and citations 
+## Applied Hydrology & Risk Management {#Applied-Hydrology-Risk-Management}
 
-## Footnotes
+- [gfplain](#gfplain)  
+- [damcourse](#damcourse)  
+- [damsections](#damsections)  
+- [dambreak](#dambreak)  
 
-Footnotes are put inside the square brackets after a caret `^[]`. Like this one ^[This is a footnote.]. 
+### gfplain {#gfplain} 
 
-## Citations
+`gfplain` delineates floodplains and computes water height by linking topography to a hydrogeomorphic scaling of channel stage (Nardi et al., 2006, 2019). For each drainage‐network cell, a potential water level is assigned using the stream power law  
+\[
+h = a \cdot A^{\,b}
+\]
+where \(A\) is the contributing (upslope) area and \(a, b\) are empirical parameters. The resulting channel water surface \((z + h)\) is then compared against surrounding terrain to flag cells whose elevations are lower than that level as floodplain. This produces (1) a binary floodplain raster and (2) a water-height raster consistent with the selected scaling.
 
-Reference items in your bibliography file(s) using `@key`.
+**Concept & workflow (summary).**  
+1) Prepare inputs: compute D8 flow directions and contributing area, then derive a drainage mask (e.g., by area threshold).  
+2) For each stream cell, estimate a water level using the stream power law, and add it to the channel elevation.  
+3) Map the floodplain as all cells connected to the channel that lie below this water level; also save the resulting water-height grid.
 
-For example, we are using the **bookdown** package [@R-bookdown] (check out the last code chunk in index.Rmd to see how this citation key was added) in this sample book, which was built on top of R Markdown and **knitr** [@xie2015] (this citation was added manually in an external file book.bib). 
-Note that the `.bib` files need to be listed in the index.Rmd with the YAML `bibliography` key.
+> **About the power law parameters.**  
+> • **\(a\) (coefficient)** scales the overall magnitude of stage—larger \(a\) yields higher channel levels and broader mapped floodplains for a given \(A\). In practice, \(a\) can reflect the event severity (e.g., return period) and reach characteristics and is typically calibrated against observed/benchmark flood extents or hydrodynamic outputs.
+
+> • **\(b\) (exponent)** controls how stage grows with river size; empirical studies report positive values that capture hydro-climatic and geomorphic controls (e.g., wider/deeper valleys downstream). Tuning \(b\) affects longitudinal consistency of mapped floodplains across orders.
+
+**Figure.** Hydrogeomorphic delineation: (a) D8 and contributing area; (b) stage from \(h=aA^b\); (c) floodplain cells below channel water level.
+
+---
+
+**Parameters**
+
+| Flag               | Description                                                                                                                |
+|--------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| `dem`              | Input DEM (GeoTIFF) (e.g., *inputDEM.tif*).                                                                             |
+| `d8`                   | Input D8 flow directions (GeoTIFF) (e.g., inputD8.tif*).                                                                |
+| `accum`                | Input contributing area raster (GeoTIFF) (e.g., *inputContributingArea.tif*).                                           |
+| `drainage`             | Input drainage network raster (GeoTIFF; 1 = stream, 0 = non-stream), e.g., `inputDrainage.tif`.                        |
+| `a`                    | Coefficient \(a\) in \(h=aA^b\). Sets overall stage magnitude (event/region scale).                                     |
+| `b`                    | Exponent \(b\) in \(h=aA^b\). Controls stage growth with \(A\) (network scaling).                                       |
+| `floodplain`       | Output floodplain mask (GeoTIFF; 1 = floodplain) (e.g., *outputFloodplain.tif*).                                        |
+| `waterheight`          | Output water height grid (GeoTIFF) computed from \(h=aA^b\) (e.g., *outputWaterHeight.tif*).                            |
+
+> **Notes**  
+> • Use a hydrologically conditioned DEM and aligned rasters (same extent/resolution). The drainage mask typically derives from a threshold applied to contributing area.
+> • Calibrate \(a\), \(b\) with local evidence (gauges, reference flood maps, or 2D models) for event-specific applications; defaults may be used for reconnaissance mapping, acknowledging uncertainty.
+> • The method targets rapid, large-area mapping and complements physics-based simulations; it follows the hydrogeomorphic lineage from Nardi et al. (2006) to the global GFPLAIN framework.
+
+The following example demonstrates how to use `gfplain` tool from the command line:
+```bash
+th gfplain inputDEM.tif inputD8.tif inputContributingArea.tif inputDrainage.tif \
+           inputA inputB outputFloodplain.tif outputWaterHeight.tif
+```
+
+*Reference*:
+
+Nardi, F., Vivoni, E. R. & Grimaldi, S (2006). Investigating a floodplain scaling relation using a hydrogeomorphic delineation method. Water Resources Research, 42, W09409. [https://doi.org/10.1029/2005WR004155](https://doi.org/10.1029/2005WR004155)
+
+Nardi, F., Annis, A., Di Baldassarre, G., Vivoni, E. R., & Grimaldi, S. (2019). GFPLAIN250m, a global high-resolution dataset of Earth's floodplains. Sci Data, 6, 180309. [https://doi.org/10.1038/sdata.2018.309](https://doi.org/10.1038/sdata.2018.309)
+
+*See also*: [hand](#hand), [tpi](#tpi).
+
+### damcourse {#damcourse}  
+### damsections {#damsections}  
+### dambreak {#dambreak}  
 
 
-The RStudio Visual Markdown Editor can also make it easier to insert citations: <https://rstudio.github.io/visual-markdown-editing/#/citations>

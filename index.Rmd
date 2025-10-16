@@ -15,8 +15,11 @@ github-repo: rstudio/bookdown-demo
 ---
 
 # Preface
+<div style="display:flex; gap:16px; align-items:center; justify-content:center;">
+  <img src="fig/logo_terrahidro.jpg" style="width:60%; height:auto;">
+</div>
 
-![](fig/logo_terrahidro.jpg)
+
 
 http://www.dpi.inpe.br/terrahidro/ | sergio.rosim@inpe.br
 
@@ -35,7 +38,11 @@ September 25, 2025
 Sponsored by:
 
 <div style="display:flex; gap:16px; align-items:center; justify-content:center;">
-  <img src="fig/Inpelogo.png" style="width:38%; height:auto;">
+  <img src="fig/Inpelogo.png" style="width:48%; height:auto;">
+</div>
+
+Supported by:
+<div style="display:flex; gap:16px; align-items:center; justify-content:center;">
   <img src="fig/Ana_Logo.png" style="width:58%; height:auto;">
 </div>
 
