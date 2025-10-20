@@ -1,12 +1,12 @@
 # How to Cite
 
-## APA 
+## APA {-}
 TerraHidro Team. (2025). *TerraHidro Manual* (Version 5.2.0) [Bookdown manual]. INPE. URL
 
 > Optional (with access date):  
 > TerraHidro Team. (2025). *TerraHidro Manual* (Version 5.2.0) [Bookdown manual]. INPE. URL (accessed Month Day, Year)
 
-## BibTeX
+## BibTeX {-}
 ```bibtex
 @manual{TerraHidroManual2025,
   title        = {TerraHidro Manual},
@@ -14,7 +14,7 @@ TerraHidro Team. (2025). *TerraHidro Manual* (Version 5.2.0) [Bookdown manual]. 
   organization = {INPE},
   year         = {2025},
   edition      = {Version 5.2.0},
-  url          = {https://drive.google.com/drive/folders/13N77EyJcHiL1u6audwLgqXoTl1mJD-bG},
+  url          = {http://www.dpi.inpe.br/terrahidro/doku.php},
   note         = {Bookdown manual}
 }
 ```

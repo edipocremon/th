@@ -664,9 +664,9 @@ Starting at the outlet cell, the algorithm follows D8 pointers **in reverse** (i
 | Flag          | Description                                                                                           |
 |---------------------|-------------------------------------------------------------------------------------------------------|
 | `d8`          | Input D8 flow-direction raster (GeoTIFF) (e.g., *inputD8.tif*).                                    |
-| `inputOutletrow`    | **Row index** (integer) of the outlet cell to delineate.                                              |
-| `inputOutletcolumn` | **Column index** (integer) of the outlet cell to delineate.                                           |
-| `output`      | Output **outlet basin mask** (GeoTIFF; 1 = basin, 0 = non-basin) (e.g., *outputOutletbasin.tif*).      |
+| `inputOutletrow`    | Row index (integer) of the outlet cell to delineate.                                              |
+| `inputOutletcolumn` | Column index (integer) of the outlet cell to delineate.                                           |
+| `output`      | Output outlet basin mask (GeoTIFF; 1 = basin, 0 = non-basin) (e.g., *outputOutletbasin.tif*).      |
 
 The following example demonstrates how to use `segments` tool from the command line:
 ```bash
@@ -697,11 +697,11 @@ Starting at the mouth, the algorithm moves upstream using the `d8toupstream` gri
 
 | Flag               | Description                                                                                                   |
 |--------------------------|---------------------------------------------------------------------------------------------------------------|
-| `d8upstream`       | Input **D8 upstream-pointer** raster (GeoTIFF) (e.g., *inputD8upstream.tif*).                                  |
-| `drainage`             | Input **binary drainage** raster (GeoTIFF) (e.g., *inputDrainage.tif* (1 = stream, 0 = non-stream)).           |
-| `d8ca`                | Input **D8 contributing area** raster (GeoTIFF) (e.g., *inputAccumulatedArea.tif*).                             |
-| `mouth`                | Input **mouth file** (text) with outlet grid coordinates (row, column).                                       |
-| `output`           | Output **main river** raster (GeoTIFF) (e.g., *outputRiver.tif* (1 = main river, 0 = elsewhere)).              |
+| `d8upstream`       | Input D8 upstream-pointer raster (GeoTIFF) (e.g., *inputD8upstream.tif*).                                  |
+| `drainage`             | Input binary drainage raster (GeoTIFF) (e.g., *inputDrainage.tif* (1 = stream, 0 = non-stream)).           |
+| `d8ca`                | Input D8 contributing area raster (GeoTIFF) (e.g., *inputAccumulatedArea.tif*).                             |
+| `mouth`                | Input mouth file (text) with outlet grid coordinates (row, column).                                       |
+| `output`           | Output main river raster (GeoTIFF) (e.g., *outputRiver.tif* (1 = main river, 0 = elsewhere)).              |
 
 The following example demonstrates how to use `mainriver` tool from the command line:
 ```bash
@@ -711,11 +711,115 @@ th mainriver inputD8upstream.tif inputDrainage.tif inputAccumulatedArea.tif inpu
 
 
 ### shreve {#shreve}  
+
+`shreve` assigns Shreve stream order (also called stream magnitude) to a drainage network using a D8 flow-direction grid, a binary drainage raster, and a text file with headwater (source) cells. In Shreve ordering, every headwater starts with 1, and at each confluence the downstream value is the sum of the upstream magnitudes; values therefore increase monotonically downstream and are proportional to the number of contributing sources.
+
+**How it works (summary).**  
+- Initialize all source cells (from `inputSources.txt`) with 1.  
+- Traverse the drainage downstream following D8 pointers; when two or more streams merge, sum their magnitudes and write the result to the confluence cell.  
+- Continue to the outlet, producing an integer magnitude raster over stream cells (background = 0/NoData).
+
+> **Use cases.** Shreve magnitude is a convenient topologic weight for channel networks (e.g., highlighting the main stem, ranking segments, or approximating discharge potential). Unlike Strahler order, Shreve values accumulate at every confluence (no resetting), which is useful for network analytics and cartography.
+
+---
+
+**Parameters**
+
+| Flag         | Description                                                                                                 |
+|--------------------|-------------------------------------------------------------------------------------------------------------|
+| `d8`         | Input D8 flow-direction raster (GeoTIFF) (e.g., *inputD8.tif*`*).                                          |
+| `drainage`       | Input binary drainage raster (GeoTIFF) (e.g., *inputDrainage.tif* (1 = stream, 0 = non-stream)).        |
+| `sources`        | Input text file with source (headwater) grid coordinates (row, column), one pair per line.              |
+| `output`     | Output Shreve magnitude raster (GeoTIFF) (e.g., *outputShreve.tif*).                                     |
+
+The following example demonstrates how to use `shreve` tool from the command line:
+```bash
+th shreve inputD8.tif inputDrainage.tif inputSources.txt outputShreve.tif
+```
+*Reference*:
+
+Shreve, R. L. (1966). Statistical law of stream numbers. The Journal of Geology, 74(1), 17-37. [https://doi.org/10.1086/627137](https://doi.org/10.1086/627137)
+
+*See also*: [strahler](#strahler), [ottorivers](#ottorivers).
+
+
 ### strahler {#strahler}  
+
+`strahler` assigns Strahler stream order to a drainage network using a D8 flow-direction grid, a binary drainage raster, and a text file listing headwater (source) cells. In Strahler ordering, every headwater = 1. At a confluence:
+- If the upstream orders are equal, the downstream order is one greater (e.g., 2 + 2 → 3).
+- If they are different, the downstream order is the maximum of the upstream orders (e.g., 3 + 1 → 3).
+
+This produces an integer order map that highlights network hierarchy and major tributaries.
+
+**How it works (summary).**  
+1) Initialize source cells from `inputSources.txt` with order 1.  
+2) Traverse downstream along D8 pointers, applying the confluence rules above at each merge.  
+3) Write the resulting Strahler order to all stream cells (background = 0/NoData).
+
+> **Strahler vs. Shreve.** Strahler emphasizes hierarchical structure (orders increase only when equal orders meet). Shreve (magnitude) sums contributions and grows monotonically with the number of sources. Use Strahler for cartographic hierarchy and topology, Shreve for weighting or discharge proxies.
+
+---
+
+**Parameters**
+
+| Flag         | Description                                                                                                 |
+|--------------------|-------------------------------------------------------------------------------------------------------------|
+| `d8`         | Input D8 flow-direction raster (GeoTIFF) (e.g., *inputD8.tif*).                                          |
+| `drainage`       | Input binary drainage raster (GeoTIFF) (e.g., *inputDrainage.tif* (1 = stream, 0 = non-stream)).        |
+| `sources`        | Input text file with source (headwater) grid coordinates (row, column), one pair per line.              |
+| `output`     | Output Strahler order raster (GeoTIFF) (e.g., *outputStrahler.tif*).                                      |
+
+The following example demonstrates how to use `strahler` tool from the command line:
+```bash
+th strahler inputD8.tif inputDrainage.tif inputSources.txt outputStrahler.tif
+```
+
+*Reference*:
+
+Strahler, A. N. (1957). Quantitative analysis of watershed geomorphology. Eos, Transactions American Geophysical Union, 38(6), 913-920. [https://doi.org/10.1029/TR038i006p00913](https://doi.org/10.1029/TR038i006p00913)
+
+
+*See also*: [shreve](#shreve), [ottorivers](#ottorivers).
+
 ### ottorivers {#ottorivers}  
+
+`ottorivers` assigns hierarchical Otto codes (Pfafstetter-style) to the main river and its principal tributaries using: (i) a D8 upstream raster (`d8toupstream`), (ii) a binary drainage raster, (iii) a contributing-area raster (`d8ca`), and (iv) a text file with mouth coordinates. Starting from each mouth, the tool traces the main stem upstream, resolves junctions toward the branch with largest contributing area, and partitions the main stem into a small set of ordered segments while identifying the four major tributaries at that level. The output raster encodes these segments with Otto labels, and a companion text file provides new mouth/source seeds to recurse at the next hierarchical level.
+
+**Concept & workflow (summary).**  
+1) For each mouth, follow upstream pointers within the drainage mask; at confluences, select the branch with greater contributing area to continue the main stem.  
+2) Split the traced main river into five sequential segments (level-k main-stem units) and identify up to four level-k major tributaries entering those segments.  
+3) Encode main-stem segments and tributaries with Otto codes for level-k, write the otto-coded raster, and export a list of mouths/sources for all coded units to serve as inputs for level-(k+1).
+
+> **Notes.** The procedure yields a nested, multi-level river hierarchy consistent with Pfafstetter-type schemes, enabling progressive refinement of the network and seamless linkage with basin Otto coding (`ottobasins`). Use rasters derived from a hydrologically conditioned DEM.
+
+---
+
+**Parameters**
+
+| Flag               | Description                                                                                                                 |
+|--------------------------|-----------------------------------------------------------------------------------------------------------------------------|
+| `d8upstream`       | Input D8 upstream raster (GeoTIFF) (e.g., *inputD8upstream.tif*).                                                |
+| `drainage`             | Input binary drainage raster (GeoTIFF) (e.g., *inputDrainage.tif* (1 = stream, 0 = non-stream)).                         |
+| `d8ca`                | Input D8 contributing area raster (GeoTIFF) (e.g., *inputAccumulatedArea.tif*).                                           |
+| `mouths`               | Input mouths file (text) with outlet grid coordinates (row, column), one pair per line.                                 |
+| `output`           | Output Otto-coded rivers raster (GeoTIFF) (e.g., *outputOttoRivers.tif*).                                                |
+| `--next-level-mouths`    | Output text file with mouths/sources (grid coordinates) for all coded units at this level (e.g., *outputNewLevelMouths.txt*). |
+
+The following example demonstrates how to use `ottorivers` tool from the command line:
+```bash
+th ottorivers inputD8upstream.tif inputDrainage.tif inputAccumulatedArea.tif \
+              inputMouths.txt outputOttoRivers.tif outputNewLevelMouths.txt
+```
+
+*Reference*:
+
+Pfafstetter, O. (2014). Classificação de bacias hidrográficas: metodologia de codificação. In Agência Nacional de Águas (Brasil), Codificação de bacias hidrográficas pelo método de Otto Pfafstetter: aplicação na ANA (pp. 25–41). Brasília, DF: Autor. Manuscrito, Anexo I. Available at: [https://capacitacao.ana.gov.br/conhecerh/bitstream/ana/104/1/apostila.pdf](https://capacitacao.ana.gov.br/conhecerh/bitstream/ana/104/1/apostila.pdf)
+
+*See also*: [ottobasins](#ottobasins), [strahler](#strahler), [shreve](#shreve).
+
 ### mouths {#mouths}  
 ### orderedmouths {#orderedmouths}  
-### ottorivers {#ottorivers} 
+
 
 
 
