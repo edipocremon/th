@@ -23,7 +23,7 @@
 <meta name="author" content="Division of Earth Observation and Geoinformatics - DIOTG" />
 
 
-<meta name="date" content="2025-10-16" />
+<meta name="date" content="2025-10-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -186,7 +186,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2.12" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#ottorivers"><i class="fa fa-check"></i><b>3.2.12</b> ottorivers</a></li>
 <li class="chapter" data-level="3.2.13" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#mouths"><i class="fa fa-check"></i><b>3.2.13</b> mouths</a></li>
 <li class="chapter" data-level="3.2.14" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#orderedmouths"><i class="fa fa-check"></i><b>3.2.14</b> orderedmouths</a></li>
-<li class="chapter" data-level="3.2.15" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#ottorivers"><i class="fa fa-check"></i><b>3.2.15</b> ottorivers</a></li>
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#Basin-and-Sub-basin-Delineation"><i class="fa fa-check"></i><b>3.3</b> Basin and Sub-basin Delineation</a>
 <ul>
@@ -211,8 +210,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="how-to-cite.html"><a href="how-to-cite.html"><i class="fa fa-check"></i><b>4</b> How to Cite</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="how-to-cite.html"><a href="how-to-cite.html#apa"><i class="fa fa-check"></i><b>4.1</b> APA</a></li>
-<li class="chapter" data-level="4.2" data-path="how-to-cite.html"><a href="how-to-cite.html#bibtex"><i class="fa fa-check"></i><b>4.2</b> BibTeX</a></li>
+<li class="chapter" data-level="" data-path="how-to-cite.html"><a href="how-to-cite.html#apa"><i class="fa fa-check"></i>APA</a></li>
+<li class="chapter" data-level="" data-path="how-to-cite.html"><a href="how-to-cite.html#bibtex"><i class="fa fa-check"></i>BibTeX</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -1098,15 +1097,15 @@ Starting at the outlet cell, the algorithm follows D8 pointers <strong>in revers
 </tr>
 <tr class="even">
 <td><code>inputOutletrow</code></td>
-<td><strong>Row index</strong> (integer) of the outlet cell to delineate.</td>
+<td>Row index (integer) of the outlet cell to delineate.</td>
 </tr>
 <tr class="odd">
 <td><code>inputOutletcolumn</code></td>
-<td><strong>Column index</strong> (integer) of the outlet cell to delineate.</td>
+<td>Column index (integer) of the outlet cell to delineate.</td>
 </tr>
 <tr class="even">
 <td><code>output</code></td>
-<td>Output <strong>outlet basin mask</strong> (GeoTIFF; 1 = basin, 0 = non-basin) (e.g., <em>outputOutletbasin.tif</em>).</td>
+<td>Output outlet basin mask (GeoTIFF; 1 = basin, 0 = non-basin) (e.g., <em>outputOutletbasin.tif</em>).</td>
 </tr>
 </tbody>
 </table>
@@ -1142,23 +1141,23 @@ Starting at the mouth, the algorithm moves upstream using the <code>d8toupstream
 <tbody>
 <tr class="odd">
 <td><code>d8upstream</code></td>
-<td>Input <strong>D8 upstream-pointer</strong> raster (GeoTIFF) (e.g., <em>inputD8upstream.tif</em>).</td>
+<td>Input D8 upstream-pointer raster (GeoTIFF) (e.g., <em>inputD8upstream.tif</em>).</td>
 </tr>
 <tr class="even">
 <td><code>drainage</code></td>
-<td>Input <strong>binary drainage</strong> raster (GeoTIFF) (e.g., <em>inputDrainage.tif</em> (1 = stream, 0 = non-stream)).</td>
+<td>Input binary drainage raster (GeoTIFF) (e.g., <em>inputDrainage.tif</em> (1 = stream, 0 = non-stream)).</td>
 </tr>
 <tr class="odd">
 <td><code>d8ca</code></td>
-<td>Input <strong>D8 contributing area</strong> raster (GeoTIFF) (e.g., <em>inputAccumulatedArea.tif</em>).</td>
+<td>Input D8 contributing area raster (GeoTIFF) (e.g., <em>inputAccumulatedArea.tif</em>).</td>
 </tr>
 <tr class="even">
 <td><code>mouth</code></td>
-<td>Input <strong>mouth file</strong> (text) with outlet grid coordinates (row, column).</td>
+<td>Input mouth file (text) with outlet grid coordinates (row, column).</td>
 </tr>
 <tr class="odd">
 <td><code>output</code></td>
-<td>Output <strong>main river</strong> raster (GeoTIFF) (e.g., <em>outputRiver.tif</em> (1 = main river, 0 = elsewhere)).</td>
+<td>Output main river raster (GeoTIFF) (e.g., <em>outputRiver.tif</em> (1 = main river, 0 = elsewhere)).</td>
 </tr>
 </tbody>
 </table>
@@ -1167,21 +1166,153 @@ Starting at the mouth, the algorithm moves upstream using the <code>d8toupstream
 </div>
 <div id="shreve" class="section level3 hasAnchor" number="3.2.10">
 <h3><span class="header-section-number">3.2.10</span> shreve<a href="hydrological-analysis.html#shreve" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>shreve</code> assigns Shreve stream order (also called stream magnitude) to a drainage network using a D8 flow-direction grid, a binary drainage raster, and a text file with headwater (source) cells. In Shreve ordering, every headwater starts with 1, and at each confluence the downstream value is the sum of the upstream magnitudes; values therefore increase monotonically downstream and are proportional to the number of contributing sources.</p>
+<p><strong>How it works (summary).</strong><br />
+- Initialize all source cells (from <code>inputSources.txt</code>) with 1.<br />
+- Traverse the drainage downstream following D8 pointers; when two or more streams merge, sum their magnitudes and write the result to the confluence cell.<br />
+- Continue to the outlet, producing an integer magnitude raster over stream cells (background = 0/NoData).</p>
+<blockquote>
+<p><strong>Use cases.</strong> Shreve magnitude is a convenient topologic weight for channel networks (e.g., highlighting the main stem, ranking segments, or approximating discharge potential). Unlike Strahler order, Shreve values accumulate at every confluence (no resetting), which is useful for network analytics and cartography.</p>
+</blockquote>
+<hr />
+<p><strong>Parameters</strong></p>
+<table>
+<colgroup>
+<col width="15%" />
+<col width="84%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>d8</code></td>
+<td>Input D8 flow-direction raster (GeoTIFF) (e.g., <em>inputD8.tif</em><code>*).                                          | |</code>drainage<code>| Input binary drainage raster (GeoTIFF) (e.g., *inputDrainage.tif* (1 = stream, 0 = non-stream)).        | |</code>sources<code>| Input text file with source (headwater) grid coordinates (row, column), one pair per line.              | |</code>output`</td>
+</tr>
+</tbody>
+</table>
+<p>The following example demonstrates how to use <code>shreve</code> tool from the command line:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="hydrological-analysis.html#cb28-1" tabindex="-1"></a><span class="ex">th</span> shreve inputD8.tif inputDrainage.tif inputSources.txt outputShreve.tif</span></code></pre></div>
+<p><em>Reference</em>:</p>
+<p>Shreve, R. L. (1966). Statistical law of stream numbers. The Journal of Geology, 74(1), 17-37. <a href="https://doi.org/10.1086/627137">https://doi.org/10.1086/627137</a></p>
+<p><em>See also</em>: <a href="hydrological-analysis.html#strahler">strahler</a>, <a href="hydrological-analysis.html#ottorivers">ottorivers</a>.</p>
 </div>
 <div id="strahler" class="section level3 hasAnchor" number="3.2.11">
 <h3><span class="header-section-number">3.2.11</span> strahler<a href="hydrological-analysis.html#strahler" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>strahler</code> assigns Strahler stream order to a drainage network using a D8 flow-direction grid, a binary drainage raster, and a text file listing headwater (source) cells. In Strahler ordering, every headwater = 1. At a confluence:
+- If the upstream orders are equal, the downstream order is one greater (e.g., 2 + 2 → 3).
+- If they are different, the downstream order is the maximum of the upstream orders (e.g., 3 + 1 → 3).</p>
+<p>This produces an integer order map that highlights network hierarchy and major tributaries.</p>
+<p><strong>How it works (summary).</strong><br />
+1) Initialize source cells from <code>inputSources.txt</code> with order 1.<br />
+2) Traverse downstream along D8 pointers, applying the confluence rules above at each merge.<br />
+3) Write the resulting Strahler order to all stream cells (background = 0/NoData).</p>
+<blockquote>
+<p><strong>Strahler vs. Shreve.</strong> Strahler emphasizes hierarchical structure (orders increase only when equal orders meet). Shreve (magnitude) sums contributions and grows monotonically with the number of sources. Use Strahler for cartographic hierarchy and topology, Shreve for weighting or discharge proxies.</p>
+</blockquote>
+<hr />
+<p><strong>Parameters</strong></p>
+<table>
+<colgroup>
+<col width="15%" />
+<col width="84%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>d8</code></td>
+<td>Input D8 flow-direction raster (GeoTIFF) (e.g., <em>inputD8.tif</em>).</td>
+</tr>
+<tr class="even">
+<td><code>drainage</code></td>
+<td>Input binary drainage raster (GeoTIFF) (e.g., <em>inputDrainage.tif</em> (1 = stream, 0 = non-stream)).</td>
+</tr>
+<tr class="odd">
+<td><code>sources</code></td>
+<td>Input text file with source (headwater) grid coordinates (row, column), one pair per line.</td>
+</tr>
+<tr class="even">
+<td><code>output</code></td>
+<td>Output Strahler order raster (GeoTIFF) (e.g., <em>outputStrahler.tif</em>).</td>
+</tr>
+</tbody>
+</table>
+<p>The following example demonstrates how to use <code>strahler</code> tool from the command line:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="hydrological-analysis.html#cb29-1" tabindex="-1"></a><span class="ex">th</span> strahler inputD8.tif inputDrainage.tif inputSources.txt outputStrahler.tif</span></code></pre></div>
+<p><em>Reference</em>:</p>
+<p>Strahler, A. N. (1957). Quantitative analysis of watershed geomorphology. Eos, Transactions American Geophysical Union, 38(6), 913-920. <a href="https://doi.org/10.1029/TR038i006p00913">https://doi.org/10.1029/TR038i006p00913</a></p>
+<p><em>See also</em>: <a href="hydrological-analysis.html#shreve">shreve</a>, <a href="hydrological-analysis.html#ottorivers">ottorivers</a>.</p>
 </div>
 <div id="ottorivers" class="section level3 hasAnchor" number="3.2.12">
 <h3><span class="header-section-number">3.2.12</span> ottorivers<a href="hydrological-analysis.html#ottorivers" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>ottorivers</code> assigns hierarchical Otto codes (Pfafstetter-style) to the main river and its principal tributaries using: (i) a D8 upstream raster (<code>d8toupstream</code>), (ii) a binary drainage raster, (iii) a contributing-area raster (<code>d8ca</code>), and (iv) a text file with mouth coordinates. Starting from each mouth, the tool traces the main stem upstream, resolves junctions toward the branch with largest contributing area, and partitions the main stem into a small set of ordered segments while identifying the four major tributaries at that level. The output raster encodes these segments with Otto labels, and a companion text file provides new mouth/source seeds to recurse at the next hierarchical level.</p>
+<p><strong>Concept &amp; workflow (summary).</strong><br />
+1) For each mouth, follow upstream pointers within the drainage mask; at confluences, select the branch with greater contributing area to continue the main stem.<br />
+2) Split the traced main river into five sequential segments (level-k main-stem units) and identify up to four level-k major tributaries entering those segments.<br />
+3) Encode main-stem segments and tributaries with Otto codes for level-k, write the otto-coded raster, and export a list of mouths/sources for all coded units to serve as inputs for level-(k+1).</p>
+<blockquote>
+<p><strong>Notes.</strong> The procedure yields a nested, multi-level river hierarchy consistent with Pfafstetter-type schemes, enabling progressive refinement of the network and seamless linkage with basin Otto coding (<code>ottobasins</code>). Use rasters derived from a hydrologically conditioned DEM.</p>
+</blockquote>
+<hr />
+<p><strong>Parameters</strong></p>
+<table>
+<colgroup>
+<col width="17%" />
+<col width="82%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>d8upstream</code></td>
+<td>Input D8 upstream raster (GeoTIFF) (e.g., <em>inputD8upstream.tif</em>).</td>
+</tr>
+<tr class="even">
+<td><code>drainage</code></td>
+<td>Input binary drainage raster (GeoTIFF) (e.g., <em>inputDrainage.tif</em> (1 = stream, 0 = non-stream)).</td>
+</tr>
+<tr class="odd">
+<td><code>d8ca</code></td>
+<td>Input D8 contributing area raster (GeoTIFF) (e.g., <em>inputAccumulatedArea.tif</em>).</td>
+</tr>
+<tr class="even">
+<td><code>mouths</code></td>
+<td>Input mouths file (text) with outlet grid coordinates (row, column), one pair per line.</td>
+</tr>
+<tr class="odd">
+<td><code>output</code></td>
+<td>Output Otto-coded rivers raster (GeoTIFF) (e.g., <em>outputOttoRivers.tif</em>).</td>
+</tr>
+<tr class="even">
+<td><code>--next-level-mouths</code></td>
+<td>Output text file with mouths/sources (grid coordinates) for all coded units at this level (e.g., <em>outputNewLevelMouths.txt</em>).</td>
+</tr>
+</tbody>
+</table>
+<p>The following example demonstrates how to use <code>ottorivers</code> tool from the command line:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="hydrological-analysis.html#cb30-1" tabindex="-1"></a><span class="ex">th</span> ottorivers inputD8upstream.tif inputDrainage.tif inputAccumulatedArea.tif <span class="dt">\</span></span>
+<span id="cb30-2"><a href="hydrological-analysis.html#cb30-2" tabindex="-1"></a>              inputMouths.txt outputOttoRivers.tif outputNewLevelMouths.txt</span></code></pre></div>
+<p><em>Reference</em>:</p>
+<p>Pfafstetter, O. (2014). Classificação de bacias hidrográficas: metodologia de codificação. In Agência Nacional de Águas (Brasil), Codificação de bacias hidrográficas pelo método de Otto Pfafstetter: aplicação na ANA (pp. 25–41). Brasília, DF: Autor. Manuscrito, Anexo I. Available at: <a href="https://capacitacao.ana.gov.br/conhecerh/bitstream/ana/104/1/apostila.pdf">https://capacitacao.ana.gov.br/conhecerh/bitstream/ana/104/1/apostila.pdf</a></p>
+<p><em>See also</em>: <a href="hydrological-analysis.html#ottobasins">ottobasins</a>, <a href="hydrological-analysis.html#strahler">strahler</a>, <a href="hydrological-analysis.html#shreve">shreve</a>.</p>
 </div>
 <div id="mouths" class="section level3 hasAnchor" number="3.2.13">
 <h3><span class="header-section-number">3.2.13</span> mouths<a href="hydrological-analysis.html#mouths" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 </div>
 <div id="orderedmouths" class="section level3 hasAnchor" number="3.2.14">
 <h3><span class="header-section-number">3.2.14</span> orderedmouths<a href="hydrological-analysis.html#orderedmouths" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-</div>
-<div id="ottorivers" class="section level3 hasAnchor" number="3.2.15">
-<h3><span class="header-section-number">3.2.15</span> ottorivers<a href="hydrological-analysis.html#ottorivers" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 
 </div>
 </div>
@@ -1264,7 +1395,7 @@ For each cell, compute the local mean of neighbors within a user-defined SQUARE 
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>tpi</code> tool from the command line:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="hydrological-analysis.html#cb28-1" tabindex="-1"></a><span class="ex">th</span> tpi inputDEM.tif inputWindowSize SQUARE<span class="kw">|</span><span class="ex">CIRCLE</span> outputTPI.tif</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="hydrological-analysis.html#cb31-1" tabindex="-1"></a><span class="ex">th</span> tpi inputDEM.tif inputWindowSize SQUARE<span class="kw">|</span><span class="ex">CIRCLE</span> outputTPI.tif</span></code></pre></div>
 <p><em>References</em>:</p>
 <p>Jenness, J. (2006). Topographic Position Index (tpi_jen.avx) extension for ArcView 3.x (Version 1.2). Jenness Enterprises. <a href="http://www.jennessent.com/arcview/tpi.htm">http://www.jennessent.com/arcview/tpi.htm</a></p>
 <p>Muñoz, V. A., &amp; de Valeriano, M. M. (2014). Mapping of flood-plain by processing of elevation data from remote sensing. In E. Pardo-Igúzquiza, C. Guardiola-Albert, J. Heredia, L. Moreno-Merino, J. Durán, &amp; J. Vargas-Guzmán (Eds.), Mathematics of Planet Earth (Lecture Notes in Earth System Sciences, pp. 543–546). Springer. <a href="https://doi.org/10.1007/978-3-642-32408-6_106">https://doi.org/10.1007/978-3-642-32408-6_106</a></p>
@@ -1321,7 +1452,7 @@ Given a hydrologically conditioned DEM, a D8 flow grid, and a drainage mask, eac
 • Derived HAND classes can support terrain zoning (e.g., waterlogged / ecotone / upland) and hydrologic modeling (e.g. classes from highest to lowest susceptibility to flooding).</p>
 </blockquote>
 <p>The following example demonstrates how to use <code>hand</code> tool from the command line:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="hydrological-analysis.html#cb29-1" tabindex="-1"></a><span class="ex">th</span> hand inputDEM.tif inputD8.tif inputDrainage.tif outputHAND.tif</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="hydrological-analysis.html#cb32-1" tabindex="-1"></a><span class="ex">th</span> hand inputDEM.tif inputD8.tif inputDrainage.tif outputHAND.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>Rennó, C. D., Nobre, A. D., Cuartas, L. A., Soares, J. V., Hodnett, M. G., Tomasella, J., &amp; Waterloo, M. J. (2008). HAND, a new terrain descriptor using SRTM-DEM: Mapping terra-firme rainforest environments in Amazonia. Remote Sensing of Environment, 112(9), 3469-3481. <a href="https://doi.org/10.1016/j.rse.2008.03.018">https://doi.org/10.1016/j.rse.2008.03.018</a></p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#d8">d8</a>, <a href="hydrological-analysis.html#d8ca">d8ca</a>.</p>
@@ -1419,8 +1550,8 @@ where <span class="math inline">\(A\)</span> is the contributing (upslope) area 
 • The method targets rapid, large-area mapping and complements physics-based simulations; it follows the hydrogeomorphic lineage from Nardi et al. (2006) to the global GFPLAIN framework.</p>
 </blockquote>
 <p>The following example demonstrates how to use <code>gfplain</code> tool from the command line:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="hydrological-analysis.html#cb30-1" tabindex="-1"></a><span class="ex">th</span> gfplain inputDEM.tif inputD8.tif inputContributingArea.tif inputDrainage.tif <span class="dt">\</span></span>
-<span id="cb30-2"><a href="hydrological-analysis.html#cb30-2" tabindex="-1"></a>           inputA inputB outputFloodplain.tif outputWaterHeight.tif</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="hydrological-analysis.html#cb33-1" tabindex="-1"></a><span class="ex">th</span> gfplain inputDEM.tif inputD8.tif inputContributingArea.tif inputDrainage.tif <span class="dt">\</span></span>
+<span id="cb33-2"><a href="hydrological-analysis.html#cb33-2" tabindex="-1"></a>           inputA inputB outputFloodplain.tif outputWaterHeight.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>Nardi, F., Vivoni, E. R. &amp; Grimaldi, S (2006). Investigating a floodplain scaling relation using a hydrogeomorphic delineation method. Water Resources Research, 42, W09409. <a href="https://doi.org/10.1029/2005WR004155">https://doi.org/10.1029/2005WR004155</a></p>
 <p>Nardi, F., Annis, A., Di Baldassarre, G., Vivoni, E. R., &amp; Grimaldi, S. (2019). GFPLAIN250m, a global high-resolution dataset of Earth’s floodplains. Sci Data, 6, 180309. <a href="https://doi.org/10.1038/sdata.2018.309">https://doi.org/10.1038/sdata.2018.309</a></p>
