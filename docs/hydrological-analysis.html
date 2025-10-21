@@ -23,7 +23,7 @@
 <meta name="author" content="Division of Earth Observation and Geoinformatics - DIOTG" />
 
 
-<meta name="date" content="2025-10-20" />
+<meta name="date" content="2025-10-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -983,7 +983,8 @@ For each cell, inspect its eight neighbors. If a neighbor’s D8 flow-direction 
 <blockquote>
 <p><strong>Prerequisites.</strong> Use a hydrologically conditioned DEM to compute <code>d8</code> first. Ensure the source points are in the same CRS as the D8 raster and snapped to the target grid (see notes).</p>
 </blockquote>
-<p><strong>Figure.</strong> Flow paths (white) traced from source points (dots) along the D8 directions.</p>
+<p><img src="fig/th_flowpath.png" />
+<strong>Figure.</strong> Flow paths (light blue) traced from source points (dark blue dots). Hillshade background.</p>
 <hr />
 <p><strong>Parameters</strong></p>
 <table>
@@ -1000,7 +1001,7 @@ For each cell, inspect its eight neighbors. If a neighbor’s D8 flow-direction 
 <tbody>
 <tr class="odd">
 <td><code>d8</code></td>
-<td>Input D8 flow-direction raster (GeoTIFF) (e.g., *inputD8.tif).</td>
+<td>Input D8 flow-direction raster (GeoTIFF) (e.g., <em>inputD8.tif</em>).</td>
 </tr>
 <tr class="even">
 <td><code>sources</code></td>
