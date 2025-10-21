@@ -829,7 +829,8 @@ th d8drainagev inputDrainage.tif inputD8.tif outputDrainage.shp
 
 > **Prerequisites.** Use a hydrologically conditioned DEM to compute `d8` first. Ensure the source points are in the same CRS as the D8 raster and snapped to the target grid (see notes).
 
-**Figure.** Flow paths (white) traced from source points (dots) along the D8 directions.
+![](fig/th_flowpath.png)
+**Figure.** Flow paths (light blue) traced from source points (dark blue dots). Hillshade background.
 
 ---
 
@@ -837,7 +838,7 @@ th d8drainagev inputDrainage.tif inputD8.tif outputDrainage.shp
 
 | Flag        | Description                                                                                                  |
 |-------------------|--------------------------------------------------------------------------------------------------------------|
-| `d8`        | Input D8 flow-direction raster (GeoTIFF) (e.g., *inputD8.tif).                                           |
+| `d8`        | Input D8 flow-direction raster (GeoTIFF) (e.g., *inputD8.tif*).                                           |
 | `sources`       | Input source points (vector) (e.g., *inputSources.shp* - one point per initiation site).                  |
 | `output`    | Output flow paths raster (GeoTIFF) (e.g., *outputFlowPaths.tif* - 1 = path, 0 = background).             |
 

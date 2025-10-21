@@ -119,7 +119,7 @@
 
 \title{TerraHidro User Manual}
 \author{Division of Earth Observation and Geoinformatics - DIOTG}
-\date{2025-10-20}
+\date{2025-10-21}
 
 \begin{document}
 \maketitle
@@ -1266,7 +1266,8 @@ The following example demonstrates how to use \texttt{d8ca} tool from the comman
 \textbf{Prerequisites.} Use a hydrologically conditioned DEM to compute \texttt{d8} first. Ensure the source points are in the same CRS as the D8 raster and snapped to the target grid (see notes).
 \end{quote}
 
-\textbf{Figure.} Flow paths (white) traced from source points (dots) along the D8 directions.
+\pandocbounded{\includegraphics[keepaspectratio]{fig/th_flowpath.png}}
+\textbf{Figure.} Flow paths (light blue) traced from source points (dark blue dots). Hillshade background.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -1285,7 +1286,7 @@ Description
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-\texttt{d8} & Input D8 flow-direction raster (GeoTIFF) (e.g., *inputD8.tif). \\
+\texttt{d8} & Input D8 flow-direction raster (GeoTIFF) (e.g., \emph{inputD8.tif}). \\
 \texttt{sources} & Input source points (vector) (e.g., \emph{inputSources.shp} - one point per initiation site). \\
 \texttt{output} & Output flow paths raster (GeoTIFF) (e.g., \emph{outputFlowPaths.tif} - 1 = path, 0 = background). \\
 \end{longtable}
