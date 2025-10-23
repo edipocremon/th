@@ -1373,10 +1373,12 @@ Starting at the outlet, the algorithm traverses <strong>upstream</strong> (rever
 <blockquote>
 <p><strong>Prerequisites.</strong> Use a hydrologically conditioned DEM to compute <code>d8</code>, typically after pit/flat treatment (e.g., <code>removepits</code> or <code>simplepits</code> + <code>pfs</code>/<code>pfsd</code>).<br />
 <strong>Tip.</strong> Snap the outlet to a stream cell (e.g., from <code>d8drainage</code>) to ensure a hydrologically meaningful basin.<br />
-<strong>QGIS hint — get outlet row/column.</strong> In QGIS, activate <em>Identify Features</em> and set the Layer to your D8 raster. Click the outlet cell on the map; in the <em>Identify Results</em> panel, note the Row and Column (pixel indices). If your panel shows only coordinates/values, enable pixel indices by right-clicking the raster layer → <em>Properties → Information</em> (or use the <em>Identify Results</em> panel’s options) to display <em>row/column</em>. Use these integers as <code>inputOutletrow</code> and <code>inputOutletcolumn</code>.</p>
+<strong>QGIS hint — get outlet row/column.</strong> In QGIS, activate <em>Identify Features</em> and set the Layer to your D8 raster. Click the outlet cell on the map; in the <em>Identify Results</em> panel, note the Row and Column (pixel indices). If your panel shows only coordinates/values, enable pixel indices by right-clicking the raster layer → <em>Properties → Information</em> (or use the <em>Identify Results</em> panel’s options) to display <em>row/column</em>. Use these integers as <code>inputOutletrow</code> and <code>inputOutletcolumn</code>.
+—</p>
 </blockquote>
 <p><img src="fig/th_outletbasin.png" />
-<strong>Figure - Example basin delineated with <code>outletbasin</code></strong>. The basin is shown in yellow with 50% opacity over a hillshade background for terrain context.</p>
+<strong>Figure - Example basin delineated with <code>outletbasin</code></strong>. The basin is shown in yellow with 50% opacity over a hillshade background for terrain context.
+—</p>
 <p><strong>Parameters</strong></p>
 <table>
 <colgroup>
@@ -1448,7 +1450,8 @@ For each cell, compute the local mean of neighbors within a user-defined SQUARE 
 </blockquote>
 <p><img src="fig/th_tpi.png" /></p>
 <p><strong>Figure - Example TPI computed with a circular window of 33 pixels (radius in cells).</strong><br />
-Green shades indicate negative TPI (valleys/concavities), warm shades (orange–red) indicate positive TPI (ridges/crests), and yellow represents values near zero (flats or uniform slopes).</p>
+Green shades indicate negative TPI (valleys/concavities), warm shades (orange–red) indicate positive TPI (ridges/crests), and yellow represents values near zero (flats or uniform slopes).
+—</p>
 <p><strong>Parameters</strong></p>
 <table>
 <colgroup>
@@ -1496,8 +1499,7 @@ Given a hydrologically conditioned DEM, a D8 flow grid, and a drainage mask, eac
 <blockquote>
 <p><strong>Prerequisites.</strong> Use a pitless DEM (e.g., <code>removepits</code>), its D8 directions (<code>d8</code>), and a drainage grid (<code>d8drainage</code>). Ensure rasters share the same extent, resolution, and alignment.</p>
 </blockquote>
-<p><img src="fig/th_hand.png" /></p>
-<p><strong>Figure.</strong> HAND map: drainage cells at 0 m (valley bottoms) and increasing HAND values upslope.
+<p><img src="fig/th_hand.png" />
 <strong>Figure - HAND calculation scheme</strong>. Drainage-network cells are shown as blue squares, and flow path considers exclusively the black-arrow directions (Source: Rennó et al, 2008).</p>
 <hr />
 <p><strong>Parameters</strong></p>

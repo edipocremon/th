@@ -140,7 +140,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">TerraHidro User Manual</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> url: your book url like https://bookdown.org/yihui/bookdown</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a></li>
 <li class="chapter" data-level="2" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
 <ul>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#project-highlights"><i class="fa fa-check"></i>Project Highlights</a></li>
@@ -214,12 +214,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="how-to-cite.html"><a href="how-to-cite.html#cite-the-terrahidro-system-apa"><i class="fa fa-check"></i>Cite the TerraHidro System (APA)</a></li>
 <li class="chapter" data-level="" data-path="how-to-cite.html"><a href="how-to-cite.html#cite-the-terrahidro-system-bibtex"><i class="fa fa-check"></i>Cite the TerraHidro System (BibTeX)</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="tutorials.html"><a href="tutorials.html"><i class="fa fa-check"></i><b>5</b> Tutorials</a>
+<li class="chapter" data-level="5" data-path="tutorials.html"><a href="tutorials.html"><i class="fa fa-check"></i><b>5</b> Tutorials</a></li>
+<li class="chapter" data-level="6" data-path="license.html"><a href="license.html"><i class="fa fa-check"></i><b>6</b> License</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="tutorials.html"><a href="tutorials.html#what-this-permits"><i class="fa fa-check"></i><b>5.1</b> What this permits</a></li>
-<li class="chapter" data-level="5.2" data-path="tutorials.html"><a href="tutorials.html#key-obligations-summary"><i class="fa fa-check"></i><b>5.2</b> Key obligations (summary)</a></li>
-<li class="chapter" data-level="5.3" data-path="tutorials.html"><a href="tutorials.html#no-warranty"><i class="fa fa-check"></i><b>5.3</b> No warranty</a></li>
-<li class="chapter" data-level="5.4" data-path="tutorials.html"><a href="tutorials.html#copyright"><i class="fa fa-check"></i><b>5.4</b> Copyright</a></li>
+<li class="chapter" data-level="6.1" data-path="license.html"><a href="license.html#what-this-permits"><i class="fa fa-check"></i><b>6.1</b> What this permits</a></li>
+<li class="chapter" data-level="6.2" data-path="license.html"><a href="license.html#key-obligations-summary"><i class="fa fa-check"></i><b>6.2</b> Key obligations (summary)</a></li>
+<li class="chapter" data-level="6.3" data-path="license.html"><a href="license.html#no-warranty"><i class="fa fa-check"></i><b>6.3</b> No warranty</a></li>
+<li class="chapter" data-level="6.4" data-path="license.html"><a href="license.html#copyright"><i class="fa fa-check"></i><b>6.4</b> Copyright</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -307,6 +308,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
