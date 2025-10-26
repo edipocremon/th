@@ -23,7 +23,7 @@
 <meta name="author" content="Division of Earth Observation and Geoinformatics - DIOTG" />
 
 
-<meta name="date" content="2025-10-25" />
+<meta name="date" content="2025-10-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -636,6 +636,8 @@ Using <code>pfsd</code> at the end aligns remaining pit removal with the referen
 <li><strong><code>pfs</code></strong> — uses Priority-First Search to carve a gentle downslope path from any remaining (complex) pits to an outlet cell, completing the elimination of depressions.</li>
 </ol>
 <p>By combining targeted fill sinks (phase 2) with controlled carving (phases 1 and 3), <code>removepits</code> is a <strong>hybrid method</strong> designed to preserve local relief while producing reliable D8 flow directions across the entire grid.</p>
+<p><img src="fig/th_removepits.png" />
+<strong>Figure - Difference between the hydrologically conditioned DEM (<code>removepits</code>) and the original DEM</strong>. Positive values (green–blue) mark areas where elevation was raised by filling; negative values (orange–red) mark areas where elevation was lowered by carving. The hydrological correction is a hybrid method (fill + carve) designed to modify the fewest pixels necessary to achieve a hydrologically consistent DEM. Hillshade background.</p>
 <hr />
 <p><strong>Parameters</strong></p>
 <table>
@@ -1753,7 +1755,6 @@ where <span class="math inline">\(A\)</span> is the contributing (upslope) area 
 <blockquote>
 <p>• <strong><span class="math inline">\(b\)</span> (exponent)</strong> controls how stage grows with river size; empirical studies report positive values that capture hydro-climatic and geomorphic controls (e.g., wider/deeper valleys downstream). Tuning <span class="math inline">\(b\)</span> affects longitudinal consistency of mapped floodplains across orders.</p>
 </blockquote>
-<p><strong>Figure.</strong> Hydrogeomorphic delineation: (a) D8 and contributing area; (b) stage from <span class="math inline">\(h=aA^b\)</span>; (c) floodplain cells below channel water level.</p>
 <hr />
 <p><strong>Parameters</strong></p>
 <table>
