@@ -1,1 +1,35 @@
+# Tutorials {#tutorials}
 
+Tutorials will be posted here soon.
+
+# License {#license}
+
+**TerraHidro** is released under the **GNU Lesser General Public License (LGPL), version 3 or later**.  
+This means you may **use, copy, modify, and redistribute** TerraHidro—commercially or non-commercially—provided you comply with the LGPL terms.
+
+**What this permits**
+
+- **Free use and redistribution.** You can distribute TerraHidro (source or binaries) and include it in your projects.
+- **Modify and share improvements.** If you change TerraHidro itself (the “Library”), you must license those changes under **LGPL-3.0+** and keep notices intact.
+- **Link in applications.** You may link TerraHidro with your own Application (proprietary or open). The Application can be under a different license, as long as users retain the ability to relink/replace the TerraHidro library with a modified version.
+
+**Key obligations (summary)**
+
+- **Notices & copies.** Distribute TerraHidro with a prominent notice that it uses the LGPL-licensed Library and include copies of the LGPL v3 and the GPL v3 license texts.
+- **Header usage in object code.** If object code from your Application includes more than trivial material from TerraHidro’s headers, you must provide the above notices and license copies.
+- **Combined Works.** If you ship an Application linked with TerraHidro (a Combined Work), do not restrict users from modifying the LGPL parts or from reverse-engineering solely to debug their modifications.
+- **Relinking option.** Provide one of the following:
+  - the Minimal Corresponding Source of the LGPL components and the Corresponding Application Code sufficient to let users relink with a modified TerraHidro; or
+  - use a suitable shared-library mechanism so users can drop in a compatible modified TerraHidro at runtime.
+- **Installation Information (when required).** If the GPL would require installation information for user products, provide it to the extent needed for users to install and run a modified TerraHidro in your Combined Work.
+
+**No warranty**
+
+TerraHidro is provided **“as is,” without any warranty**, including without limitation the **implied warranties of merchantability or fitness for a particular purpose**.
+
+**Copyright**
+
+**Copyright © 2008–2025 National Institute for Space Research (INPE), Brazil.**  
+The Free Software Foundation holds the copyright to the **LGPL v3** text (2007).
+
+> For full terms, see: **GNU Lesser General Public License, Version 3 (29 June 2007)**. TerraHidro is licensed as **LGPL-3.0-or-later**.

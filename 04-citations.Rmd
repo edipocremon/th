@@ -23,7 +23,6 @@ where \(A\) is the contributing (upslope) area and \(a, b\) are empirical parame
 
 > • **\(b\) (exponent)** controls how stage grows with river size; empirical studies report positive values that capture hydro-climatic and geomorphic controls (e.g., wider/deeper valleys downstream). Tuning \(b\) affects longitudinal consistency of mapped floodplains across orders.
 
-**Figure.** Hydrogeomorphic delineation: (a) D8 and contributing area; (b) stage from \(h=aA^b\); (c) floodplain cells below channel water level.
 
 ---
 

@@ -1,12 +1,17 @@
 # How to Cite
 
-## APA {-}
-TerraHidro Team. (2025). *TerraHidro Manual* (Version 5.2.0) [Bookdown manual]. INPE. URL
+When referencing this manual, use the APA and BibTeX entries below.  
+When citing the **TerraHidro software/system** itself (methods and implementation), please cite the conference paper listed in the second set.
+
+---
+
+## Cite the Manual {-}
+TerraHidro Team. (2025). *TerraHidro Manual* (Version 5.2.0) [Bookdown manual]. INPE. http://www.dpi.inpe.br/terrahidro/doku.php
 
 > Optional (with access date):  
-> TerraHidro Team. (2025). *TerraHidro Manual* (Version 5.2.0) [Bookdown manual]. INPE. URL (accessed Month Day, Year)
+> TerraHidro Team. (2025). *TerraHidro Manual* (Version 5.2.0) [Bookdown manual]. INPE. http://www.dpi.inpe.br/terrahidro/doku.php (accessed Month Day, Year)
 
-## BibTeX {-}
+## Cite the Manual (BibTeX) {-}
 ```bibtex
 @manual{TerraHidroManual2025,
   title        = {TerraHidro Manual},
@@ -16,5 +21,25 @@ TerraHidro Team. (2025). *TerraHidro Manual* (Version 5.2.0) [Bookdown manual]. 
   edition      = {Version 5.2.0},
   url          = {http://www.dpi.inpe.br/terrahidro/doku.php},
   note         = {Bookdown manual}
+}
+```
+
+## Cite the TerraHidro System (APA) {-}
+
+Rosim, S., Oliveira, J. R. F., Jardim, A. C., Namikawa, L. M., & Rennó, C. D. (2013). TerraHidro: A distributed hydrology modelling system with high quality drainage extraction. In Proceedings of the 5th International Conference on Advanced Geographic Information Systems, Applications, and Services (pp. 161–167). Nic e, France. ISBN 978-1-61208-251-6. Available at [http://www.thinkmind.org/index.php?view=article&articleid=geoprocessing_2013_7_20_30125](http://www.thinkmind.org/index.php?view=article&articleid=geoprocessing_2013_7_20_30125)
+
+
+## Cite the TerraHidro System (BibTeX) {-}
+
+```bibtex
+@inproceedings{Rosim2013TerraHidro,
+  author    = {Rosim, S. and Oliveira, J. R. F. and Jardim, A. C. and Namikawa, L. M. and Renn{\'o}, C. D.},
+  title     = {TerraHidro: A Distributed Hydrology Modelling System With High Quality Drainage Extraction},
+  booktitle = {Proceedings of the 5th International Conference on Advanced Geographic Information Systems, Applications, and Services},
+  year      = {2013},
+  address   = {Nice, France},
+  pages     = {161-167},
+  isbn      = {978-1-61208-251-6},
+  url       = {http://www.thinkmind.org/index.php?view=article&articleid=geoprocessing_2013_7_20_30125}
 }
 ```

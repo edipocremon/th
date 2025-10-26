@@ -1,5 +1,9 @@
+book_filename: "TerraHidro-Manual"
 output_dir: "docs"
 delete_merged_file: true
 language:
   ui:
     chapter_name: ""
+  label:
+    fig: "Figure "
+    tab: "Table "
