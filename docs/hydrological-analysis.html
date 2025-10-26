@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3 Hydrological Analysis | TerraHidro User Manual</title>
   <meta name="description" content="The TerraHidro Manual is a practical, task-oriented guide to hydrological and geomorphometric processing with TerraHidro. It covers setup (Command-Line Interface and QGIS plugin), required data formats, and step-by-step workflows to build a hydrologically conditioned DEM. Each tool includes concise theory, parameters, command examples, and figures, followed by end-to-end examples for flow direction, contributing area, drainage/watershed delineation, and export for GIS." />
-  <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.45 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 Hydrological Analysis | TerraHidro User Manual" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Division of Earth Observation and Geoinformatics - DIOTG" />
 
 
-<meta name="date" content="2025-10-24" />
+<meta name="date" content="2025-10-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -217,7 +217,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5" data-path="tutorials.html"><a href="tutorials.html"><i class="fa fa-check"></i><b>5</b> Tutorials</a></li>
 <li class="chapter" data-level="6" data-path="license.html"><a href="license.html"><i class="fa fa-check"></i><b>6</b> License</a></li>
 <li class="divider"></li>
-<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+<li><a href="https://github.com/rstudio/bookdown" target="_blank">Published with bookdown</a></li>
 
 </ul>
 
@@ -335,7 +335,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>Optional switch to disable smoothing and apply trenching only on drainage cells.</td>
 </tr>
 <tr class="odd">
-<td><code>-output</code></td>
+<td><code>output</code></td>
 <td>Output reconditioned DEM (GeoTIFF) (e.g., <em>outputDEM.tif</em>).</td>
 </tr>
 </tbody>
@@ -479,7 +479,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>Border-definition rule for each iteration: <code>CROSS</code> = orthogonal neighbors; <code>DIAG</code> = diagonal neighbors; <code>ALL</code> = eight-direction neighbors.</td>
 </tr>
 <tr class="even">
-<td><code>-o, --output</code></td>
+<td><code>output</code></td>
 <td>Output DEM (GeoTIFF) with flat areas carved (e.g., <em>outputDEM.tif</em>).</td>
 </tr>
 </tbody>
@@ -603,7 +603,7 @@ Using <code>pfsd</code> at the end aligns remaining pit removal with the referen
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>-dem</code></td>
+<td><code>dem</code></td>
 <td>Input DEM (GeoTIFF) (e.g., <em>inputDEM.tif</em>).</td>
 </tr>
 <tr class="even">
@@ -611,7 +611,7 @@ Using <code>pfsd</code> at the end aligns remaining pit removal with the referen
 <td>Reference drainage network (vector <code>.shp</code> or raster). Used to seed PFS from channels upstream.</td>
 </tr>
 <tr class="odd">
-<td><code>-output</code></td>
+<td><code>output</code></td>
 <td>Output pitless DEM (GeoTIFF) after PFS carving (e.g., <em>outputDEM.tif</em>).</td>
 </tr>
 </tbody>
@@ -1358,6 +1358,45 @@ Starting at the mouth, the algorithm moves upstream using the <code>d8toupstream
 </ul>
 <div id="minibasins" class="section level3 hasAnchor" number="3.3.1">
 <h3><span class="header-section-number">3.3.1</span> minibasins<a href="hydrological-analysis.html#minibasins" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>minibasins</code> delineates one contributing area per drainage segment using a D8 flow-direction grid and a segment-ID raster (e.g., from <code>segments</code>). Each minibasin corresponds to the set of cells whose flow reaches a single stream segment (bounded by sources, confluences, or outlet). The output raster encodes minibasins with the same unique integer IDs as their associated segments, enabling one-to-one joins between channel attributes and hillslope areas.</p>
+<p><strong>How it works (summary).</strong><br />
+1) The input segments raster labels every stream cell with a unique segment ID (between sources/confluences/outlets).
+2) For each segment, the algorithm traverses upstream (reverse D8) from all its stream cells to collect all contributing terrain cells not already assigned to an upstream segment.<br />
+3) The collected cells form the minibasin for that segment, and are written with the segment’s ID.</p>
+<blockquote>
+<p><strong>Use cases.</strong> Compute per-segment summaries (mean slope, HAND/SAND, rainfall, land cover), run hillslope–channel coupling, or vectorize minibasins for cartography and modeling.</p>
+</blockquote>
+<p><img src="fig/th_minibasin.png" />
+<strong>Figure - Example minibasins map</strong>. Each drainage segment is associated with a unique minibasin shown in a random color. For clarity, the drainage network is overlaid in black, highlighting segment locations and their corresponding contributing areas.</p>
+<p><strong>Parameters</strong></p>
+<table>
+<colgroup>
+<col width="14%" />
+<col width="85%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>d8</code></td>
+<td>Input D8 flow-direction raster (GeoTIFF) (e.g., <em>inputD8.tif</em>).</td>
+</tr>
+<tr class="even">
+<td><code>segments</code></td>
+<td>Input segment ID raster (GeoTIFF), (e.g., <em>inputSegments.tif</em> (unique integer per stream segment)).</td>
+</tr>
+<tr class="odd">
+<td><code>output</code></td>
+<td>Output minibasins raster (GeoTIFF) (e.g., <code>outputMinibasins.tif</code> (IDs match <code>inputSegments.tif</code>)).</td>
+</tr>
+</tbody>
+</table>
+<p>The following example demonstrates how to use <code>minibasins</code> tool from the command line:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="hydrological-analysis.html#cb31-1" tabindex="-1"></a><span class="ex">th</span> minibasins inputD8.tif inputSegments.tif outputMinibasins.tif</span></code></pre></div>
 </div>
 <div id="outletbasin" class="section level3 hasAnchor" number="3.3.2">
 <h3><span class="header-section-number">3.3.2</span> outletbasin<a href="hydrological-analysis.html#outletbasin" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -1405,13 +1444,54 @@ Starting at the outlet, the algorithm traverses <strong>upstream</strong> (rever
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>outletbasin</code> tool from the command line:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="hydrological-analysis.html#cb31-1" tabindex="-1"></a><span class="ex">th</span> outletbasin inputD8.tif inputOutletrow inputOutletcolumn outputOutletbasin.tif</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="hydrological-analysis.html#cb32-1" tabindex="-1"></a><span class="ex">th</span> outletbasin inputD8.tif inputOutletrow inputOutletcolumn outputOutletbasin.tif</span></code></pre></div>
 <p>Example:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="hydrological-analysis.html#cb32-1" tabindex="-1"></a><span class="ex">th</span> outletbasin d8.tif 1453 2078 outlet_basin.tif</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="hydrological-analysis.html#cb33-1" tabindex="-1"></a><span class="ex">th</span> outletbasin d8.tif 1453 2078 outlet_basin.tif</span></code></pre></div>
 <p><em>See also</em>: <a href="hydrological-analysis.html#mouths">mouths</a>, <a href="hydrological-analysis.html#minibasins">minibasins</a>.</p>
 </div>
 <div id="ottobasins" class="section level3 hasAnchor" number="3.3.3">
 <h3><span class="header-section-number">3.3.3</span> ottobasins<a href="hydrological-analysis.html#ottobasins" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>ottobasins</code> delineates basins that are topologically paired with the Otto-coded river segments produced by <code>ottorivers</code>. For each Otto river unit (main-stem segment or major tributary at the current hierarchy level), the tool traces upslope using the D8 flow-direction grid to collect all cells whose flow ultimately reaches that unit. The result is a basin raster whose IDs match exactly the Otto codes in the input river grid—ensuring a one-to-one, level-consistent link between river units and their drainage areas.</p>
+<p><strong>Concept &amp; workflow (summary).</strong><br />
+1) Read the D8 grid and the Otto-coded rivers raster from <code>ottorivers</code>.<br />
+2) For each coded river unit, follow reverse D8 to accumulate the contributing area unique to that unit (respecting segment boundaries and level).<br />
+3) Write the Otto basin. Resulting basins can be aggregated or refined across hierarchical levels.</p>
+<blockquote>
+<p><strong>Use cases.</strong> Consistent river–basin pairing for Otto/Pfafstetter hierarchies; level-wise statistics (area, precipitation, discharge proxies), cartography, and multi-level modeling pipelines.</p>
+</blockquote>
+<hr />
+<p><strong>Parameters</strong></p>
+<table>
+<colgroup>
+<col width="13%" />
+<col width="86%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>d8</code></td>
+<td>Input D8 flow-direction raster (GeoTIFF) (e.g., <em>inputD8.tif</em>).</td>
+</tr>
+<tr class="even">
+<td><code>ottorivers</code></td>
+<td>Input Otto-coded rivers raster (GeoTIFF) from <code>ottorivers</code> (e.g., <em>inputOttoRivers.tif</em>).</td>
+</tr>
+<tr class="odd">
+<td><code>output</code></td>
+<td>Output Otto-coded basins raster (GeoTIFF) (e.g., <em>outputOttoBasins.tif</em>).</td>
+</tr>
+</tbody>
+</table>
+<p>The following example demonstrates how to use <code>ottobasins</code> tool from the command line:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="hydrological-analysis.html#cb34-1" tabindex="-1"></a><span class="ex">th</span> ottobasins inputD8.tif inputOttoRivers.tif outputOttoBasins.tif</span></code></pre></div>
+<p><em>Reference</em>:</p>
+<p>Pfafstetter, O. (2014). Classificação de bacias hidrográficas: metodologia de codificação. In Agência Nacional de Águas (Brasil), Codificação de bacias hidrográficas pelo método de Otto Pfafstetter: aplicação na ANA (pp. 25–41). Brasília, DF: Autor. Manuscrito, Anexo I. Available at: <a href="https://capacitacao.ana.gov.br/conhecerh/bitstream/ana/104/1/apostila.pdf">https://capacitacao.ana.gov.br/conhecerh/bitstream/ana/104/1/apostila.pdf</a></p>
+<p><em>See also</em>: <a href="hydrological-analysis.html#ottorivers">ottorivers</a>, <a href="hydrological-analysis.html#strahler">strahler</a>, <a href="hydrological-analysis.html#shreve">shreve</a>.</p>
 </div>
 </div>
 <div id="Geomorphometric-analysis" class="section level2 hasAnchor" number="3.4">
@@ -1478,7 +1558,7 @@ Green shades indicate negative TPI (valleys/concavities), warm shades (orange–
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>tpi</code> tool from the command line:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="hydrological-analysis.html#cb33-1" tabindex="-1"></a><span class="ex">th</span> tpi inputDEM.tif inputWindowSize SQUARE<span class="kw">|</span><span class="ex">CIRCLE</span> outputTPI.tif</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="hydrological-analysis.html#cb35-1" tabindex="-1"></a><span class="ex">th</span> tpi inputDEM.tif inputWindowSize SQUARE<span class="kw">|</span><span class="ex">CIRCLE</span> outputTPI.tif</span></code></pre></div>
 <p><em>References</em>:</p>
 <p>Jenness, J. (2006). Topographic Position Index (tpi_jen.avx) extension for ArcView 3.x (Version 1.2). Jenness Enterprises. <a href="http://www.jennessent.com/arcview/tpi.htm">http://www.jennessent.com/arcview/tpi.htm</a></p>
 <p>Muñoz, V. A., &amp; de Valeriano, M. M. (2014). Mapping of flood-plain by processing of elevation data from remote sensing. In E. Pardo-Igúzquiza, C. Guardiola-Albert, J. Heredia, L. Moreno-Merino, J. Durán, &amp; J. Vargas-Guzmán (Eds.), Mathematics of Planet Earth (Lecture Notes in Earth System Sciences, pp. 543–546). Springer. <a href="https://doi.org/10.1007/978-3-642-32408-6_106">https://doi.org/10.1007/978-3-642-32408-6_106</a></p>
@@ -1531,19 +1611,116 @@ Given a hydrologically conditioned DEM, a D8 flow grid, and a drainage mask, eac
 <p><strong>Notes.</strong><br />
 • HAND is relative to the mapped drainage; choosing an appropriate drainage threshold (from d8drainage) affects HAND smoothness and valley width representation.<br />
 • Small negative differences caused by noise are typically clamped to 0.
-• Derived HAND classes can support terrain zoning (e.g., waterlogged / ecotone / upland) and hydrologic modeling (e.g. classes from highest to lowest susceptibility to flooding).</p>
+• Derived HAND classes can support terrain zoning (e.g., waterlogged / ecotone / upland) and hydrologic modeling (e.g. classes from highest to lowest susceptibility to flooding).
+—</p>
 </blockquote>
 <p>The following example demonstrates how to use <code>hand</code> tool from the command line:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="hydrological-analysis.html#cb34-1" tabindex="-1"></a><span class="ex">th</span> hand inputDEM.tif inputD8.tif inputDrainage.tif outputHAND.tif</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="hydrological-analysis.html#cb36-1" tabindex="-1"></a><span class="ex">th</span> hand inputDEM.tif inputD8.tif inputDrainage.tif outputHAND.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>Rennó, C. D., Nobre, A. D., Cuartas, L. A., Soares, J. V., Hodnett, M. G., Tomasella, J., &amp; Waterloo, M. J. (2008). HAND, a new terrain descriptor using SRTM-DEM: Mapping terra-firme rainforest environments in Amazonia. Remote Sensing of Environment, 112(9), 3469-3481. <a href="https://doi.org/10.1016/j.rse.2008.03.018">https://doi.org/10.1016/j.rse.2008.03.018</a></p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#d8">d8</a>, <a href="hydrological-analysis.html#d8ca">d8ca</a>.</p>
 </div>
 <div id="sand" class="section level3 hasAnchor" number="3.4.3">
 <h3><span class="header-section-number">3.4.3</span> sand<a href="hydrological-analysis.html#sand" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>sand</code> computes the <strong>Slope Above the Nearest Drainage (SAND)</strong> for each DEM cell—i.e., the along-path gradient from the cell down to its nearest drainage cell, following D8 flow directions. Conceptually, SAND complements HAND: while HAND measures vertical distance, SAND measures steepness toward the channel.</p>
+<blockquote>
+<p><strong>CRS requirement.</strong> Reproject the DEM to a metric projected CRS (e.g., UTM) before running. Using geographic (lat/long) coordinates will yield incorrect distances and slopes.<br />
+<strong>Units.</strong> The SAND output is an angle in radians. If you need other units:<br />
+• <strong>Degrees:</strong> <code>degrees = radians × 180/π</code><br />
+• <strong>Percent slope:</strong> <code>percent = tan(radians) × 100</code>
+—</p>
+</blockquote>
+<p><strong>How it works (summary).</strong><br />
+1) For each cell, follow its D8 path down to the nearest stream cell in the drainage mask.<br />
+2) Compute the vertical drop (cell elevation minus stream elevation) and divide by the along-path horizontal distance to the stream.<br />
+3) Convert the resulting rise/run to an angle in radians and write it to the output raster.<br />
+High SAND values highlight steep valley sidewalls; low values indicate benches and broad floodplains.</p>
+<p><img src="fig/th_sand.png" />
+<strong>Figure - Panels showing</strong>:<br />
+(a) SAND in radians (higher = steeper toward the channel);
+(b) Local slope (standard slope) in radians for comparison.</p>
+<p><strong>Parameters</strong></p>
+<table>
+<colgroup>
+<col width="14%" />
+<col width="85%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>dem</code></td>
+<td>Input DEM (GeoTIFF, metric projected CRS) (e.g., <em>inputDEM.tif</em>).</td>
+</tr>
+<tr class="even">
+<td><code>d8</code></td>
+<td>Input D8 flow-direction raster (GeoTIFF) (e.g., <em>inputD8.tif</em>).</td>
+</tr>
+<tr class="odd">
+<td><code>drainage</code></td>
+<td>Input drainage network raster (GeoTIFF; 1 = stream, 0 = non-stream) (e.g., <em>inputDrainage.tif</em>).</td>
+</tr>
+<tr class="even">
+<td><code>output</code></td>
+<td>Output SAND raster (GeoTIFF, in radians) (e.g., <em>outputSAND.tif</em>).</td>
+</tr>
+</tbody>
+</table>
+<p>The following example demonstrates how to use <code>sand</code> tool from the command line:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="hydrological-analysis.html#cb37-1" tabindex="-1"></a><span class="ex">th</span> sand inputDEM.tif inputD8.tif inputDrainage.tif outputSAND.tif</span></code></pre></div>
+<p><strong>Author</strong>: Dr. Henrique Rennó de Azeredo Freitas</p>
+<p><em>See also</em>: <a href="hydrological-analysis.html#hand">hand</a>, <a href="hydrological-analysis.html#d8slope">d8slope</a>.</p>
 </div>
 <div id="d8slope" class="section level3 hasAnchor" number="3.4.4">
 <h3><span class="header-section-number">3.4.4</span> d8slope<a href="hydrological-analysis.html#d8slope" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>d8slope</code> computes the local slope for each cell along its D8 outflow direction (steepest-descent neighbor). For every cell, the tool measures the elevation drop to the selected neighbor and divides by the planimetric distance between cell centers (cardinal = one cell size; diagonal = cell size·√2). The result is written as a <strong>slope angle in radians</strong>.</p>
+<blockquote>
+<p><strong>CRS requirement.</strong> Reproject your DEM to a metric projected CRS (e.g., UTM) before running. Using a geographic CRS (lat/long) will yield incorrect distances and slopes.<br />
+<strong>Units.</strong> Output is an angle in radians. If you need other units:<br />
+• <strong>Degrees:</strong> <code>degrees = radians × 180/π</code><br />
+• <strong>Percent slope:</strong> <code>percent = tan(radians) × 100</code></p>
+</blockquote>
+<hr />
+<p><strong>Behavior (summary)</strong>
+- Uses each cell’s D8 pointer to choose the neighbor and computes slope as rise/run along that direction.<br />
+- Cardinal moves use the cell size; diagonal moves use cell size·√2.<br />
+- Cells with no valid downslope neighbor (flats, pits, edges/NoData) are set to 0 or NoData (implementation-dependent).</p>
+<hr />
+<p><strong>Parameters</strong></p>
+<table>
+<colgroup>
+<col width="15%" />
+<col width="84%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>dem</code></td>
+<td>Input DEM (GeoTIFF, in metric projected CRS) (e.g., <em>inputDEM.tif</em>).</td>
+</tr>
+<tr class="even">
+<td><code>d8</code></td>
+<td>Input D8 flow-direction raster (GeoTIFF) (e.g., <em>inputD8.tif</em>).</td>
+</tr>
+<tr class="odd">
+<td><code>output</code></td>
+<td>Output D8 slope raster (GeoTIFF, in radians) (e.g., <em>outputD8Slope.tif</em>).</td>
+</tr>
+</tbody>
+</table>
+<p>The following example demonstrates how to use <code>d8slope</code> tool from the command line:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="hydrological-analysis.html#cb38-1" tabindex="-1"></a><span class="ex">th</span> d8slope inputDEM.tif inputD8.tif outputD8Slope.tif</span></code></pre></div>
+<p><strong>Author</strong>: Dr. Henrique Rennó de Azeredo Freitas</p>
+<p><em>See also</em>: <a href="hydrological-analysis.html#d8">d8</a>, <a href="hydrological-analysis.html#sand">sand</a>.</p>
 
 </div>
 </div>
@@ -1632,8 +1809,8 @@ where <span class="math inline">\(A\)</span> is the contributing (upslope) area 
 • The method targets rapid, large-area mapping and complements physics-based simulations; it follows the hydrogeomorphic lineage from Nardi et al. (2006) to the global GFPLAIN framework.</p>
 </blockquote>
 <p>The following example demonstrates how to use <code>gfplain</code> tool from the command line:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="hydrological-analysis.html#cb35-1" tabindex="-1"></a><span class="ex">th</span> gfplain inputDEM.tif inputD8.tif inputContributingArea.tif inputDrainage.tif <span class="dt">\</span></span>
-<span id="cb35-2"><a href="hydrological-analysis.html#cb35-2" tabindex="-1"></a>           inputA inputB outputFloodplain.tif outputWaterHeight.tif</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="hydrological-analysis.html#cb39-1" tabindex="-1"></a><span class="ex">th</span> gfplain inputDEM.tif inputD8.tif inputContributingArea.tif inputDrainage.tif <span class="dt">\</span></span>
+<span id="cb39-2"><a href="hydrological-analysis.html#cb39-2" tabindex="-1"></a>           inputA inputB outputFloodplain.tif outputWaterHeight.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>Nardi, F., Vivoni, E. R. &amp; Grimaldi, S (2006). Investigating a floodplain scaling relation using a hydrogeomorphic delineation method. Water Resources Research, 42, W09409. <a href="https://doi.org/10.1029/2005WR004155">https://doi.org/10.1029/2005WR004155</a></p>
 <p>Nardi, F., Annis, A., Di Baldassarre, G., Vivoni, E. R., &amp; Grimaldi, S. (2019). GFPLAIN250m, a global high-resolution dataset of Earth’s floodplains. Sci Data, 6, 180309. <a href="https://doi.org/10.1038/sdata.2018.309">https://doi.org/10.1038/sdata.2018.309</a></p>
@@ -1699,7 +1876,7 @@ gitbook.start({
     "link": null,
     "text": null
   },
-  "download": ["_main.pdf", "_main.epub"],
+  "download": ["TerraHidro-Manual.pdf", "TerraHidro-Manual.epub"],
   "search": {
     "engine": "fuse",
     "options": null

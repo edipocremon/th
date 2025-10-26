@@ -40,9 +40,4 @@ damcourse
 damsections
 dambreak
 how-to-cite
-cite-the-manual
 tutorials
-what-this-permits
-key-obligations-summary
-no-warranty
-copyright
