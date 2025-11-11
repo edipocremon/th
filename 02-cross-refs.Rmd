@@ -1,3 +1,8 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
 
 # Hydrological Analysis {#hydrological-analysis}
 
@@ -73,7 +78,7 @@ The reconditioning occurs in two coupled steps:
 | `buffer`        | Buffer radius in cells around drainage for smoothing (distance-weighted taper), e.g., `3`.                                                                                                     |
 | `smooth`        | Smoothing factor that scales decrements within the buffer (larger values yield stronger taper near the channel), e.g., `10`.                                                                       |
 | `burn-only`     | Optional switch to disable smoothing and apply trenching only on drainage cells.                                                                                                               |
-| `-output`    | Output reconditioned DEM (GeoTIFF) (e.g., *outputDEM.tif*).                                                                                                                                        |
+| `output`    | Output reconditioned DEM (GeoTIFF) (e.g., *outputDEM.tif*).                                                                                                                                        |
 
 The following example demonstrates how to use `agreedem` tool from the command line:
 ```bash
@@ -192,7 +197,7 @@ Jardim, A. C. (2017). *Direções de fluxo em modelos digitais de elevação: um
 | `--flat`            | Input flat-areas raster (GeoTIFF) produced by `flatareas` (e.g., *inputFlatAreas.tif*). **Required.**                                                                                                                           |
 | `DRNON | DRNOFF`    | Use drainage? `DRNON` = use drainage to guide carving; `DRNOFF` = do not use drainage (center-focused carving).                                                                                                             |
 | `CROSS | DIAG | ALL`| Border-definition rule for each iteration: `CROSS` = orthogonal neighbors; `DIAG` = diagonal neighbors; `ALL` = eight-direction neighbors.                                                                                          |
-| `-o, --output`      | Output DEM (GeoTIFF) with flat areas carved (e.g., *outputDEM.tif*).                                                                                                                                                                 |
+| `output`      | Output DEM (GeoTIFF) with flat areas carved (e.g., *outputDEM.tif*).                                                                                                                                                                 |
 
 The following example demonstrates how to use `carve` tool from the command line:
 ```bash
@@ -312,9 +317,9 @@ Using `pfsd` at the end aligns remaining pit removal with the reference drainage
 
 | Flag          | Description                                                                                           |
 |---------------------|-------------------------------------------------------------------------------------------------------|
-| `-dem`         | Input DEM (GeoTIFF) (e.g., *inputDEM.tif*).                                                            |
+| `dem`         | Input DEM (GeoTIFF) (e.g., *inputDEM.tif*).                                                            |
 | `drainage`        | Reference drainage network (vector `.shp` or raster). Used to seed PFS from channels upstream.        |
-| `-output`      | Output pitless DEM (GeoTIFF) after PFS carving (e.g., *outputDEM.tif*).                            |
+| `output`      | Output pitless DEM (GeoTIFF) after PFS carving (e.g., *outputDEM.tif*).                            |
 
 The following example demonstrates how to use `pfsd` tool from the command line:
 ```bash
@@ -345,6 +350,11 @@ Jones, R. (2002). Algorithms for using a DEM for mapping catchment areas of stre
 
 By combining targeted fill sinks (phase 2) with controlled carving (phases 1 and 3), `removepits` is a **hybrid method** designed to preserve local relief while producing reliable D8 flow directions across the entire grid.
 
+
+![](fig/th_removepits.png)
+**Figure - Difference between the hydrologically conditioned DEM (`removepits`) and the original DEM**. Positive values (green–blue) mark areas where elevation was raised by filling; negative values (orange–red) mark areas where elevation was lowered by carving. The hydrological correction is a hybrid method (fill + carve) designed to modify the fewest pixels necessary to achieve a hydrologically consistent DEM. Hillshade background.
+
+
 ---
 
 **Parameters**
@@ -373,7 +383,6 @@ Jardim, A. C. (2017). *Direções de fluxo em modelos digitais de elevação: um
 - [d8drainagev](#d8drainagev)
 - [flowpath](#flowpath) 
 - [segments](#segments)  
-- [outletbasin](#outletbasin)  
 - [mainriver](#mainriver)  
 - [shreve](#shreve)  
 - [strahler](#strahler)  
@@ -561,9 +570,9 @@ th d8drainage d8ca.tif drainage.tif 2000
 
 | Flag        | Description                                                                                     |
 |-------------------|-------------------------------------------------------------------------------------------------|
-| `drainage`  | Input **drainage network** raster (GeoTIFF), e.g., `inputDrainage.tif` (1 = stream, 0 = else). |
-| `d8`            | Input **D8 flow-direction** raster (GeoTIFF), e.g., `inputD8.tif`.                              |
-| `output`    | Output **vector drainage network** (e.g., ESRI Shapefile), e.g., `outputDrainage.shp`.         |
+| `drainage`  | Input drainage network raster (GeoTIFF) (e.g., *inputDrainage.tif* (1 = stream, 0 = else)). |
+| `d8`            | Input D8 flow-direction raster (GeoTIFF) (e.g., *inputD8.tif*).                              |
+| `output`    | Output vector drainage network (e.g., ESRI Shapefile) (e.g., *outputDrainage.shp*).         |
 
 > **Notes** 
 • Ensure the drainage raster is topologically coherent with the D8 grid (both produced from the same DEM).
@@ -636,9 +645,9 @@ Within a segment, there are no intermediate confluences; flow proceeds unbranche
 
 | Flag        | Description                                                                                              |
 |-------------------|----------------------------------------------------------------------------------------------------------|
-| `d8`        | Input **D8 flow-direction** raster (GeoTIFF) (e.g., *inputD8.tif*).                                       |
-| `--drainage`      | Input **binary drainage** raster (GeoTIFF) (e.g., *inputDrainage.tif* (1 = stream, 0 = non-stream)).      |
-| `-o, --output`    | Output **segment ID** raster (GeoTIFF) (e.g., *outputSegments.tif* (unique integer per segment)).         |
+| `d8`        | Input D8 flow-direction raster (GeoTIFF) (e.g., *inputD8.tif*).                                       |
+| `drainage`      | Input binary drainage raster (GeoTIFF) (e.g., *inputDrainage.tif* (1 = stream, 0 = non-stream)).      |
+| `output`    | Output segment ID raster (GeoTIFF) (e.g., *outputSegments.tif* (unique integer per segment)).         |
 
 The following example demonstrates how to use `segments` tool from the command line:
 ```bash
@@ -647,50 +656,23 @@ th segments inputD8.tif inputDrainage.tif outputSegments.tif
 
 *See also*: [d8](#d8), [d8ca](#d8ca), [d8drainage](#d8drainage), [minibasins](#minibasins).
 
-### outletbasin {#outletbasin}  
-
-
-`outletbasin` delineates the contributing basin (upslope area) for a specified outlet cell by tracing cells that drain to that outlet using a D8 flow-direction grid. You provide the outlet’s **row** and **column** indices in the raster; the tool returns a binary basin mask where 1 = inside basin and 0 = outside.
-
-**How it works (summary).**  
-Starting at the outlet cell, the algorithm follows D8 pointers **in reverse** (i.e., finds all cells whose flow exits to the outlet through any upstream path). The result is the complete upslope area that contributes flow to the chosen outlet.
-
-> **Prerequisites.** Use a hydrologically conditioned DEM to compute D8 directions (`d8`), typically after pit removal (`removepits` or `simplepits` + `pfs`/`pfsd`).  
-> **Tip.** Snap the outlet to the stream grid (e.g., from `d8drainage`) to ensure the selected cell lies on-channel.
-
----
-
-**Parameters**
-
-| Flag          | Description                                                                                           |
-|---------------------|-------------------------------------------------------------------------------------------------------|
-| `d8`          | Input D8 flow-direction raster (GeoTIFF) (e.g., *inputD8.tif*).                                    |
-| `inputOutletrow`    | Row index (integer) of the outlet cell to delineate.                                              |
-| `inputOutletcolumn` | Column index (integer) of the outlet cell to delineate.                                           |
-| `output`      | Output outlet basin mask (GeoTIFF; 1 = basin, 0 = non-basin) (e.g., *outputOutletbasin.tif*).      |
-
-The following example demonstrates how to use `segments` tool from the command line:
-```bash
-th outletbasin inputD8.tif inputOutletrow inputOutletcolumn outputOutletbasin.tif
-```
-
-Example:
-```bash
-th outletbasin d8.tif 1453 2078 outlet_basin.tif
-```
-
 
 ### mainriver {#mainriver}  
 
 `mainriver` extracts the main river of a drainage network by tracing upstream from a user-provided mouth (outlet) cell, following the D8 upstream raster and resolving each confluence toward the branch with the largest contributing area. The result is a binary raster where cells along the main channel are marked as river.
 
 **How it works (summary).**  
-Starting at the mouth, the algorithm moves upstream using the `d8toupstream` grid (which encodes which neighbors flow **into** each cell). At every junction, it consults the contributing area raster (`d8ca`) to select the dominant branch (largest upslope area) within the drainage mask. This continues until all sources of the main river are traversed, producing a single, continuous main-stem path.
+Starting at the mouth, the algorithm moves upstream using the `d8toupstream` grid (which encodes which neighbors flow into each cell). At every junction, it consults the contributing area raster (`d8ca`) to select the dominant branch (largest upslope area) within the drainage mask. This continues until all sources of the main river are traversed, producing a single, continuous main-stem path.
 
 > **Prerequisites.**  
 > • A hydrologically conditioned DEM used to derive `d8` → `d8ca` (contributing area) and `d8toupstream` (upstream pointers).  
 > • A binary drainage raster (e.g., from `d8drainage`) aligned with those grids.  
 > • The mouth coordinates (row, column) in a simple text file, typically snapped to a drainage cell.
+
+![](fig/th_mainriver.png)
+
+**Figure - Example of `mainriver` output (blue line) over a hillshade backdrop**. The main stem is traced upstream from the selected mouth, and at each confluence the path follows the branch with the largest contributing area. Use the hillshade to visually confirm that the extracted channel aligns with valley bottoms and longitudinal gradients.
+
 
 ---
 
@@ -709,7 +691,7 @@ The following example demonstrates how to use `mainriver` tool from the command 
 th mainriver inputD8upstream.tif inputDrainage.tif inputAccumulatedArea.tif inputMouth.txt outputRiver.tif
 
 ```
-
+*See also*: [mouths](#mouths), [outletbasin](#outletbasin).
 
 ### shreve {#shreve}  
 
@@ -818,12 +800,593 @@ Pfafstetter, O. (2014). Classificação de bacias hidrográficas: metodologia de
 
 *See also*: [ottobasins](#ottobasins), [strahler](#strahler), [shreve](#shreve).
 
-### mouths {#mouths}  
+### mouths {#mouths}
+
+`mouths` scans a D8 flow-direction grid within a binary drainage mask to find all outlet cells —i.e., drainage cells whose downstream flow exits the domain or reaches NoData/border. It writes their grid coordinates (row, column) to a plain-text (.txt) file for use in downstream workflows.
+
+> **Why it matters.** The mouth list is a key input for **`mainriver`** (tracing the basin’s main stem upstream from a selected outlet). It also supports multi-outlet analyses and Otto-style hierarchies.
+
+![](fig/th_mouth.png)
+
+**Figure - Example of `outputMouths.txt` (one outlet per line, as `row column`).**
+
+
+---
+
+**Parameters**
+
+| Flag      | Description                                                                                          |
+|------------------|------------------------------------------------------------------------------------------------------|
+| `d8`       | Input D8 flow-direction raster (GeoTIFF) (e.g., *inputD8.tif*).                                   |
+| `drainage`     | Input binary drainage raster (GeoTIFF) (e.g., *inputDrainage.tif* (1 = stream, 0 = non-stream)).  |
+| `output`   | Output mouths file (text) (e.g., *outputMouths.txt*).                                             |
+
+The following example demonstrates how to use `mouths` tool from the command line:
+```bash
+th mouths inputD8.tif inputDrainage.tif outputMouths.txt
+```
+**Author**: Dr. Henrique Rennó de Azeredo Freitas
+
+*See also*: [ottobasins](#ottobasins), [mainriver](#mainriver).
+
 ### orderedmouths {#orderedmouths}  
 
+`orderedmouths` reads a list of mouths (outlet cells) and a D8 contributing-area raster, then ranks the mouths from largest to smallest upslope area. The result is a text file where mouths are listed in descending order of contributing area, enabling you to prioritize major outlets (e.g., coastal mouths) for subsequent analyses. Output format: Plain text (`.txt`), one mouth per line: listed from highest** to lowest contributing area.
+
+**Typical use case.** After detecting mouths with `mouths`, use `orderedmouths` to pick the primary outlet (largest catchment) for `mainriver`, or to process outlets in a consistent, area-based order for batch workflows.
+
+---
+
+**Parameters**
+
+| Flag              | Description                                                                                           |
+|-------------------------|-------------------------------------------------------------------------------------------------------|
+| `d8ca`           | Input D8 contributing area raster (GeoTIFF) (e.g., *inputContributingArea.tif*).                   |
+| `mouths`              | Input mouths file (text) with grid coordinates (row, column) (e.g., *inputMouths.txt*).           |
+| `output`          | Output ordered mouths file (text) (e.g., *outputOrderedMouths.txt* - descending contributing area). |
+
+The following example demonstrates how to use `orderedmouths` tool from the command line:
+```bash
+th orderedmouths inputContributingArea.tif inputMouths.txt outputOrderedMouths.txt
+```
+**Author**: Dr. Henrique Rennó de Azeredo Freitas
+
+*See also*: [ottobasins](#ottobasins), [mainriver](#mainriver), [mouths](#mouths).
+
+
+## Basin and Sub-basin Delineation {#Basin-and-Sub-basin-Delineation}
+
+- [minibasins](#minibasins)  
+- [outletbasin](#outletbasin)  
+- [ottobasins](#ottobasins)  
+
+
+### minibasins {#minibasins}  
+
+`minibasins` delineates one contributing area per drainage segment using a D8 flow-direction grid and a segment-ID raster (e.g., from `segments`). Each minibasin corresponds to the set of cells whose flow reaches a single stream segment (bounded by sources, confluences, or outlet). The output raster encodes minibasins with the same unique integer IDs as their associated segments, enabling one-to-one joins between channel attributes and hillslope areas.
+
+**How it works (summary).**  
+1) The input segments raster labels every stream cell with a unique segment ID (between sources/confluences/outlets). 
+2) For each segment, the algorithm traverses upstream (reverse D8) from all its stream cells to collect all contributing terrain cells not already assigned to an upstream segment.  
+3) The collected cells form the minibasin for that segment, and are written with the segment’s ID.
+
+> **Use cases.** Compute per-segment summaries (mean slope, HAND/SAND, rainfall, land cover), run hillslope–channel coupling, or vectorize minibasins for cartography and modeling.
+
+![](fig/th_minibasin.png)
+**Figure - Example minibasins map**. Each drainage segment is associated with a unique minibasin shown in a random color. For clarity, the drainage network is overlaid in black, highlighting segment locations and their corresponding contributing areas.
 
 
 
 
+**Parameters**
+
+| Flag        | Description                                                                                                   |
+|-------------------|---------------------------------------------------------------------------------------------------------------|
+| `d8`        | Input D8 flow-direction raster (GeoTIFF) (e.g., *inputD8.tif*).                                            |
+| `segments`      | Input segment ID raster (GeoTIFF), (e.g., *inputSegments.tif* (unique integer per stream segment)).         |
+| `output`    | Output minibasins raster (GeoTIFF) (e.g., `outputMinibasins.tif` (IDs match `inputSegments.tif`)).         |
+
+The following example demonstrates how to use `minibasins` tool from the command line:
+```bash
+th minibasins inputD8.tif inputSegments.tif outputMinibasins.tif
+```
+
+### outletbasin {#outletbasin} 
+
+`outletbasin` delineates the contributing basin (upslope area) for a user-specified outlet cell by tracing all cells that drain to that point using a D8 flow-direction grid. You provide the outlet’s row and column indices; the tool returns a binary raster mask where 1 = inside the basin and 0 = outside.
+
+**How it works (summary).**  
+Starting at the outlet, the algorithm traverses **upstream** (reverse D8) to collect every cell whose flow ultimately reaches the outlet through any valid path, producing the complete upslope area.
+
+> **Prerequisites.** Use a hydrologically conditioned DEM to compute `d8`, typically after pit/flat treatment (e.g., `removepits` or `simplepits` + `pfs`/`pfsd`).  
+> **Tip.** Snap the outlet to a stream cell (e.g., from `d8drainage`) to ensure a hydrologically meaningful basin.  
+> **QGIS hint — get outlet row/column.** In QGIS, activate *Identify Features* and set the Layer to your D8 raster. Click the outlet cell on the map; in the *Identify Results* panel, note the Row and Column (pixel indices). If your panel shows only coordinates/values, enable pixel indices by right-clicking the raster layer → *Properties → Information* (or use the *Identify Results* panel’s options) to display *row/column*. Use these integers as `inputOutletrow` and `inputOutletcolumn`.
+---
+
+
+
+![](fig/th_outletbasin.png)
+**Figure - Example basin delineated with `outletbasin`**. The basin is shown in yellow with 50% opacity over a hillshade background for terrain context.
+---
+
+**Parameters**
+
+| Flag          | Description                                                                                           |
+|---------------------|-------------------------------------------------------------------------------------------------------|
+| `d8`          | Input D8 flow-direction raster (GeoTIFF) (e.g., *inputD8.tif*).                                    |
+| `inputOutletrow`    | Row index (integer) of the outlet cell to delineate.                                              |
+| `inputOutletcolumn` | Column index (integer) of the outlet cell to delineate.                                           |
+| `output`      | Output basin mask (GeoTIFF; 1 = basin, 0 = non-basin) (e.g., *outputOutletbasin.tif*).             |
+
+The following example demonstrates how to use `outletbasin` tool from the command line:
+```bash
+th outletbasin inputD8.tif inputOutletrow inputOutletcolumn outputOutletbasin.tif
+```
+
+Example:
+```bash
+th outletbasin d8.tif 1453 2078 outlet_basin.tif
+```
+
+*See also*: [mouths](#mouths), [minibasins](#minibasins).
+
+### ottobasins {#ottobasins}  
+
+`ottobasins` delineates basins that are topologically paired with the Otto-coded river segments produced by `ottorivers`. For each Otto river unit (main-stem segment or major tributary at the current hierarchy level), the tool traces upslope using the D8 flow-direction grid to collect all cells whose flow ultimately reaches that unit. The result is a basin raster whose IDs match exactly the Otto codes in the input river grid—ensuring a one-to-one, level-consistent link between river units and their drainage areas.
+
+**Concept & workflow (summary).**  
+1) Read the D8 grid and the Otto-coded rivers raster from `ottorivers`.  
+2) For each coded river unit, follow reverse D8 to accumulate the contributing area unique to that unit (respecting segment boundaries and level).  
+3) Write the Otto basin. Resulting basins can be aggregated or refined across hierarchical levels.
+
+> **Use cases.** Consistent river–basin pairing for Otto/Pfafstetter hierarchies; level-wise statistics (area, precipitation, discharge proxies), cartography, and multi-level modeling pipelines.
+
+---
+
+**Parameters**
+
+| Flag        | Description                                                                                                          |
+|-------------------|----------------------------------------------------------------------------------------------------------------------|
+| `d8`        | Input D8 flow-direction raster (GeoTIFF) (e.g., *inputD8.tif*).                                                   |
+| `ottorivers`    | Input Otto-coded rivers raster (GeoTIFF) from `ottorivers` (e.g., *inputOttoRivers.tif*).                         |
+| `output`    | Output Otto-coded basins raster (GeoTIFF) (e.g., *outputOttoBasins.tif*). |
+
+The following example demonstrates how to use `ottobasins` tool from the command line:
+```bash
+th ottobasins inputD8.tif inputOttoRivers.tif outputOttoBasins.tif
+```
+
+*Reference*:
+
+Pfafstetter, O. (2014). Classificação de bacias hidrográficas: metodologia de codificação. In Agência Nacional de Águas (Brasil), Codificação de bacias hidrográficas pelo método de Otto Pfafstetter: aplicação na ANA (pp. 25–41). Brasília, DF: Autor. Manuscrito, Anexo I. Available at: [https://capacitacao.ana.gov.br/conhecerh/bitstream/ana/104/1/apostila.pdf](https://capacitacao.ana.gov.br/conhecerh/bitstream/ana/104/1/apostila.pdf)
+
+*See also*: [ottorivers](#ottorivers), [strahler](#strahler), [shreve](#shreve).
+
+
+## Geomorphometric analysis {#Geomorphometric-analysis}
+
+- [tpi](#tpi)  
+- [hand](#hand)  
+- [sand](#sand)  
+- [d8slope](#d8slope)  
+
+### tpi {#tpi}  
+
+`tpi` computes the **Topographic Position Index (TPI)**—the difference between the elevation of a focal cell and the mean elevation of its surrounding neighborhood (excluding the focal cell). Positive TPI values indicate local highs (ridges/crests), negative values indicate local lows (valleys/concavities), and values near zero indicate flats or uniform slopes. TPI is scale-dependent: the neighborhood size (window) controls which landforms are emphasized (Weiss, 2001; Jenness, 2006).
+
+**Method (moving window).**  
+For each cell, compute the local mean of neighbors within a user-defined SQUARE or CIRCLE window of given size (in cells), then subtract that mean from the focal elevation. Larger windows capture broader landforms; smaller windows highlight fine-scale features (Weiss, 2001; Jenness, 2006).
+
+**Interpretation.**  
+• **TPI » 0** → ridges/peaks/crests  
+• **TPI « 0** → valleys/channels/depressions  
+• **TPI ≈ 0** → planar or uniformly inclined surfaces
+
+> **Notes**
+> • Choose the window size to match the target landform scale; multi-scale analyses often compute TPI at several sizes (Weiss, 2001).
+> • The approach popularized by Jenness (2006) operationalized TPI for GIS users and helped standardize classification combining TPI with slope and thresholds (SD-based).
+> • TPI is dimensionally consistent with the DEM: results are in the same units (e.g., meters).
+> • The dominance formulation in Muñoz & Valeriano (2014) describes the same concept as the vertical difference to a local average surface.
+---
+
+![](fig/th_tpi.png)
+
+**Figure - Example TPI computed with a circular window of 33 pixels (radius in cells).**  
+Green shades indicate negative TPI (valleys/concavities), warm shades (orange–red) indicate positive TPI (ridges/crests), and yellow represents values near zero (flats or uniform slopes).
+---
+
+
+**Parameters**
+
+| Flag         | Description                                                                                                   |
+|--------------------|-----------------------------------------------------------------------------------------------------------------|
+| `dem`        | Input DEM (GeoTIFF) (e.g., *inputDEM.tif*).                                                                      |
+| `inputWindowSize`  | Neighborhood window size (in **cells**) used to compute the local mean (scale of analysis).                    |
+| `SQUARE|CIRCLE`    | Neighborhood shape: `SQUARE` (square kernel) or `CIRCLE` (circular kernel).                                     |
+| `output`     | Output TPI raster (same elevation units as the DEM) (e.g., *outputTPI.tif*).                                     |
+
+The following example demonstrates how to use `tpi` tool from the command line:
+```bash
+th tpi inputDEM.tif inputWindowSize SQUARE|CIRCLE outputTPI.tif
+```
+
+*References*:
+
+Jenness, J. (2006). Topographic Position Index (tpi_jen.avx) extension for ArcView 3.x (Version 1.2). Jenness Enterprises. [http://www.jennessent.com/arcview/tpi.htm](http://www.jennessent.com/arcview/tpi.htm)
+
+Muñoz, V. A., & de Valeriano, M. M. (2014). Mapping of flood-plain by processing of elevation data from remote sensing. In E. Pardo-Igúzquiza, C. Guardiola-Albert, J. Heredia, L. Moreno-Merino, J. Durán, & J. Vargas-Guzmán (Eds.), Mathematics of Planet Earth (Lecture Notes in Earth System Sciences, pp. 543–546). Springer. [https://doi.org/10.1007/978-3-642-32408-6_106](https://doi.org/10.1007/978-3-642-32408-6_106)
+
+Weiss, A. D. (2001, July). Topographic position and landforms analysis (Poster). ESRI International User Conference, San Diego, CA.
+
+*See also*: [hand](#hand).
+
+
+### hand {#hand}  
+
+`hand` computes the **Height Above the Nearest Drainage (HAND)** (Rennó et al., 2008) for each DEM cell, a terrain descriptor that measures the vertical distance from a cell to its nearest drainage cell along the D8 flow path. By normalizing elevations to the drainage network, HAND highlights local hydrologic gradients (draining potential) and is widely used to delineate valley bottoms, riparian zones, and flood-susceptible areas. 
+
+**Concept (summary).**  
+Given a hydrologically conditioned DEM, a D8 flow grid, and a drainage mask, each cell is linked to its downstream drainage cell via the D8 path. The HAND value is the DEM elevation difference between the cell and that drainage cell. Drainage cells have HAND = 0 by definition; upland cells have positive values that reflect their relative height above channels. This relative (network-referenced) height often correlates with soil moisture regime and water-table depth in low-relief landscapes.
+
+> **Prerequisites.** Use a pitless DEM (e.g., `removepits`), its D8 directions (`d8`), and a drainage grid (`d8drainage`). Ensure rasters share the same extent, resolution, and alignment.
+
+![](fig/th_hand.png)
+**Figure - HAND calculation scheme**. Drainage-network cells are shown as blue squares, and flow path considers exclusively the black-arrow directions (Source: Rennó et al, 2008).
+
+---
+
+**Parameters**
+
+| Flag        | Description                                                                                 |
+|-------------------|---------------------------------------------------------------------------------------------|
+| `dem`       | Input DEM (GeoTIFF) (e.g., *inputDEM.tif*).                                                  |
+| `d8`            | Input D8 flow directions (GeoTIFF) (e.g., *inputD8.tif*).                                    |
+| `drainage`      | Input drainage network (GeoTIFF; 1 = stream, 0 = non-stream) (e.g., *inputDrainage.tif*).    |
+| `output`    | Output HAND raster (GeoTIFF) (e.g., *outputHAND.tif*).                                       |
+
+> **Notes.**  
+> • HAND is relative to the mapped drainage; choosing an appropriate drainage threshold (from d8drainage) affects HAND smoothness and valley width representation.  
+> • Small negative differences caused by noise are typically clamped to 0.
+> • Derived HAND classes can support terrain zoning (e.g., waterlogged / ecotone / upland) and hydrologic modeling (e.g. classes from highest to lowest susceptibility to flooding).
+---
+
+The following example demonstrates how to use `hand` tool from the command line:
+```bash
+th hand inputDEM.tif inputD8.tif inputDrainage.tif outputHAND.tif
+```
+*Reference*:
+
+Rennó, C. D., Nobre, A. D., Cuartas, L. A., Soares, J. V., Hodnett, M. G., Tomasella, J., & Waterloo, M. J. (2008). HAND, a new terrain descriptor using SRTM-DEM: Mapping terra-firme rainforest environments in Amazonia. Remote Sensing of Environment, 112(9), 3469-3481. [https://doi.org/10.1016/j.rse.2008.03.018](https://doi.org/10.1016/j.rse.2008.03.018)
+
+*See also*: [d8](#d8), [d8ca](#d8ca).
+
+
+### sand {#sand}  
+
+`sand` computes the **Slope Above the Nearest Drainage (SAND)** for each DEM cell—i.e., the along-path gradient from the cell down to its nearest drainage cell, following D8 flow directions. Conceptually, SAND complements HAND: while HAND measures vertical distance, SAND measures steepness toward the channel.
+
+> **CRS requirement.** Reproject the DEM to a metric projected CRS (e.g., UTM) before running. Using geographic (lat/long) coordinates will yield incorrect distances and slopes.  
+> **Units.** The SAND output is an angle in radians. If you need other units:  
+> • **Degrees:** `degrees = radians × 180/π`  
+> • **Percent slope:** `percent = tan(radians) × 100`
+---
+
+**How it works (summary).**  
+1) For each cell, follow its D8 path down to the nearest stream cell in the drainage mask.  
+2) Compute the vertical drop (cell elevation minus stream elevation) and divide by the along-path horizontal distance to the stream.  
+3) Convert the resulting rise/run to an angle in radians and write it to the output raster.  
+High SAND values highlight steep valley sidewalls; low values indicate benches and broad floodplains.
+
+
+![](fig/th_sand.png)
+**Figure - Panels showing**:  
+(a) SAND in radians (higher = steeper toward the channel);
+(b) Local slope (standard slope) in radians for comparison.
+
+
+**Parameters**
+
+| Flag        | Description                                                                                                   |
+|-------------------|---------------------------------------------------------------------------------------------------------------|
+| `dem`       | Input DEM (GeoTIFF, metric projected CRS) (e.g., *inputDEM.tif*).                                      |
+| `d8`            | Input D8 flow-direction raster (GeoTIFF) (e.g., *inputD8.tif*).                                            |
+| `drainage`      | Input drainage network raster (GeoTIFF; 1 = stream, 0 = non-stream) (e.g., *inputDrainage.tif*).          |
+| `output`    | Output SAND raster (GeoTIFF, in radians) (e.g., *outputSAND.tif*).                                        |
+
+The following example demonstrates how to use `sand` tool from the command line:
+```bash
+th sand inputDEM.tif inputD8.tif inputDrainage.tif outputSAND.tif
+```
+**Author**: Dr. Laércio Massaru Namikawa and Dr. Henrique Rennó de Azeredo Freitas
+
+*See also*: [hand](#hand), [d8slope](#d8slope).
+
+### d8slope {#d8slope}  
+
+`d8slope` computes the local slope for each cell along its D8 outflow direction (steepest-descent neighbor). For every cell, the tool measures the elevation drop to the selected neighbor and divides by the planimetric distance between cell centers (cardinal = one cell size; diagonal = cell size·√2). The result is written as a **slope angle in radians**.
+
+> **CRS requirement.** Reproject your DEM to a metric projected CRS (e.g., UTM) before running. Using a geographic CRS (lat/long) will yield incorrect distances and slopes.  
+> **Units.** Output is an angle in radians. If you need other units:  
+> • **Degrees:** `degrees = radians × 180/π`  
+> • **Percent slope:** `percent = tan(radians) × 100`
+
+---
+
+**Behavior (summary)**
+- Uses each cell’s D8 pointer to choose the neighbor and computes slope as rise/run along that direction.  
+- Cardinal moves use the cell size; diagonal moves use cell size·√2.  
+- Cells with no valid downslope neighbor (flats, pits, edges/NoData) are set to 0 or NoData (implementation-dependent).
+
+---
+
+**Parameters**
+
+| Flag        | Description                                                                                              |
+|-------------------|----------------------------------------------------------------------------------------------------------|
+| `dem`       | Input DEM (GeoTIFF, in metric projected CRS) (e.g., *inputDEM.tif*).                              |
+| `d8`            | Input D8 flow-direction raster (GeoTIFF) (e.g., *inputD8.tif*).                                       |
+| `output`    | Output D8 slope raster (GeoTIFF, in radians) (e.g., *outputD8Slope.tif*).                            |
+
+The following example demonstrates how to use `d8slope` tool from the command line:
+```bash
+th d8slope inputDEM.tif inputD8.tif outputD8Slope.tif
+```
+
+**Author**: Dr. Henrique Rennó de Azeredo Freitas
+
+*See also*: [d8](#d8), [sand](#sand).
+
+## Applied Hydrology & Risk Management {#Applied-Hydrology-Risk-Management}
+
+- [gfplain](#gfplain)  
+- [damcourse](#damcourse)  
+- [damsections](#damsections)  
+- [dambreak](#dambreak)  
+
+### gfplain {#gfplain} 
+
+`gfplain` delineates floodplains and computes water height by linking topography to a hydrogeomorphic scaling of channel stage (Nardi et al., 2006, 2019). For each drainage‐network cell, a potential water level is assigned using the stream power law  
+\[
+h = a \cdot A^{\,b}
+\]
+where \(A\) is the contributing (upslope) area and \(a, b\) are empirical parameters. The resulting channel water surface \((z + h)\) is then compared against surrounding terrain to flag cells whose elevations are lower than that level as floodplain. This produces (1) a binary floodplain raster and (2) a water-height raster consistent with the selected scaling.
+
+**Concept & workflow (summary).**  
+1) Prepare inputs: compute D8 flow directions and contributing area, then derive a drainage mask (e.g., by area threshold).  
+2) For each stream cell, estimate a water level using the stream power law, and add it to the channel elevation.  
+3) Map the floodplain as all cells connected to the channel that lie below this water level; also save the resulting water-height grid.
+
+> **About the power law parameters.**  
+> • **\(a\) (coefficient)** scales the overall magnitude of stage—larger \(a\) yields higher channel levels and broader mapped floodplains for a given \(A\). In practice, \(a\) can reflect the event severity (e.g., return period) and reach characteristics and is typically calibrated against observed/benchmark flood extents or hydrodynamic outputs.
+
+> • **\(b\) (exponent)** controls how stage grows with river size; empirical studies report positive values that capture hydro-climatic and geomorphic controls (e.g., wider/deeper valleys downstream). Tuning \(b\) affects longitudinal consistency of mapped floodplains across orders.
+
+
+---
+
+**Parameters**
+
+| Flag               | Description                                                                                                                |
+|--------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| `dem`              | Input DEM (GeoTIFF) (e.g., *inputDEM.tif*).                                                                             |
+| `d8`                   | Input D8 flow directions (GeoTIFF) (e.g., inputD8.tif*).                                                                |
+| `accum`                | Input contributing area raster (GeoTIFF) (e.g., *inputContributingArea.tif*).                                           |
+| `drainage`             | Input drainage network raster (GeoTIFF; 1 = stream, 0 = non-stream), e.g., `inputDrainage.tif`.                        |
+| `a`                    | Coefficient \(a\) in \(h=aA^b\). Sets overall stage magnitude (event/region scale).                                     |
+| `b`                    | Exponent \(b\) in \(h=aA^b\). Controls stage growth with \(A\) (network scaling).                                       |
+| `floodplain`       | Output floodplain mask (GeoTIFF; 1 = floodplain) (e.g., *outputFloodplain.tif*).                                        |
+| `waterheight`          | Output water height grid (GeoTIFF) computed from \(h=aA^b\) (e.g., *outputWaterHeight.tif*).                            |
+
+> **Notes**  
+> • Use a hydrologically conditioned DEM and aligned rasters (same extent/resolution). The drainage mask typically derives from a threshold applied to contributing area.
+> • Calibrate \(a\), \(b\) with local evidence (gauges, reference flood maps, or 2D models) for event-specific applications; defaults may be used for reconnaissance mapping, acknowledging uncertainty.
+> • The method targets rapid, large-area mapping and complements physics-based simulations; it follows the hydrogeomorphic lineage from Nardi et al. (2006) to the global GFPLAIN framework.
+
+The following example demonstrates how to use `gfplain` tool from the command line:
+```bash
+th gfplain inputDEM.tif inputD8.tif inputContributingArea.tif inputDrainage.tif \
+           inputA inputB outputFloodplain.tif outputWaterHeight.tif
+```
+
+*Reference*:
+
+Nardi, F., Vivoni, E. R. & Grimaldi, S (2006). Investigating a floodplain scaling relation using a hydrogeomorphic delineation method. Water Resources Research, 42, W09409. [https://doi.org/10.1029/2005WR004155](https://doi.org/10.1029/2005WR004155)
+
+Nardi, F., Annis, A., Di Baldassarre, G., Vivoni, E. R., & Grimaldi, S. (2019). GFPLAIN250m, a global high-resolution dataset of Earth's floodplains. Sci Data, 6, 180309. [https://doi.org/10.1038/sdata.2018.309](https://doi.org/10.1038/sdata.2018.309)
+
+*See also*: [hand](#hand), [tpi](#tpi).
+
+
+### damcourse {#damcourse}  
+
+<div class="prom-box prom-box-default shadow1" 
+     style="background: #C7E2FF; color: #101010; font-size: 16px; line-height: 1.7;">
+  <ul>
+    <li>**Context** - The dam-break tools in TerraHidro (`damcourse`, `damsections`, `dambreak`) were created to automate the steps of the Simplified Method (MS) ANA 2.0 (Tschiedel et al., 2023) within TerraHidro/QGIS, replacing the semi-manual sequence formerly done across ArcGIS/Excel and delivering large efficiency gains.;</li>
+  </ul>
+</div>
+
+`damcourse` automatically traces dam-break flow paths downstream from user-provided dam points, stopping when a chosen criterion is met. It implements the simplified ANA 2.0 workflow inside TerraHidro so you don’t have to alternate between GIS and spreadsheets.
+
+The primary stop condition is when the ratio between the estimated peak discharge 
+\(Q_p\) (from dam height and volume) and the \(Q_5\) specific-discharge–based flow along the path satisfies *\(Q_p\)/\(Q_5\) < 5*. Unlike the original semi-manual procedure, TerraHidro traces the path cell-by-cell on the raster flow grid from the dam location to the first cell where the ratio falls below 5, eliminating manual drawing and intermediate spreadsheet steps.
+
+Starting at each dam location, the tool follows the D8 flow directions cell-by-cell, computes the local \(Q_5\) discharge from the specific \(Q_5\) of the subbasin and the cell’s contributing area, and grows the path downstream until a stop rule is satisfied. Two stop rules are supported:
+
+> **Notes**  
+> • *Q5LENGTH*: stop where the ratio *\(Q_{peak}\)/\(Q_5\) < 5*.
+> • *HVLENGTH*: also cap the path length by dam size: ≤ 20 km if \H\ ≤ 15 m and 
+\V\ ≤ 3 hm³; otherwise ≤ 50 km.
+
+If \(Q_p\) is not provided, it is estimated from dam height and volume using one of two empirical formulas (Froehlich, 1995; or Ferla, 2018). Output products include an updated dam layer with the computed peak discharge and a polyline layer representing the dam-break course.
+
+> **CRS requirement**.
+All inputs must be in a projected CRS with metric units (e.g., UTM). Length limits (20 km/50 km) and Manning/hydraulic calculations elsewhere in the workflow assume meters.
+
+| Flag                        | Description                                                                                                                                                                                                                                                                                                                                   |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `inputDams.shp`             | Point shapefile of dams (projected in metric CRS, e.g., UTM). Required attributes and types: `id` (*int64*), `height` (*real*; dam height in m), `volume` (*real*; reservoir volume in hm³), `Qp` (*real*; peak discharge in m³/s, use **–1** to compute from equation), `equationQp` (*string*; choose **FROEHLICH** or **FERLA**).  |
+| `inputQ5Subbasins.shp`      | Polygon shapefile of sub-basins (metric CRS) with the field `Q5_m3sKm2` (specific Q5 discharge, m³ s⁻¹ km⁻²). Internally rasterized (temporary) via `gdal_rasterize`; ensure the executable is on your system `PATH`.                                                                                                                 |
+| `inputD8.tif`               | D8 flow directions raster derived from a hydrologically conditioned DEM (e.g., `removepits` → `d8`).                                                                                                                                                                                                                                  |
+| `inputContributingArea.tif` | D8 contributing area raster (from `d8ca`).                                                                                                                                                                                                                                                                                                |
+| `Q5LENGTH \| HVLENGTH`      | Stopping criterion: `Q5LENGTH` limits course length where the Qp/Q5 ratio first drops below 5; `HVLENGTH` also applies empirical caps: ≤20 km if H ≤ 15 m and V ≤ 3 hm³; ≤50 km if H > 15 m or V > 3 hm³. Q5 is computed on-the-fly as (specific Q5) × (contributing area).                           |
+| `outputDams.shp`            | Point shapefile copying inputs and adding computed `calcQpeak` (peak discharge) when `Qp = -1` and `equationQp` is set (FROEHLICH/FERLA).                                                                                                                                                                                             |
+| `outputWaterCourses.shp`    | Line shapefile of automatically traced dam-break water courses following `inputD8.tif` from the dam cell downstream until the stopping criterion is met.                                                                       
+
+
+The following example demonstrates how to use `damcourse` tool from the command line:
+```bash
+th damcourse inputDams.shp inputQ5Subbasins.shp inputD8.tif inputContributingArea.tif Q5LENGTH|HVLENGTH outputDams.shp outputWaterCourses.shp
+```
+                                                               
+<div class="prom-box prom-box-default shadow1" 
+     style="background: #C7E2FF; color: #101010; font-size: 16px; line-height: 1.7;">
+  <ul>
+    <li>**Inputs**</li>
+    <li>inputDams.shp — Point shapefile of dams (projected, meters) with attributes:</li>
+
+> id (int64): unique dam ID
+
+> height (double, meters)
+
+> volume (double, hm³)
+
+> Qpeak (double, m³/s; set −1.0 to compute from an equation)
+
+> equationQpeak (int32: 0 = FROEHLICH, 1 = FERLA)
+
+<li>If Qpeak = −1.0, the tool computes \(Q_p\) using the selected equation and stores it in *calcQpeak* output; </li>
+
+<li>inputQ5Subbasins.shp — polygons of sub-basins with \(Q_5\) specific discharge with attribute: </li>
+
+>*Q5_m3sKm2* (real; $m^3 \cdot s^{-1} \cdot km^{-2}$); used to derive \(Q_5\) along the traced path.
+
+<li>inputD8.tif — D8 flow directions raster (pit/flat corrected DEM).</li>
+<li>inputContributingArea.tif — contributing area raster aligned to inputD8.tif.</li>
+<li>Q5LENGTH | HVLENGTH — stop-mode flag:
+  <ul>
+    <li>Q5LENGTH — limit by \( Q_p / Q_5 < 5 \)</li>
+    <li>HVLENGTH — apply \( Q_p / Q_5 < 5 \) plus length caps based on H and V (20 km / 50 km).</li>
+  </ul>
+</li>
+<li>**Outputs**</li>
+ <li>outputDams.shp — points with added field calcQpeak (double) containing the \(Q_p\) used (from attribute or equation).</li>
+    
+<li>outputWaterCourses.shp — lines representing the dam-break water course traced downstream following D8 until the stop condition is reached.</li>
+  </ul>
+</div>
+                                         
+
+*Reference*:
+
+Tschiedel, A. F., Bomfim, M., Menescal, R. A., & Oliveira, R. C. (2023). Novo método simplificado para estimativas de manchas de inundação associadas ao rompimento hipotético de barragens. In Anais do XXXXIV Seminário Nacional de Grandes Barragens (Foz do Iguaçu, Brasil). Comitê Brasileiro de Barragens. [https://cbdb-web-uploads.s3.amazonaws.com/system/uploads/ckeditor/attachments/1367/002_-_NOVO_M%C3%89TODO_SIMPLIFICADO_PARA_ESTIMATIVAS_DE_MANCHAS_DE_INUNDA%C3%87%C3%83O_ASSOCIADAS_AO_ROMPIMENTO_HIPOT%C3%89TICO_DE_BARRAGENSv4.pdf](https://cbdb-web-uploads.s3.amazonaws.com/system/uploads/ckeditor/attachments/1367/002_-_NOVO_M%C3%89TODO_SIMPLIFICADO_PARA_ESTIMATIVAS_DE_MANCHAS_DE_INUNDA%C3%87%C3%83O_ASSOCIADAS_AO_ROMPIMENTO_HIPOT%C3%89TICO_DE_BARRAGENSv4.pdf)
+
+Ferla, R. (2018). Metodologia simplificada para análise de aspectos hidráulicos em rompimento de barragens [Dissertação de mestrado, Universidade Federal do Rio Grande do Sul]. Instituto de Pesquisas Hidráulicas (IPH). [https://lume.ufrgs.br/handle/10183/180112](https://lume.ufrgs.br/handle/10183/180112)
+
+Froehlich, D. C. (1995). Peak outflow from breached embankment dam (and related works on dam-breach peak discharge). [https://doi.org/10.1061/(ASCE)0733-9496(1995)121:1(90)](https://doi.org/10.1061/(ASCE)0733-9496(1995)121:1(90))
+
+*See also*: [damsections](#damsections), [dambreak](#dambreak).
+
+
+### damsections {#damsections}
+
+`damsections` creates cross-sections along each water course generated by `damcourse`. The tool lays out a user-defined number of straight transects per course, each with a fixed total length, centered on the course line and oriented perpendicular to the local flow path. These sections are intended for rapid, map-based characterization of potential inundation corridors downstream of hypothetical dam-break scenarios, complementing the hydro-geomorphic screening workflow adopted in the ANA project.
+
+In the ANA workflow, dam-break screening first traces water courses downstream from dams using geomorphic surrogates (e.g., D8 flow directions and contributing area) and reference discharges; subsequently, regular cross-sections are placed along those courses to support quick measurements (e.g., width sampling, profile extraction, and cartographic visualization). Unlike the profile placement in MS ANA 2.0 (which follows pre-established fluvial profiles and specific selection rules), damsections always builds straight, orthogonal transects to the course geometry at evenly spaced locations, using only the inputs listed below (no hydraulic model is required).
+
+> **Notes**  
+> **Requirements (CRS & units)** - All input vectors must be in a projected CRS with metric units (e.g., UTM). The section length parameter is interpreted in meters; the generated transects are centered on the course and extend equally to both sides (half length to each side).
+
+
+The sectioning step is part of the hydro-geomorphic screening approach developed by ANA to rapidly assess dam-break corridors using DEM-derived flow paths, reference discharges, and simple surrogates—prior to any full hydraulic modeling. Peak discharge screening commonly references empirical relations such as Froehlich (1995) and Ferla (2018), while the geometric placement of sections for mapping and rapid profiling is handled here by damsections.
+
+**Typical use** - After producing water courses with `damcourse` (limited by either *\(Q_p\)/\(Q_5\)* ratio or also dam *H*/*V* constraints), call `damsections` to place *N* orthogonal transects of length *L* along each course for subsequent elevation profiling, width statistics, or map annotation.
+
+| Flag                | Description                                                                                           |
+| ----------------------- | ----------------------------------------------------------------------------------------------------- |
+| *inputWaterCourses.shp* | Input polyline shapefile of water courses (metric CRS, e.g., UTM).                                |
+| *SECTIONS*              | Integer number of cross-sections to create per course (uniform spacing).                      |
+| *LENGTH*                | Double transect total length in meters (drawn perpendicular to the course, centered on it).   |
+| *outputSections.shp*    | Output polyline shapefile of generated cross-sections with course/section identifiers and length. |
+
+
+The following example demonstrates how to use `damsections` tool from the command line:
+```bash
+th damsections inputWaterCourses.shp SECTIONS LENGTH outputSections.shp
+```
+
+*Reference*:
+
+Ferla, R. (2018). Metodologia simplificada para análise de aspectos hidráulicos em rompimento de barragens [Dissertação de mestrado, Universidade Federal do Rio Grande do Sul]. Instituto de Pesquisas Hidráulicas (IPH). [https://lume.ufrgs.br/handle/10183/180112](https://lume.ufrgs.br/handle/10183/180112)
+
+Froehlich, D. C. (1995). Peak outflow from breached embankment dam (and related works on dam-breach peak discharge). [https://doi.org/10.1061/(ASCE)0733-9496(1995)121:1(90)](https://doi.org/10.1061/(ASCE)0733-9496(1995)121:1(90))
+
+Tschiedel, A. F., Bomfim, M., Menescal, R. A., & Oliveira, R. C. (2023). Novo método simplificado para estimativas de manchas de inundação associadas ao rompimento hipotético de barragens. In Anais do XXXXIV Seminário Nacional de Grandes Barragens (Foz do Iguaçu, Brasil). Comitê Brasileiro de Barragens. [https://cbdb-web-uploads.s3.amazonaws.com/system/uploads/ckeditor/attachments/1367/002_-_NOVO_M%C3%89TODO_SIMPLIFICADO_PARA_ESTIMATIVAS_DE_MANCHAS_DE_INUNDA%C3%87%C3%83O_ASSOCIADAS_AO_ROMPIMENTO_HIPOT%C3%89TICO_DE_BARRAGENSv4.pdf](https://cbdb-web-uploads.s3.amazonaws.com/system/uploads/ckeditor/attachments/1367/002_-_NOVO_M%C3%89TODO_SIMPLIFICADO_PARA_ESTIMATIVAS_DE_MANCHAS_DE_INUNDA%C3%87%C3%83O_ASSOCIADAS_AO_ROMPIMENTO_HIPOT%C3%89TICO_DE_BARRAGENSv4.pdf)
+
+*See also*: [damcourse](#damcourse), [dambreak](#dambreak).
+
+### dambreak {#dambreak}  
+
+`dambreak` simulates downstream consequences of a dam-break along a predefined water course, producing (i) the basin drained by that course, (ii) water height, (iii) floodplain extent, (iv) flow velocity, and (v) hydrodynamic hazard. The procedure operationalizes the workflow documented for ANA (Agência Nacional de Águas e Saneamento Básico), including peak-discharge estimation, discharge decay along the course, section-based hydraulic computations, gridded mapping, and hazard classification. All inputs must share the same projected CRS in metric units (e.g., UTM).
+
+> **What it does (overview)**
+
+> • Reads dam points and (if needed) computes peak outflow 
+\(Q_p\) from an empirical equation (Froehlich or Ferla).
+
+> • Routes the outflow along the provided water course, applying a discharge-decay method (MSANA1 or MSANA2).
+
+> • At each cross-section, derives stage, wetted area and velocity (via Manning’s equation), then interpolates water levels along segments.
+
+> • Builds rasters of water height and floodplain, and computes velocity and hydrodynamic hazard maps.
+
+<div class="prom-box prom-box-default shadow1" 
+     style="background: #C7E2FF; color: #101010; font-size: 16px; line-height: 1.7;">
+  <ul>
+    <li><em>MSANA1</em>: Uses a simple discharge-decay along the water course primarily driven by the peak outflow (Q<sub>p</sub>) at the dam and background specific discharge (Q<sub>5</sub>). Fewer inputs, faster screening; more conservative and uniform decay.</li>
+    <li><em>MSANA2</em>: Extends the decay scheme by also accounting for dam-height/volume effects and reach properties (via section-to-section routing). More inputs and computation; produces decay that reflects storage and local hydraulics.</li>
+    <li><em>When to choose</em>: Use <em>MSANA1</em> for rapid, screening-level scenarios or when only Q<sub>p</sub> and Q<sub>5</sub> are available. Use <em>MSANA2</em> when dam geometry (height/volume) and section data are available and a more process-aware decay is desired.</li>
+    <li><em>Outputs impacted</em>: Both methods generate the same set of maps (water level/height, floodplain, velocity, hazard), but <em>MSANA2</em> typically yields spatially variable attenuation that can shorten/lengthen affected reaches compared to <em>MSANA1</em>.</li>
+  </ul>
+</div>
+
+
+| Flag                            | Description                                                                                                                                                                                                            |                                                                                                      |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `inputDams.shp`                 | Point shapefile of dams. Required attributes and types: `id` (int64), `height` (double, meters), `volume` (double, hm³), `Qpeak` (double, m³/s; set −1 to compute), `equationQpeak` (string: `FROEHLICH` or `FERLA`).  |                                                                                                      |
+| `inputWaterCourses.shp`         | Line shapefile of dam-break water courses along which routing is performed. Created beforehand (e.g., with `damcourse`). All geometry units must be meters.                                                            |                                                                                                      |
+| `inputSections.shp`             | Line shapefile of cross-sections orthogonal to the water course, spaced by the user (e.g., with `damsections`). Units in meters.                                                                                       |                                                                                                      |
+| `inputDEM.tif`                  | Hydrologically conditioned DEM used for elevations and flood mapping. Projected in meters.                                                                                                                             |                                                                                                      |
+| `inputD8.tif`                   | D8 flow-direction grid consistent with the DEM.                                                                                                                                                                        |                                                                                                      |
+| `inputD8Upstream.tif`           | D8 upstream pointers; used for network traversal and basin delineation.                                                                                                                                                |                                                                                                      |
+| `inputContributingArea.tif`     | D8 contributing-area grid aligned with the DEM.                                                                                                                                                                        |                                                                                                      |
+| `inputManning`                  | Scalar Manning’s n used in velocity computation along cross-sections.                                                                                                                                                  |                                                                                                      |
+| `MSANA1                         | MSANA2`                                                                                                                                                                                                                | Method for discharge decay along the course (two alternative ANA methods provided by the workflow).  |
+| `outputDirectory`               | Directory where all raster and text outputs are written (e.g., subfolders for dambasin and profiles).                                                                                                                  |                                                                                                      |
+| `outputSections.shp`            | Cross-sections with appended attributes per section: DEM elevation at thalweg, wetted area, discharge, water height, water level, velocity, and hydrodynamic hazard.                                                   |                                                                                                      |
+| `outputWaterCourseSegments.shp` | Course segments between sections with attributes: endpoints (coords/elev), length, slope, discharge, water height/level, velocity, and hazard.                                                                         |                                                                                                      |
+| `outputWaterCourseBasin.tif`    | Raster basin drained by the selected water course.                                                                                                                                                                     |                                                                                                      |
+| `outputWaterHeight.tif`         | Raster of water height above ground.                                                                                                                                                                                   |                                                                                                      |
+| `outputFloodplain.tif`          | Binary floodplain raster derived from stage relative to terrain.                                                                                                                                                       |                                                                                                      |
+| `outputVelocity.tif`            | Raster of flow velocity interpolated from section-wise calculations.                                                                                                                                                   |                                                                                                      |
+| `outputHydrodynamicHazard.tif`  | Raster of hydrodynamic hazard (function of water height and velocity).                                                                                                                                                 |                                                                                                      |
+
+
+The following example demonstrates how to use `dambreak` tool from the command line:
+```bash
+th dambreak \
+  inputDams.shp inputWaterCourses.shp inputSections.shp \
+  inputDEM.tif inputD8.tif inputD8Upstream.tif inputContributingArea.tif \
+  inputManning MSANA1|MSANA2 \
+  outputDirectory \
+  outputSections.shp outputWaterCourseSegments.shp \
+  outputWaterCourseBasin.tif outputWaterHeight.tif outputFloodplain.tif \
+  outputVelocity.tif outputHydrodynamicHazard.tif
+```
+*Reference*:
+
+Tschiedel, A. F., Bomfim, M., Menescal, R. A., & Oliveira, R. C. (2023). Novo método simplificado para estimativas de manchas de inundação associadas ao rompimento hipotético de barragens. In Anais do XXXXIV Seminário Nacional de Grandes Barragens (Foz do Iguaçu, Brasil). Comitê Brasileiro de Barragens. [https://cbdb-web-uploads.s3.amazonaws.com/system/uploads/ckeditor/attachments/1367/002_-_NOVO_M%C3%89TODO_SIMPLIFICADO_PARA_ESTIMATIVAS_DE_MANCHAS_DE_INUNDA%C3%87%C3%83O_ASSOCIADAS_AO_ROMPIMENTO_HIPOT%C3%89TICO_DE_BARRAGENSv4.pdf](https://cbdb-web-uploads.s3.amazonaws.com/system/uploads/ckeditor/attachments/1367/002_-_NOVO_M%C3%89TODO_SIMPLIFICADO_PARA_ESTIMATIVAS_DE_MANCHAS_DE_INUNDA%C3%87%C3%83O_ASSOCIADAS_AO_ROMPIMENTO_HIPOT%C3%89TICO_DE_BARRAGENSv4.pdf)
+
+*See also*: [damcourse](#damcourse), [damsections](#damsections).
 
 

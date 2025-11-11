@@ -2,16 +2,24 @@
 title: "TerraHidro User Manual"
 author: "Division of Earth Observation and Geoinformatics - DIOTG"
 date: "`r Sys.Date()`"
-site: bookdown::bookdown_site
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
 documentclass: book
-bibliography: [book.bib, packages.bib]
-# url: your book url like https://bookdown.org/yihui/bookdown
+bibliography:
+- book.bib
+- packages.bib
 cover-image: fig/logo_terrahidro.jpg
-description: |
-  The TerraHidro Manual is a practical, task-oriented guide to hydrological and geomorphometric processing with TerraHidro. It covers setup (Command-Line Interface and QGIS plugin), required data formats, and step-by-step workflows to build a hydrologically conditioned DEM. Each tool includes concise theory, parameters, command examples, and figures, followed by end-to-end examples for flow direction, contributing area, drainage/watershed delineation, and export for GIS.
-
-link-citations: yes
-github-repo: rstudio/bookdown-demo
+description: "The TerraHidro Manual is a practical, task-oriented guide to hydrological
+  and geomorphometric processing with TerraHidro. It covers setup (Command-Line Interface
+  and QGIS plugin), required data formats, and step-by-step workflows to build a hydrologically
+  conditioned DEM. Each tool includes concise theory, parameters, command examples,
+  and figures, followed by end-to-end examples for flow direction, contributing area,
+  drainage/watershed delineation, and export for GIS.\n"
+link-citations: true
+github-repo: "rstudio/bookdown-demo"
+site: bookdown::bookdown_site
 ---
 
 # Preface
@@ -32,8 +40,6 @@ Division of Earth Observation and Geoinformatics - DIOTG
 National Institute for Space Research - INPE
 
 São José dos Campos, Brazil
-
-October 25, 2025
 
 Sponsored by:
 
