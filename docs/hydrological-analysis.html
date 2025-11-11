@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3 Hydrological Analysis | TerraHidro User Manual</title>
   <meta name="description" content="The TerraHidro Manual is a practical, task-oriented guide to hydrological and geomorphometric processing with TerraHidro. It covers setup (Command-Line Interface and QGIS plugin), required data formats, and step-by-step workflows to build a hydrologically conditioned DEM. Each tool includes concise theory, parameters, command examples, and figures, followed by end-to-end examples for flow direction, contributing area, drainage/watershed delineation, and export for GIS." />
-  <meta name="generator" content="bookdown 0.45 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 Hydrological Analysis | TerraHidro User Manual" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Division of Earth Observation and Geoinformatics - DIOTG" />
 
 
-<meta name="date" content="2025-10-26" />
+<meta name="date" content="2025-11-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -215,7 +215,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="how-to-cite.html"><a href="how-to-cite.html#cite-the-terrahidro-system-bibtex"><i class="fa fa-check"></i>Cite the TerraHidro System (BibTeX)</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="tutorials.html"><a href="tutorials.html"><i class="fa fa-check"></i><b>5</b> Tutorials</a></li>
-<li class="chapter" data-level="6" data-path="license.html"><a href="license.html"><i class="fa fa-check"></i><b>6</b> License</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="_blank">Published with bookdown</a></li>
 
@@ -277,7 +276,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>simplepits</code> tool from the command line:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="hydrological-analysis.html#cb5-1" tabindex="-1"></a><span class="ex">th</span> simplepits inputDEM.tif outputDEM.tif</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="hydrological-analysis.html#cb1-1" tabindex="-1"></a><span class="ex">th</span> simplepits inputDEM.tif outputDEM.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>Jardim, A. C. (2017). <em>Direções de fluxo em modelos digitais de elevação: um método com foco na qualidade da estimativa e processamento de grande volume de dados</em> [Doctoral dissertation, Instituto Nacional de Pesquisas Espaciais (INPE)]. <a href="http://mtc-m21b.sid.inpe.br/col/sid.inpe.br/mtc-m21b/2017/05.17.13.26/doc/publicacao.pdf?metadatarepository=sid.inpe.br/mtc-m21b/2017/05.17.13.26.57&amp;mirror=sid.inpe.br/mtc-m21b/2013/09.26.14.25.22&amp;languagebutton=en">https://sid.inpe.br/mtc-m21b/2017/05.17.13.26</a></p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#pfs">pfs</a>, <a href="hydrological-analysis.html#removepits">removepits</a>.</p>
@@ -341,9 +340,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>agreedem</code> tool from the command line:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="hydrological-analysis.html#cb6-1" tabindex="-1"></a><span class="ex">th</span> agreedem inputDEM.tif inputDrainage.shp BURN BUFFER SMOOTH outputDEM.tif</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="hydrological-analysis.html#cb2-1" tabindex="-1"></a><span class="ex">th</span> agreedem inputDEM.tif inputDrainage.shp BURN BUFFER SMOOTH outputDEM.tif</span></code></pre></div>
 <p>Example (illustrative):</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="hydrological-analysis.html#cb7-1" tabindex="-1"></a><span class="ex">th</span> agreedem inputDEM.tif inputDrainage.shp 20 3 10 outputDEM.tif</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="hydrological-analysis.html#cb3-1" tabindex="-1"></a><span class="ex">th</span> agreedem inputDEM.tif inputDrainage.shp 20 3 10 outputDEM.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>Clarke, S., &amp; Burnett, K. (2003). Comparison of digital elevation models for aquatic data development. Photogrammetric Engineering &amp; Remote Sensing, 69(12), 1367-1375. <a href="https://doi.org/10.14358/PERS.69.12.1367">https://doi.org/10.14358/PERS.69.12.1367</a></p>
 <p>Wang, J., Li, L., Hao, Z., &amp; Gourley, J. J. (2011). Stream guiding algorithm for deriving flow direction from DEM and location of main streams. IAHS-AISH Publication, 346, 198-205.</p>
@@ -387,9 +386,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>flatareas</code> tool from the command line:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="hydrological-analysis.html#cb8-1" tabindex="-1"></a><span class="ex">th</span> flatareas inputDEM.tif MINCELLS outputFlatAreas.tif</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="hydrological-analysis.html#cb4-1" tabindex="-1"></a><span class="ex">th</span> flatareas inputDEM.tif MINCELLS outputFlatAreas.tif</span></code></pre></div>
 <p>Example:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="hydrological-analysis.html#cb9-1" tabindex="-1"></a><span class="ex">th</span> flatareas inputDEM.tif 25 outputFlatAreas.tif</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="hydrological-analysis.html#cb5-1" tabindex="-1"></a><span class="ex">th</span> flatareas inputDEM.tif 25 outputFlatAreas.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>Jardim, A. C. (2017). <em>Direções de fluxo em modelos digitais de elevação: um método com foco na qualidade da estimativa e processamento de grande volume de dados</em> [Doctoral dissertation, Instituto Nacional de Pesquisas Espaciais (INPE)]. <a href="http://mtc-m21b.sid.inpe.br/col/sid.inpe.br/mtc-m21b/2017/05.17.13.26/doc/publicacao.pdf?metadatarepository=sid.inpe.br/mtc-m21b/2017/05.17.13.26.57&amp;mirror=sid.inpe.br/mtc-m21b/2013/09.26.14.25.22&amp;languagebutton=en">https://sid.inpe.br/mtc-m21b/2017/05.17.13.26</a></p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#carvev">carvev</a>, <a href="hydrological-analysis.html#carve">carve</a>.</p>
@@ -426,7 +425,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>carvev</code> tool from the command line:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="hydrological-analysis.html#cb10-1" tabindex="-1"></a><span class="ex">th</span> carvev inputDEM.tif outputDEM.tif</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="hydrological-analysis.html#cb6-1" tabindex="-1"></a><span class="ex">th</span> carvev inputDEM.tif outputDEM.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>Jardim, A. C. (2017). <em>Direções de fluxo em modelos digitais de elevação: um método com foco na qualidade da estimativa e processamento de grande volume de dados</em> [Doctoral dissertation, Instituto Nacional de Pesquisas Espaciais (INPE)]. <a href="http://mtc-m21b.sid.inpe.br/col/sid.inpe.br/mtc-m21b/2017/05.17.13.26/doc/publicacao.pdf?metadatarepository=sid.inpe.br/mtc-m21b/2017/05.17.13.26.57&amp;mirror=sid.inpe.br/mtc-m21b/2013/09.26.14.25.22&amp;languagebutton=en">https://sid.inpe.br/mtc-m21b/2017/05.17.13.26</a></p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#flatareas">flatareas</a>, <a href="hydrological-analysis.html#carve">carve</a>.</p>
@@ -485,9 +484,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>carve</code> tool from the command line:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="hydrological-analysis.html#cb11-1" tabindex="-1"></a><span class="ex">th</span> carve inputDEM.tif inputDrainage.shp inputFlatAreas.tif DRNON<span class="kw">|</span><span class="ex">DRNOFF</span> CROSS<span class="kw">|</span><span class="ex">DIAG</span><span class="kw">|</span><span class="ex">ALL</span> outputDEM.tif</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="hydrological-analysis.html#cb7-1" tabindex="-1"></a><span class="ex">th</span> carve inputDEM.tif inputDrainage.shp inputFlatAreas.tif DRNON<span class="kw">|</span><span class="ex">DRNOFF</span> CROSS<span class="kw">|</span><span class="ex">DIAG</span><span class="kw">|</span><span class="ex">ALL</span> outputDEM.tif</span></code></pre></div>
 <p>Example (illustrative):</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="hydrological-analysis.html#cb12-1" tabindex="-1"></a><span class="ex">th</span> carve inputDEM.tif inputDrainage.shp FlatAreas.tif DRNON ALL outputDEM.tif</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="hydrological-analysis.html#cb8-1" tabindex="-1"></a><span class="ex">th</span> carve inputDEM.tif inputDrainage.shp FlatAreas.tif DRNON ALL outputDEM.tif</span></code></pre></div>
 <p><strong>Author</strong>: Dr. Henrique Rennó de Azeredo Freitas</p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#flatareas">flatareas</a>, <a href="hydrological-analysis.html#carvev">carvev</a>.</p>
 </div>
@@ -531,7 +530,7 @@ Use <code>fill</code> early in the workflow to produce a complete, gap-free DEM 
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>fill</code> tool from the command line:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="hydrological-analysis.html#cb13-1" tabindex="-1"></a><span class="ex">th</span> fill inputDEM.tif referenceDEM.tif outputDEM.tif</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="hydrological-analysis.html#cb9-1" tabindex="-1"></a><span class="ex">th</span> fill inputDEM.tif referenceDEM.tif outputDEM.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>Grohman, G., Kroenung, G. and Strebeck, J., 2006. Filling SRTM voids: The delta surface fill method. Photogrammetric Engineering and Remote Sensing, 72(3), pp.213-216.</p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#simplepits">simplepits</a>, <a href="hydrological-analysis.html#removepits">removepits</a>.</p>
@@ -567,7 +566,7 @@ Use <code>fill</code> early in the workflow to produce a complete, gap-free DEM 
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>simplepits</code> tool from the command line:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="hydrological-analysis.html#cb14-1" tabindex="-1"></a><span class="ex">th</span> pfs inputDEM.tif outputDEM.tif</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="hydrological-analysis.html#cb10-1" tabindex="-1"></a><span class="ex">th</span> pfs inputDEM.tif outputDEM.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>Jones, R. (2002). Algorithms for using a DEM for mapping catchment areas of stream sediment samples. Computers &amp; geosciences, v. 28, n. 9, p. 1051–1060. <a href="https://doi.org/10.1016/S0098-3004(02)00022-5">https://doi.org/10.1016/S0098-3004(02)00022-5</a></p>
 <p>Jardim, A. C. (2017). <em>Direções de fluxo em modelos digitais de elevação: um método com foco na qualidade da estimativa e processamento de grande volume de dados</em> [Doctoral dissertation, Instituto Nacional de Pesquisas Espaciais (INPE)]. <a href="http://mtc-m21b.sid.inpe.br/col/sid.inpe.br/mtc-m21b/2017/05.17.13.26/doc/publicacao.pdf?metadatarepository=sid.inpe.br/mtc-m21b/2017/05.17.13.26.57&amp;mirror=sid.inpe.br/mtc-m21b/2013/09.26.14.25.22&amp;languagebutton=en">https://sid.inpe.br/mtc-m21b/2017/05.17.13.26</a></p>
@@ -617,7 +616,7 @@ Using <code>pfsd</code> at the end aligns remaining pit removal with the referen
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>pfsd</code> tool from the command line:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="hydrological-analysis.html#cb15-1" tabindex="-1"></a><span class="ex">th</span> pfsd inputDEM.tif inputDrainage.shp outputDEM.tif</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="hydrological-analysis.html#cb11-1" tabindex="-1"></a><span class="ex">th</span> pfsd inputDEM.tif inputDrainage.shp outputDEM.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>Jones, R. (2002). Algorithms for using a DEM for mapping catchment areas of stream sediment samples. Computers &amp; geosciences, v. 28, n. 9, p. 1051–1060. <a href="https://doi.org/10.1016/S0098-3004(02)00022-5">https://doi.org/10.1016/S0098-3004(02)00022-5</a></p>
 <p><em>Author</em>: Dr. Henrique Rennó de Azeredo Freitas</p>
@@ -663,7 +662,7 @@ Using <code>pfsd</code> at the end aligns remaining pit removal with the referen
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>removepits</code> tool from the command line:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="hydrological-analysis.html#cb16-1" tabindex="-1"></a><span class="ex">th</span> removepits inputDEM.tif outputDEM.tif</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="hydrological-analysis.html#cb12-1" tabindex="-1"></a><span class="ex">th</span> removepits inputDEM.tif outputDEM.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>Jardim, A. C. (2017). <em>Direções de fluxo em modelos digitais de elevação: um método com foco na qualidade da estimativa e processamento de grande volume de dados</em> [Doctoral dissertation, Instituto Nacional de Pesquisas Espaciais (INPE)]. <a href="http://mtc-m21b.sid.inpe.br/col/sid.inpe.br/mtc-m21b/2017/05.17.13.26/doc/publicacao.pdf?metadatarepository=sid.inpe.br/mtc-m21b/2017/05.17.13.26.57&amp;mirror=sid.inpe.br/mtc-m21b/2013/09.26.14.25.22&amp;languagebutton=en">https://sid.inpe.br/mtc-m21b/2017/05.17.13.26</a></p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#carvev">carvev</a>, <a href="hydrological-analysis.html#simplepits">simplepits</a>, <a href="hydrological-analysis.html#pfs">pfs</a>.</p>
@@ -792,7 +791,7 @@ The output raster stores a power-of-two code indicating the outflow neighbor:</p
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>d8</code> tool from the command line:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="hydrological-analysis.html#cb17-1" tabindex="-1"></a><span class="ex">th</span> d8 inputDEM.tif flowdir.tif</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="hydrological-analysis.html#cb13-1" tabindex="-1"></a><span class="ex">th</span> d8 inputDEM.tif flowdir.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>O’Callaghan, J. F., &amp; Mark, D. M. (1984). The extraction of drainage networks from digital elevation data. Computer vision, graphics, and image processing, 28(3), 323-344.<a href="https://doi.org/10.1016/S0734-189X(84)80011-0">https://doi.org/10.1016/S0734-189X(84)80011-0</a></p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#d8ca">d8ca</a>.</p>
@@ -833,7 +832,7 @@ For each cell, inspect its eight neighbors. If a neighbor’s D8 flow-direction 
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>d8toupstream</code> tool from the command line:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="hydrological-analysis.html#cb18-1" tabindex="-1"></a><span class="ex">th</span> d8toupstream inputD8.tif outputUpstream.tif</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="hydrological-analysis.html#cb14-1" tabindex="-1"></a><span class="ex">th</span> d8toupstream inputD8.tif outputUpstream.tif</span></code></pre></div>
 <p><em>See also</em>: <a href="hydrological-analysis.html#d8">d8</a>.</p>
 </div>
 <div id="d8ca" class="section level3 hasAnchor" number="3.2.3">
@@ -874,7 +873,7 @@ For each cell, inspect its eight neighbors. If a neighbor’s D8 flow-direction 
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>d8ca</code> tool from the command line:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="hydrological-analysis.html#cb19-1" tabindex="-1"></a><span class="ex">th</span> d8ca inputD8.tif outputD8ContributingArea.tif</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="hydrological-analysis.html#cb15-1" tabindex="-1"></a><span class="ex">th</span> d8ca inputD8.tif outputD8ContributingArea.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>O’Callaghan, J. F., &amp; Mark, D. M. (1984). The extraction of drainage networks from digital elevation data. Computer vision, graphics, and image processing, 28(3), 323-344.<a href="https://doi.org/10.1016/S0734-189X(84)80011-0">https://doi.org/10.1016/S0734-189X(84)80011-0</a></p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#d8">d8</a>.</p>
@@ -925,7 +924,7 @@ For each cell, inspect its eight neighbors. If a neighbor’s D8 flow-direction 
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>d8ca</code> tool from the command line:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="hydrological-analysis.html#cb20-1" tabindex="-1"></a><span class="ex">th</span> d8drainage inputContributingArea.tif outputDrainage.tif thresholdValue</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="hydrological-analysis.html#cb16-1" tabindex="-1"></a><span class="ex">th</span> d8drainage inputContributingArea.tif outputDrainage.tif thresholdValue</span></code></pre></div>
 <p>Example:</p>
 <pre><code>th d8drainage d8ca.tif drainage.tif 2000</code></pre>
 <blockquote>
@@ -977,7 +976,7 @@ For each cell, inspect its eight neighbors. If a neighbor’s D8 flow-direction 
 • The resulting lines can be post-processed (e.g., smoothing, ordering, attribute joins) according to project needs.</p>
 </blockquote>
 <p>The following example demonstrates how to use <code>d8ca</code> tool from the command line:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="hydrological-analysis.html#cb22-1" tabindex="-1"></a><span class="ex">th</span> d8drainagev inputDrainage.tif inputD8.tif outputDrainage.shp</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="hydrological-analysis.html#cb18-1" tabindex="-1"></a><span class="ex">th</span> d8drainagev inputDrainage.tif inputD8.tif outputDrainage.shp</span></code></pre></div>
 <p><em>See also</em>: <a href="hydrological-analysis.html#d8">d8</a>, <a href="hydrological-analysis.html#d8ca">d8ca</a>, <a href="hydrological-analysis.html#d8drainage">d8drainage</a>.</p>
 </div>
 <div id="flowpath" class="section level3 hasAnchor" number="3.2.6">
@@ -1017,7 +1016,7 @@ For each cell, inspect its eight neighbors. If a neighbor’s D8 flow-direction 
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>flowpath</code> tool from the command line:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="hydrological-analysis.html#cb23-1" tabindex="-1"></a><span class="ex">th</span> flowpath inputD8.tif inputSources.shp outputFlowPaths.tif</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="hydrological-analysis.html#cb19-1" tabindex="-1"></a><span class="ex">th</span> flowpath inputD8.tif inputSources.shp outputFlowPaths.tif</span></code></pre></div>
 <p><strong>Author</strong>: Dr. Henrique Rennó de Azeredo Freitas</p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#d8ca">d8ca</a>, <a href="hydrological-analysis.html#d8drainage">d8drainage</a>.</p>
 </div>
@@ -1069,7 +1068,7 @@ For each cell, inspect its eight neighbors. If a neighbor’s D8 flow-direction 
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>segments</code> tool from the command line:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="hydrological-analysis.html#cb24-1" tabindex="-1"></a><span class="ex">th</span> segments inputD8.tif inputDrainage.tif outputSegments.tif</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="hydrological-analysis.html#cb20-1" tabindex="-1"></a><span class="ex">th</span> segments inputD8.tif inputDrainage.tif outputSegments.tif</span></code></pre></div>
 <p><em>See also</em>: <a href="hydrological-analysis.html#d8">d8</a>, <a href="hydrological-analysis.html#d8ca">d8ca</a>, <a href="hydrological-analysis.html#d8drainage">d8drainage</a>, <a href="hydrological-analysis.html#minibasins">minibasins</a>.</p>
 </div>
 <div id="mainriver" class="section level3 hasAnchor" number="3.2.8">
@@ -1122,7 +1121,7 @@ Starting at the mouth, the algorithm moves upstream using the <code>d8toupstream
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>mainriver</code> tool from the command line:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="hydrological-analysis.html#cb25-1" tabindex="-1"></a><span class="ex">th</span> mainriver inputD8upstream.tif inputDrainage.tif inputAccumulatedArea.tif inputMouth.txt outputRiver.tif</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="hydrological-analysis.html#cb21-1" tabindex="-1"></a><span class="ex">th</span> mainriver inputD8upstream.tif inputDrainage.tif inputAccumulatedArea.tif inputMouth.txt outputRiver.tif</span></code></pre></div>
 <p><em>See also</em>: <a href="hydrological-analysis.html#mouths">mouths</a>, <a href="hydrological-analysis.html#outletbasin">outletbasin</a>.</p>
 </div>
 <div id="shreve" class="section level3 hasAnchor" number="3.2.9">
@@ -1156,7 +1155,7 @@ Starting at the mouth, the algorithm moves upstream using the <code>d8toupstream
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>shreve</code> tool from the command line:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="hydrological-analysis.html#cb26-1" tabindex="-1"></a><span class="ex">th</span> shreve inputD8.tif inputDrainage.tif inputSources.txt outputShreve.tif</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="hydrological-analysis.html#cb22-1" tabindex="-1"></a><span class="ex">th</span> shreve inputD8.tif inputDrainage.tif inputSources.txt outputShreve.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>Shreve, R. L. (1966). Statistical law of stream numbers. The Journal of Geology, 74(1), 17-37. <a href="https://doi.org/10.1086/627137">https://doi.org/10.1086/627137</a></p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#strahler">strahler</a>, <a href="hydrological-analysis.html#ottorivers">ottorivers</a>.</p>
@@ -1207,7 +1206,7 @@ Starting at the mouth, the algorithm moves upstream using the <code>d8toupstream
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>strahler</code> tool from the command line:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="hydrological-analysis.html#cb27-1" tabindex="-1"></a><span class="ex">th</span> strahler inputD8.tif inputDrainage.tif inputSources.txt outputStrahler.tif</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="hydrological-analysis.html#cb23-1" tabindex="-1"></a><span class="ex">th</span> strahler inputD8.tif inputDrainage.tif inputSources.txt outputStrahler.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>Strahler, A. N. (1957). Quantitative analysis of watershed geomorphology. Eos, Transactions American Geophysical Union, 38(6), 913-920. <a href="https://doi.org/10.1029/TR038i006p00913">https://doi.org/10.1029/TR038i006p00913</a></p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#shreve">shreve</a>, <a href="hydrological-analysis.html#ottorivers">ottorivers</a>.</p>
@@ -1263,8 +1262,8 @@ Starting at the mouth, the algorithm moves upstream using the <code>d8toupstream
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>ottorivers</code> tool from the command line:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="hydrological-analysis.html#cb28-1" tabindex="-1"></a><span class="ex">th</span> ottorivers inputD8upstream.tif inputDrainage.tif inputAccumulatedArea.tif <span class="dt">\</span></span>
-<span id="cb28-2"><a href="hydrological-analysis.html#cb28-2" tabindex="-1"></a>              inputMouths.txt outputOttoRivers.tif outputNewLevelMouths.txt</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="hydrological-analysis.html#cb24-1" tabindex="-1"></a><span class="ex">th</span> ottorivers inputD8upstream.tif inputDrainage.tif inputAccumulatedArea.tif <span class="dt">\</span></span>
+<span id="cb24-2"><a href="hydrological-analysis.html#cb24-2" tabindex="-1"></a>              inputMouths.txt outputOttoRivers.tif outputNewLevelMouths.txt</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>Pfafstetter, O. (2014). Classificação de bacias hidrográficas: metodologia de codificação. In Agência Nacional de Águas (Brasil), Codificação de bacias hidrográficas pelo método de Otto Pfafstetter: aplicação na ANA (pp. 25–41). Brasília, DF: Autor. Manuscrito, Anexo I. Available at: <a href="https://capacitacao.ana.gov.br/conhecerh/bitstream/ana/104/1/apostila.pdf">https://capacitacao.ana.gov.br/conhecerh/bitstream/ana/104/1/apostila.pdf</a></p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#ottobasins">ottobasins</a>, <a href="hydrological-analysis.html#strahler">strahler</a>, <a href="hydrological-analysis.html#shreve">shreve</a>.</p>
@@ -1306,7 +1305,7 @@ Starting at the mouth, the algorithm moves upstream using the <code>d8toupstream
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>mouths</code> tool from the command line:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="hydrological-analysis.html#cb29-1" tabindex="-1"></a><span class="ex">th</span> mouths inputD8.tif inputDrainage.tif outputMouths.txt</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="hydrological-analysis.html#cb25-1" tabindex="-1"></a><span class="ex">th</span> mouths inputD8.tif inputDrainage.tif outputMouths.txt</span></code></pre></div>
 <p><strong>Author</strong>: Dr. Henrique Rennó de Azeredo Freitas</p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#ottobasins">ottobasins</a>, <a href="hydrological-analysis.html#mainriver">mainriver</a>.</p>
 </div>
@@ -1343,10 +1342,9 @@ Starting at the mouth, the algorithm moves upstream using the <code>d8toupstream
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>orderedmouths</code> tool from the command line:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="hydrological-analysis.html#cb30-1" tabindex="-1"></a><span class="ex">th</span> orderedmouths inputContributingArea.tif inputMouths.txt outputOrderedMouths.txt</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="hydrological-analysis.html#cb26-1" tabindex="-1"></a><span class="ex">th</span> orderedmouths inputContributingArea.tif inputMouths.txt outputOrderedMouths.txt</span></code></pre></div>
 <p><strong>Author</strong>: Dr. Henrique Rennó de Azeredo Freitas</p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#ottobasins">ottobasins</a>, <a href="hydrological-analysis.html#mainriver">mainriver</a>, <a href="hydrological-analysis.html#mouths">mouths</a>.</p>
-
 </div>
 </div>
 <div id="Basin-and-Sub-basin-Delineation" class="section level2 hasAnchor" number="3.3">
@@ -1398,7 +1396,7 @@ Starting at the mouth, the algorithm moves upstream using the <code>d8toupstream
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>minibasins</code> tool from the command line:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="hydrological-analysis.html#cb31-1" tabindex="-1"></a><span class="ex">th</span> minibasins inputD8.tif inputSegments.tif outputMinibasins.tif</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="hydrological-analysis.html#cb27-1" tabindex="-1"></a><span class="ex">th</span> minibasins inputD8.tif inputSegments.tif outputMinibasins.tif</span></code></pre></div>
 </div>
 <div id="outletbasin" class="section level3 hasAnchor" number="3.3.2">
 <h3><span class="header-section-number">3.3.2</span> outletbasin<a href="hydrological-analysis.html#outletbasin" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -1446,9 +1444,9 @@ Starting at the outlet, the algorithm traverses <strong>upstream</strong> (rever
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>outletbasin</code> tool from the command line:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="hydrological-analysis.html#cb32-1" tabindex="-1"></a><span class="ex">th</span> outletbasin inputD8.tif inputOutletrow inputOutletcolumn outputOutletbasin.tif</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="hydrological-analysis.html#cb28-1" tabindex="-1"></a><span class="ex">th</span> outletbasin inputD8.tif inputOutletrow inputOutletcolumn outputOutletbasin.tif</span></code></pre></div>
 <p>Example:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="hydrological-analysis.html#cb33-1" tabindex="-1"></a><span class="ex">th</span> outletbasin d8.tif 1453 2078 outlet_basin.tif</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="hydrological-analysis.html#cb29-1" tabindex="-1"></a><span class="ex">th</span> outletbasin d8.tif 1453 2078 outlet_basin.tif</span></code></pre></div>
 <p><em>See also</em>: <a href="hydrological-analysis.html#mouths">mouths</a>, <a href="hydrological-analysis.html#minibasins">minibasins</a>.</p>
 </div>
 <div id="ottobasins" class="section level3 hasAnchor" number="3.3.3">
@@ -1490,7 +1488,7 @@ Starting at the outlet, the algorithm traverses <strong>upstream</strong> (rever
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>ottobasins</code> tool from the command line:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="hydrological-analysis.html#cb34-1" tabindex="-1"></a><span class="ex">th</span> ottobasins inputD8.tif inputOttoRivers.tif outputOttoBasins.tif</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="hydrological-analysis.html#cb30-1" tabindex="-1"></a><span class="ex">th</span> ottobasins inputD8.tif inputOttoRivers.tif outputOttoBasins.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>Pfafstetter, O. (2014). Classificação de bacias hidrográficas: metodologia de codificação. In Agência Nacional de Águas (Brasil), Codificação de bacias hidrográficas pelo método de Otto Pfafstetter: aplicação na ANA (pp. 25–41). Brasília, DF: Autor. Manuscrito, Anexo I. Available at: <a href="https://capacitacao.ana.gov.br/conhecerh/bitstream/ana/104/1/apostila.pdf">https://capacitacao.ana.gov.br/conhecerh/bitstream/ana/104/1/apostila.pdf</a></p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#ottorivers">ottorivers</a>, <a href="hydrological-analysis.html#strahler">strahler</a>, <a href="hydrological-analysis.html#shreve">shreve</a>.</p>
@@ -1560,7 +1558,7 @@ Green shades indicate negative TPI (valleys/concavities), warm shades (orange–
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>tpi</code> tool from the command line:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="hydrological-analysis.html#cb35-1" tabindex="-1"></a><span class="ex">th</span> tpi inputDEM.tif inputWindowSize SQUARE<span class="kw">|</span><span class="ex">CIRCLE</span> outputTPI.tif</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="hydrological-analysis.html#cb31-1" tabindex="-1"></a><span class="ex">th</span> tpi inputDEM.tif inputWindowSize SQUARE<span class="kw">|</span><span class="ex">CIRCLE</span> outputTPI.tif</span></code></pre></div>
 <p><em>References</em>:</p>
 <p>Jenness, J. (2006). Topographic Position Index (tpi_jen.avx) extension for ArcView 3.x (Version 1.2). Jenness Enterprises. <a href="http://www.jennessent.com/arcview/tpi.htm">http://www.jennessent.com/arcview/tpi.htm</a></p>
 <p>Muñoz, V. A., &amp; de Valeriano, M. M. (2014). Mapping of flood-plain by processing of elevation data from remote sensing. In E. Pardo-Igúzquiza, C. Guardiola-Albert, J. Heredia, L. Moreno-Merino, J. Durán, &amp; J. Vargas-Guzmán (Eds.), Mathematics of Planet Earth (Lecture Notes in Earth System Sciences, pp. 543–546). Springer. <a href="https://doi.org/10.1007/978-3-642-32408-6_106">https://doi.org/10.1007/978-3-642-32408-6_106</a></p>
@@ -1617,7 +1615,7 @@ Given a hydrologically conditioned DEM, a D8 flow grid, and a drainage mask, eac
 —</p>
 </blockquote>
 <p>The following example demonstrates how to use <code>hand</code> tool from the command line:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="hydrological-analysis.html#cb36-1" tabindex="-1"></a><span class="ex">th</span> hand inputDEM.tif inputD8.tif inputDrainage.tif outputHAND.tif</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="hydrological-analysis.html#cb32-1" tabindex="-1"></a><span class="ex">th</span> hand inputDEM.tif inputD8.tif inputDrainage.tif outputHAND.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>Rennó, C. D., Nobre, A. D., Cuartas, L. A., Soares, J. V., Hodnett, M. G., Tomasella, J., &amp; Waterloo, M. J. (2008). HAND, a new terrain descriptor using SRTM-DEM: Mapping terra-firme rainforest environments in Amazonia. Remote Sensing of Environment, 112(9), 3469-3481. <a href="https://doi.org/10.1016/j.rse.2008.03.018">https://doi.org/10.1016/j.rse.2008.03.018</a></p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#d8">d8</a>, <a href="hydrological-analysis.html#d8ca">d8ca</a>.</p>
@@ -1673,8 +1671,8 @@ High SAND values highlight steep valley sidewalls; low values indicate benches a
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>sand</code> tool from the command line:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="hydrological-analysis.html#cb37-1" tabindex="-1"></a><span class="ex">th</span> sand inputDEM.tif inputD8.tif inputDrainage.tif outputSAND.tif</span></code></pre></div>
-<p><strong>Author</strong>: Dr. Henrique Rennó de Azeredo Freitas</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="hydrological-analysis.html#cb33-1" tabindex="-1"></a><span class="ex">th</span> sand inputDEM.tif inputD8.tif inputDrainage.tif outputSAND.tif</span></code></pre></div>
+<p><strong>Author</strong>: Dr. Laércio Massaru Namikawa and Dr. Henrique Rennó de Azeredo Freitas</p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#hand">hand</a>, <a href="hydrological-analysis.html#d8slope">d8slope</a>.</p>
 </div>
 <div id="d8slope" class="section level3 hasAnchor" number="3.4.4">
@@ -1720,10 +1718,9 @@ High SAND values highlight steep valley sidewalls; low values indicate benches a
 </tbody>
 </table>
 <p>The following example demonstrates how to use <code>d8slope</code> tool from the command line:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="hydrological-analysis.html#cb38-1" tabindex="-1"></a><span class="ex">th</span> d8slope inputDEM.tif inputD8.tif outputD8Slope.tif</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="hydrological-analysis.html#cb34-1" tabindex="-1"></a><span class="ex">th</span> d8slope inputDEM.tif inputD8.tif outputD8Slope.tif</span></code></pre></div>
 <p><strong>Author</strong>: Dr. Henrique Rennó de Azeredo Freitas</p>
 <p><em>See also</em>: <a href="hydrological-analysis.html#d8">d8</a>, <a href="hydrological-analysis.html#sand">sand</a>.</p>
-
 </div>
 </div>
 <div id="Applied-Hydrology-Risk-Management" class="section level2 hasAnchor" number="3.5">
@@ -1810,8 +1807,8 @@ where <span class="math inline">\(A\)</span> is the contributing (upslope) area 
 • The method targets rapid, large-area mapping and complements physics-based simulations; it follows the hydrogeomorphic lineage from Nardi et al. (2006) to the global GFPLAIN framework.</p>
 </blockquote>
 <p>The following example demonstrates how to use <code>gfplain</code> tool from the command line:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="hydrological-analysis.html#cb39-1" tabindex="-1"></a><span class="ex">th</span> gfplain inputDEM.tif inputD8.tif inputContributingArea.tif inputDrainage.tif <span class="dt">\</span></span>
-<span id="cb39-2"><a href="hydrological-analysis.html#cb39-2" tabindex="-1"></a>           inputA inputB outputFloodplain.tif outputWaterHeight.tif</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="hydrological-analysis.html#cb35-1" tabindex="-1"></a><span class="ex">th</span> gfplain inputDEM.tif inputD8.tif inputContributingArea.tif inputDrainage.tif <span class="dt">\</span></span>
+<span id="cb35-2"><a href="hydrological-analysis.html#cb35-2" tabindex="-1"></a>           inputA inputB outputFloodplain.tif outputWaterHeight.tif</span></code></pre></div>
 <p><em>Reference</em>:</p>
 <p>Nardi, F., Vivoni, E. R. &amp; Grimaldi, S (2006). Investigating a floodplain scaling relation using a hydrogeomorphic delineation method. Water Resources Research, 42, W09409. <a href="https://doi.org/10.1029/2005WR004155">https://doi.org/10.1029/2005WR004155</a></p>
 <p>Nardi, F., Annis, A., Di Baldassarre, G., Vivoni, E. R., &amp; Grimaldi, S. (2019). GFPLAIN250m, a global high-resolution dataset of Earth’s floodplains. Sci Data, 6, 180309. <a href="https://doi.org/10.1038/sdata.2018.309">https://doi.org/10.1038/sdata.2018.309</a></p>
@@ -1819,12 +1816,336 @@ where <span class="math inline">\(A\)</span> is the contributing (upslope) area 
 </div>
 <div id="damcourse" class="section level3 hasAnchor" number="3.5.2">
 <h3><span class="header-section-number">3.5.2</span> damcourse<a href="hydrological-analysis.html#damcourse" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="prom-box prom-box-default shadow1" style="background: #C7E2FF; color: #101010; font-size: 16px; line-height: 1.7;">
+<ul>
+<li>
+<strong>Context</strong> - The dam-break tools in TerraHidro (<code>damcourse</code>, <code>damsections</code>, <code>dambreak</code>) were created to automate the steps of the Simplified Method (MS) ANA 2.0 (Tschiedel et al., 2023) within TerraHidro/QGIS, replacing the semi-manual sequence formerly done across ArcGIS/Excel and delivering large efficiency gains.;
+</li>
+</ul>
+</div>
+<p><code>damcourse</code> automatically traces dam-break flow paths downstream from user-provided dam points, stopping when a chosen criterion is met. It implements the simplified ANA 2.0 workflow inside TerraHidro so you don’t have to alternate between GIS and spreadsheets.</p>
+<p>The primary stop condition is when the ratio between the estimated peak discharge
+<span class="math inline">\(Q_p\)</span> (from dam height and volume) and the <span class="math inline">\(Q_5\)</span> specific-discharge–based flow along the path satisfies <em><span class="math inline">\(Q_p\)</span>/<span class="math inline">\(Q_5\)</span> &lt; 5</em>. Unlike the original semi-manual procedure, TerraHidro traces the path cell-by-cell on the raster flow grid from the dam location to the first cell where the ratio falls below 5, eliminating manual drawing and intermediate spreadsheet steps.</p>
+<p>Starting at each dam location, the tool follows the D8 flow directions cell-by-cell, computes the local <span class="math inline">\(Q_5\)</span> discharge from the specific <span class="math inline">\(Q_5\)</span> of the subbasin and the cell’s contributing area, and grows the path downstream until a stop rule is satisfied. Two stop rules are supported:</p>
+<blockquote>
+<p><strong>Notes</strong><br />
+• <em>Q5LENGTH</em>: stop where the ratio <em><span class="math inline">\(Q_{peak}\)</span>/<span class="math inline">\(Q_5\)</span> &lt; 5</em>.
+• <em>HVLENGTH</em>: also cap the path length by dam size: ≤ 20 km if ≤ 15 m and
+ ≤ 3 hm³; otherwise ≤ 50 km.</p>
+</blockquote>
+<p>If <span class="math inline">\(Q_p\)</span> is not provided, it is estimated from dam height and volume using one of two empirical formulas (Froehlich, 1995; or Ferla, 2018). Output products include an updated dam layer with the computed peak discharge and a polyline layer representing the dam-break course.</p>
+<blockquote>
+<p><strong>CRS requirement</strong>.
+All inputs must be in a projected CRS with metric units (e.g., UTM). Length limits (20 km/50 km) and Manning/hydraulic calculations elsewhere in the workflow assume meters.</p>
+</blockquote>
+<table>
+<colgroup>
+<col width="7%" />
+<col width="92%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>inputDams.shp</code></td>
+<td>Point shapefile of dams (projected in metric CRS, e.g., UTM). Required attributes and types: <code>id</code> (<em>int64</em>), <code>height</code> (<em>real</em>; dam height in m), <code>volume</code> (<em>real</em>; reservoir volume in hm³), <code>Qp</code> (<em>real</em>; peak discharge in m³/s, use <strong>–1</strong> to compute from equation), <code>equationQp</code> (<em>string</em>; choose <strong>FROEHLICH</strong> or <strong>FERLA</strong>).</td>
+</tr>
+<tr class="even">
+<td><code>inputQ5Subbasins.shp</code></td>
+<td>Polygon shapefile of sub-basins (metric CRS) with the field <code>Q5_m3sKm2</code> (specific Q5 discharge, m³ s⁻¹ km⁻²). Internally rasterized (temporary) via <code>gdal_rasterize</code>; ensure the executable is on your system <code>PATH</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>inputD8.tif</code></td>
+<td>D8 flow directions raster derived from a hydrologically conditioned DEM (e.g., <code>removepits</code> → <code>d8</code>).</td>
+</tr>
+<tr class="even">
+<td><code>inputContributingArea.tif</code></td>
+<td>D8 contributing area raster (from <code>d8ca</code>).</td>
+</tr>
+<tr class="odd">
+<td><code>Q5LENGTH \| HVLENGTH</code></td>
+<td>Stopping criterion: <code>Q5LENGTH</code> limits course length where the Qp/Q5 ratio first drops below 5; <code>HVLENGTH</code> also applies empirical caps: ≤20 km if H ≤ 15 m and V ≤ 3 hm³; ≤50 km if H &gt; 15 m or V &gt; 3 hm³. Q5 is computed on-the-fly as (specific Q5) × (contributing area).</td>
+</tr>
+<tr class="even">
+<td><code>outputDams.shp</code></td>
+<td>Point shapefile copying inputs and adding computed <code>calcQpeak</code> (peak discharge) when <code>Qp = -1</code> and <code>equationQp</code> is set (FROEHLICH/FERLA).</td>
+</tr>
+<tr class="odd">
+<td><code>outputWaterCourses.shp</code></td>
+<td>Line shapefile of automatically traced dam-break water courses following <code>inputD8.tif</code> from the dam cell downstream until the stopping criterion is met.</td>
+</tr>
+</tbody>
+</table>
+<p>The following example demonstrates how to use <code>damcourse</code> tool from the command line:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="hydrological-analysis.html#cb36-1" tabindex="-1"></a><span class="ex">th</span> damcourse inputDams.shp inputQ5Subbasins.shp inputD8.tif inputContributingArea.tif Q5LENGTH<span class="kw">|</span><span class="ex">HVLENGTH</span> outputDams.shp outputWaterCourses.shp</span></code></pre></div>
+<div class="prom-box prom-box-default shadow1" style="background: #C7E2FF; color: #101010; font-size: 16px; line-height: 1.7;">
+<ul>
+<li>
+<strong>Inputs</strong>
+</li>
+<li>
+inputDams.shp — Point shapefile of dams (projected, meters) with attributes:
+</li>
+<blockquote>
+<p>id (int64): unique dam ID</p>
+</blockquote>
+<blockquote>
+<p>height (double, meters)</p>
+</blockquote>
+<blockquote>
+<p>volume (double, hm³)</p>
+</blockquote>
+<blockquote>
+<p>Qpeak (double, m³/s; set −1.0 to compute from an equation)</p>
+</blockquote>
+<blockquote>
+<p>equationQpeak (int32: 0 = FROEHLICH, 1 = FERLA)</p>
+</blockquote>
+<li>
+If Qpeak = −1.0, the tool computes <span class="math inline">\(Q_p\)</span> using the selected equation and stores it in <em>calcQpeak</em> output;
+</li>
+<li>
+inputQ5Subbasins.shp — polygons of sub-basins with <span class="math inline">\(Q_5\)</span> specific discharge with attribute:
+</li>
+<blockquote>
+<p><em>Q5_m3sKm2</em> (real; <span class="math inline">\(m^3 \cdot s^{-1} \cdot km^{-2}\)</span>); used to derive <span class="math inline">\(Q_5\)</span> along the traced path.</p>
+</blockquote>
+<li>
+inputD8.tif — D8 flow directions raster (pit/flat corrected DEM).
+</li>
+<li>
+inputContributingArea.tif — contributing area raster aligned to inputD8.tif.
+</li>
+<li>
+Q5LENGTH | HVLENGTH — stop-mode flag:
+<ul>
+<li>
+Q5LENGTH — limit by <span class="math inline">\(Q_p / Q_5 &lt; 5\)</span>
+</li>
+<li>
+HVLENGTH — apply <span class="math inline">\(Q_p / Q_5 &lt; 5\)</span> plus length caps based on H and V (20 km / 50 km).
+</li>
+</ul>
+</li>
+<li>
+<strong>Outputs</strong>
+</li>
+<li>
+outputDams.shp — points with added field calcQpeak (double) containing the <span class="math inline">\(Q_p\)</span> used (from attribute or equation).
+</li>
+<li>
+outputWaterCourses.shp — lines representing the dam-break water course traced downstream following D8 until the stop condition is reached.
+</li>
+</ul>
+</div>
+<p><em>Reference</em>:</p>
+<p>Tschiedel, A. F., Bomfim, M., Menescal, R. A., &amp; Oliveira, R. C. (2023). Novo método simplificado para estimativas de manchas de inundação associadas ao rompimento hipotético de barragens. In Anais do XXXXIV Seminário Nacional de Grandes Barragens (Foz do Iguaçu, Brasil). Comitê Brasileiro de Barragens. <a href="https://cbdb-web-uploads.s3.amazonaws.com/system/uploads/ckeditor/attachments/1367/002_-_NOVO_M%C3%89TODO_SIMPLIFICADO_PARA_ESTIMATIVAS_DE_MANCHAS_DE_INUNDA%C3%87%C3%83O_ASSOCIADAS_AO_ROMPIMENTO_HIPOT%C3%89TICO_DE_BARRAGENSv4.pdf">https://cbdb-web-uploads.s3.amazonaws.com/system/uploads/ckeditor/attachments/1367/002_-_NOVO_M%C3%89TODO_SIMPLIFICADO_PARA_ESTIMATIVAS_DE_MANCHAS_DE_INUNDA%C3%87%C3%83O_ASSOCIADAS_AO_ROMPIMENTO_HIPOT%C3%89TICO_DE_BARRAGENSv4.pdf</a></p>
+<p>Ferla, R. (2018). Metodologia simplificada para análise de aspectos hidráulicos em rompimento de barragens [Dissertação de mestrado, Universidade Federal do Rio Grande do Sul]. Instituto de Pesquisas Hidráulicas (IPH). <a href="https://lume.ufrgs.br/handle/10183/180112">https://lume.ufrgs.br/handle/10183/180112</a></p>
+<p>Froehlich, D. C. (1995). Peak outflow from breached embankment dam (and related works on dam-breach peak discharge). <a href="https://doi.org/10.1061/(ASCE)0733-9496(1995)121:1(90)">https://doi.org/10.1061/(ASCE)0733-9496(1995)121:1(90)</a></p>
+<p><em>See also</em>: <a href="hydrological-analysis.html#damsections">damsections</a>, <a href="hydrological-analysis.html#dambreak">dambreak</a>.</p>
 </div>
 <div id="damsections" class="section level3 hasAnchor" number="3.5.3">
 <h3><span class="header-section-number">3.5.3</span> damsections<a href="hydrological-analysis.html#damsections" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>damsections</code> creates cross-sections along each water course generated by <code>damcourse</code>. The tool lays out a user-defined number of straight transects per course, each with a fixed total length, centered on the course line and oriented perpendicular to the local flow path. These sections are intended for rapid, map-based characterization of potential inundation corridors downstream of hypothetical dam-break scenarios, complementing the hydro-geomorphic screening workflow adopted in the ANA project.</p>
+<p>In the ANA workflow, dam-break screening first traces water courses downstream from dams using geomorphic surrogates (e.g., D8 flow directions and contributing area) and reference discharges; subsequently, regular cross-sections are placed along those courses to support quick measurements (e.g., width sampling, profile extraction, and cartographic visualization). Unlike the profile placement in MS ANA 2.0 (which follows pre-established fluvial profiles and specific selection rules), damsections always builds straight, orthogonal transects to the course geometry at evenly spaced locations, using only the inputs listed below (no hydraulic model is required).</p>
+<blockquote>
+<p><strong>Notes</strong><br />
+<strong>Requirements (CRS &amp; units)</strong> - All input vectors must be in a projected CRS with metric units (e.g., UTM). The section length parameter is interpreted in meters; the generated transects are centered on the course and extend equally to both sides (half length to each side).</p>
+</blockquote>
+<p>The sectioning step is part of the hydro-geomorphic screening approach developed by ANA to rapidly assess dam-break corridors using DEM-derived flow paths, reference discharges, and simple surrogates—prior to any full hydraulic modeling. Peak discharge screening commonly references empirical relations such as Froehlich (1995) and Ferla (2018), while the geometric placement of sections for mapping and rapid profiling is handled here by damsections.</p>
+<p><strong>Typical use</strong> - After producing water courses with <code>damcourse</code> (limited by either <em><span class="math inline">\(Q_p\)</span>/<span class="math inline">\(Q_5\)</span></em> ratio or also dam <em>H</em>/<em>V</em> constraints), call <code>damsections</code> to place <em>N</em> orthogonal transects of length <em>L</em> along each course for subsequent elevation profiling, width statistics, or map annotation.</p>
+<table>
+<colgroup>
+<col width="18%" />
+<col width="81%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>inputWaterCourses.shp</em></td>
+<td>Input polyline shapefile of water courses (metric CRS, e.g., UTM).</td>
+</tr>
+<tr class="even">
+<td><em>SECTIONS</em></td>
+<td>Integer number of cross-sections to create per course (uniform spacing).</td>
+</tr>
+<tr class="odd">
+<td><em>LENGTH</em></td>
+<td>Double transect total length in meters (drawn perpendicular to the course, centered on it).</td>
+</tr>
+<tr class="even">
+<td><em>outputSections.shp</em></td>
+<td>Output polyline shapefile of generated cross-sections with course/section identifiers and length.</td>
+</tr>
+</tbody>
+</table>
+<p>The following example demonstrates how to use <code>damsections</code> tool from the command line:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="hydrological-analysis.html#cb37-1" tabindex="-1"></a><span class="ex">th</span> damsections inputWaterCourses.shp SECTIONS LENGTH outputSections.shp</span></code></pre></div>
+<p><em>Reference</em>:</p>
+<p>Ferla, R. (2018). Metodologia simplificada para análise de aspectos hidráulicos em rompimento de barragens [Dissertação de mestrado, Universidade Federal do Rio Grande do Sul]. Instituto de Pesquisas Hidráulicas (IPH). <a href="https://lume.ufrgs.br/handle/10183/180112">https://lume.ufrgs.br/handle/10183/180112</a></p>
+<p>Froehlich, D. C. (1995). Peak outflow from breached embankment dam (and related works on dam-breach peak discharge). <a href="https://doi.org/10.1061/(ASCE)0733-9496(1995)121:1(90)">https://doi.org/10.1061/(ASCE)0733-9496(1995)121:1(90)</a></p>
+<p>Tschiedel, A. F., Bomfim, M., Menescal, R. A., &amp; Oliveira, R. C. (2023). Novo método simplificado para estimativas de manchas de inundação associadas ao rompimento hipotético de barragens. In Anais do XXXXIV Seminário Nacional de Grandes Barragens (Foz do Iguaçu, Brasil). Comitê Brasileiro de Barragens. <a href="https://cbdb-web-uploads.s3.amazonaws.com/system/uploads/ckeditor/attachments/1367/002_-_NOVO_M%C3%89TODO_SIMPLIFICADO_PARA_ESTIMATIVAS_DE_MANCHAS_DE_INUNDA%C3%87%C3%83O_ASSOCIADAS_AO_ROMPIMENTO_HIPOT%C3%89TICO_DE_BARRAGENSv4.pdf">https://cbdb-web-uploads.s3.amazonaws.com/system/uploads/ckeditor/attachments/1367/002_-_NOVO_M%C3%89TODO_SIMPLIFICADO_PARA_ESTIMATIVAS_DE_MANCHAS_DE_INUNDA%C3%87%C3%83O_ASSOCIADAS_AO_ROMPIMENTO_HIPOT%C3%89TICO_DE_BARRAGENSv4.pdf</a></p>
+<p><em>See also</em>: <a href="hydrological-analysis.html#damcourse">damcourse</a>, <a href="hydrological-analysis.html#dambreak">dambreak</a>.</p>
 </div>
 <div id="dambreak" class="section level3 hasAnchor" number="3.5.4">
 <h3><span class="header-section-number">3.5.4</span> dambreak<a href="hydrological-analysis.html#dambreak" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>dambreak</code> simulates downstream consequences of a dam-break along a predefined water course, producing (i) the basin drained by that course, (ii) water height, (iii) floodplain extent, (iv) flow velocity, and (v) hydrodynamic hazard. The procedure operationalizes the workflow documented for ANA (Agência Nacional de Águas e Saneamento Básico), including peak-discharge estimation, discharge decay along the course, section-based hydraulic computations, gridded mapping, and hazard classification. All inputs must share the same projected CRS in metric units (e.g., UTM).</p>
+<blockquote>
+<p><strong>What it does (overview)</strong></p>
+</blockquote>
+<blockquote>
+<p>• Reads dam points and (if needed) computes peak outflow
+<span class="math inline">\(Q_p\)</span> from an empirical equation (Froehlich or Ferla).</p>
+</blockquote>
+<blockquote>
+<p>• Routes the outflow along the provided water course, applying a discharge-decay method (MSANA1 or MSANA2).</p>
+</blockquote>
+<blockquote>
+<p>• At each cross-section, derives stage, wetted area and velocity (via Manning’s equation), then interpolates water levels along segments.</p>
+</blockquote>
+<blockquote>
+<p>• Builds rasters of water height and floodplain, and computes velocity and hydrodynamic hazard maps.</p>
+</blockquote>
+<div class="prom-box prom-box-default shadow1" style="background: #C7E2FF; color: #101010; font-size: 16px; line-height: 1.7;">
+<ul>
+<li>
+<em>MSANA1</em>: Uses a simple discharge-decay along the water course primarily driven by the peak outflow (Q<sub>p</sub>) at the dam and background specific discharge (Q<sub>5</sub>). Fewer inputs, faster screening; more conservative and uniform decay.
+</li>
+<li>
+<em>MSANA2</em>: Extends the decay scheme by also accounting for dam-height/volume effects and reach properties (via section-to-section routing). More inputs and computation; produces decay that reflects storage and local hydraulics.
+</li>
+<li>
+<em>When to choose</em>: Use <em>MSANA1</em> for rapid, screening-level scenarios or when only Q<sub>p</sub> and Q<sub>5</sub> are available. Use <em>MSANA2</em> when dam geometry (height/volume) and section data are available and a more process-aware decay is desired.
+</li>
+<li>
+<em>Outputs impacted</em>: Both methods generate the same set of maps (water level/height, floodplain, velocity, hazard), but <em>MSANA2</em> typically yields spatially variable attenuation that can shorten/lengthen affected reaches compared to <em>MSANA1</em>.
+</li>
+</ul>
+</div>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="62%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>inputDams.shp</code></td>
+<td>Point shapefile of dams. Required attributes and types: <code>id</code> (int64), <code>height</code> (double, meters), <code>volume</code> (double, hm³), <code>Qpeak</code> (double, m³/s; set −1 to compute), <code>equationQpeak</code> (string: <code>FROEHLICH</code> or <code>FERLA</code>).</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>inputWaterCourses.shp</code></td>
+<td>Line shapefile of dam-break water courses along which routing is performed. Created beforehand (e.g., with <code>damcourse</code>). All geometry units must be meters.</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>inputSections.shp</code></td>
+<td>Line shapefile of cross-sections orthogonal to the water course, spaced by the user (e.g., with <code>damsections</code>). Units in meters.</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>inputDEM.tif</code></td>
+<td>Hydrologically conditioned DEM used for elevations and flood mapping. Projected in meters.</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>inputD8.tif</code></td>
+<td>D8 flow-direction grid consistent with the DEM.</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>inputD8Upstream.tif</code></td>
+<td>D8 upstream pointers; used for network traversal and basin delineation.</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>inputContributingArea.tif</code></td>
+<td>D8 contributing-area grid aligned with the DEM.</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>inputManning</code></td>
+<td>Scalar Manning’s n used in velocity computation along cross-sections.</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>MSANA1                         | MSANA2</code></td>
+<td>Method for discharge decay along the course (two alternative ANA methods provided by the workflow).</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>outputDirectory</code></td>
+<td>Directory where all raster and text outputs are written (e.g., subfolders for dambasin and profiles).</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>outputSections.shp</code></td>
+<td>Cross-sections with appended attributes per section: DEM elevation at thalweg, wetted area, discharge, water height, water level, velocity, and hydrodynamic hazard.</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>outputWaterCourseSegments.shp</code></td>
+<td>Course segments between sections with attributes: endpoints (coords/elev), length, slope, discharge, water height/level, velocity, and hazard.</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>outputWaterCourseBasin.tif</code></td>
+<td>Raster basin drained by the selected water course.</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>outputWaterHeight.tif</code></td>
+<td>Raster of water height above ground.</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>outputFloodplain.tif</code></td>
+<td>Binary floodplain raster derived from stage relative to terrain.</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>outputVelocity.tif</code></td>
+<td>Raster of flow velocity interpolated from section-wise calculations.</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>outputHydrodynamicHazard.tif</code></td>
+<td>Raster of hydrodynamic hazard (function of water height and velocity).</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>The following example demonstrates how to use <code>dambreak</code> tool from the command line:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="hydrological-analysis.html#cb38-1" tabindex="-1"></a><span class="ex">th</span> dambreak <span class="dt">\</span></span>
+<span id="cb38-2"><a href="hydrological-analysis.html#cb38-2" tabindex="-1"></a>  inputDams.shp inputWaterCourses.shp inputSections.shp <span class="dt">\</span></span>
+<span id="cb38-3"><a href="hydrological-analysis.html#cb38-3" tabindex="-1"></a>  inputDEM.tif inputD8.tif inputD8Upstream.tif inputContributingArea.tif <span class="dt">\</span></span>
+<span id="cb38-4"><a href="hydrological-analysis.html#cb38-4" tabindex="-1"></a>  inputManning MSANA1<span class="kw">|</span><span class="ex">MSANA2</span> <span class="dt">\</span></span>
+<span id="cb38-5"><a href="hydrological-analysis.html#cb38-5" tabindex="-1"></a>  outputDirectory <span class="dt">\</span></span>
+<span id="cb38-6"><a href="hydrological-analysis.html#cb38-6" tabindex="-1"></a>  outputSections.shp outputWaterCourseSegments.shp <span class="dt">\</span></span>
+<span id="cb38-7"><a href="hydrological-analysis.html#cb38-7" tabindex="-1"></a>  outputWaterCourseBasin.tif outputWaterHeight.tif outputFloodplain.tif <span class="dt">\</span></span>
+<span id="cb38-8"><a href="hydrological-analysis.html#cb38-8" tabindex="-1"></a>  outputVelocity.tif outputHydrodynamicHazard.tif</span></code></pre></div>
+<p><em>Reference</em>:</p>
+<p>Tschiedel, A. F., Bomfim, M., Menescal, R. A., &amp; Oliveira, R. C. (2023). Novo método simplificado para estimativas de manchas de inundação associadas ao rompimento hipotético de barragens. In Anais do XXXXIV Seminário Nacional de Grandes Barragens (Foz do Iguaçu, Brasil). Comitê Brasileiro de Barragens. <a href="https://cbdb-web-uploads.s3.amazonaws.com/system/uploads/ckeditor/attachments/1367/002_-_NOVO_M%C3%89TODO_SIMPLIFICADO_PARA_ESTIMATIVAS_DE_MANCHAS_DE_INUNDA%C3%87%C3%83O_ASSOCIADAS_AO_ROMPIMENTO_HIPOT%C3%89TICO_DE_BARRAGENSv4.pdf">https://cbdb-web-uploads.s3.amazonaws.com/system/uploads/ckeditor/attachments/1367/002_-_NOVO_M%C3%89TODO_SIMPLIFICADO_PARA_ESTIMATIVAS_DE_MANCHAS_DE_INUNDA%C3%87%C3%83O_ASSOCIADAS_AO_ROMPIMENTO_HIPOT%C3%89TICO_DE_BARRAGENSv4.pdf</a></p>
+<p><em>See also</em>: <a href="hydrological-analysis.html#damcourse">damcourse</a>, <a href="hydrological-analysis.html#damsections">damsections</a>.</p>
+
+
 
 </div>
 </div>

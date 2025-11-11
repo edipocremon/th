@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4 How to Cite | TerraHidro User Manual</title>
   <meta name="description" content="The TerraHidro Manual is a practical, task-oriented guide to hydrological and geomorphometric processing with TerraHidro. It covers setup (Command-Line Interface and QGIS plugin), required data formats, and step-by-step workflows to build a hydrologically conditioned DEM. Each tool includes concise theory, parameters, command examples, and figures, followed by end-to-end examples for flow direction, contributing area, drainage/watershed delineation, and export for GIS." />
-  <meta name="generator" content="bookdown 0.45 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4 How to Cite | TerraHidro User Manual" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Division of Earth Observation and Geoinformatics - DIOTG" />
 
 
-<meta name="date" content="2025-10-26" />
+<meta name="date" content="2025-11-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -206,6 +206,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.5.3" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#damsections"><i class="fa fa-check"></i><b>3.5.3</b> damsections</a></li>
 <li class="chapter" data-level="3.5.4" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#dambreak"><i class="fa fa-check"></i><b>3.5.4</b> dambreak</a></li>
 </ul></li>
+<li class="chapter" data-level="3.6" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#Basin-and-Sub-basin-Delineation"><i class="fa fa-check"></i><b>3.6</b> Basin and Sub-basin Delineation</a>
+<ul>
+<li class="chapter" data-level="3.6.1" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#minibasins"><i class="fa fa-check"></i><b>3.6.1</b> minibasins</a></li>
+<li class="chapter" data-level="3.6.2" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#outletbasin"><i class="fa fa-check"></i><b>3.6.2</b> outletbasin</a></li>
+<li class="chapter" data-level="3.6.3" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#ottobasins"><i class="fa fa-check"></i><b>3.6.3</b> ottobasins</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#Geomorphometric-analysis"><i class="fa fa-check"></i><b>3.7</b> Geomorphometric analysis</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#tpi"><i class="fa fa-check"></i><b>3.7.1</b> tpi</a></li>
+<li class="chapter" data-level="3.7.2" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#hand"><i class="fa fa-check"></i><b>3.7.2</b> hand</a></li>
+<li class="chapter" data-level="3.7.3" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#sand"><i class="fa fa-check"></i><b>3.7.3</b> sand</a></li>
+<li class="chapter" data-level="3.7.4" data-path="hydrological-analysis.html"><a href="hydrological-analysis.html#d8slope"><i class="fa fa-check"></i><b>3.7.4</b> d8slope</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="how-to-cite.html"><a href="how-to-cite.html"><i class="fa fa-check"></i><b>4</b> How to Cite</a>
 <ul>
@@ -251,15 +264,15 @@ TerraHidro Team. (2025). <em>TerraHidro Manual</em> (Version 5.2.0) [Bookdown ma
 </div>
 <div id="cite-the-manual-bibtex" class="section level2 unnumbered hasAnchor">
 <h2>Cite the Manual (BibTeX)<a href="how-to-cite.html#cite-the-manual-bibtex" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb40"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb40-1"><a href="how-to-cite.html#cb40-1" tabindex="-1"></a><span class="va">@manual</span>{<span class="ot">TerraHidroManual2025</span>,</span>
-<span id="cb40-2"><a href="how-to-cite.html#cb40-2" tabindex="-1"></a>  <span class="dt">title</span>        = {TerraHidro Manual},</span>
-<span id="cb40-3"><a href="how-to-cite.html#cb40-3" tabindex="-1"></a>  <span class="dt">author</span>       = {{TerraHidro Team}},</span>
-<span id="cb40-4"><a href="how-to-cite.html#cb40-4" tabindex="-1"></a>  <span class="dt">organization</span> = {INPE},</span>
-<span id="cb40-5"><a href="how-to-cite.html#cb40-5" tabindex="-1"></a>  <span class="dt">year</span>         = {2025},</span>
-<span id="cb40-6"><a href="how-to-cite.html#cb40-6" tabindex="-1"></a>  <span class="dt">edition</span>      = {Version 5.2.0},</span>
-<span id="cb40-7"><a href="how-to-cite.html#cb40-7" tabindex="-1"></a>  <span class="dt">url</span>          = {http://www.dpi.inpe.br/terrahidro/doku.php},</span>
-<span id="cb40-8"><a href="how-to-cite.html#cb40-8" tabindex="-1"></a>  <span class="dt">note</span>         = {Bookdown manual}</span>
-<span id="cb40-9"><a href="how-to-cite.html#cb40-9" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb47-1"><a href="how-to-cite.html#cb47-1" tabindex="-1"></a><span class="va">@manual</span>{<span class="ot">TerraHidroManual2025</span>,</span>
+<span id="cb47-2"><a href="how-to-cite.html#cb47-2" tabindex="-1"></a>  <span class="dt">title</span>        = {TerraHidro Manual},</span>
+<span id="cb47-3"><a href="how-to-cite.html#cb47-3" tabindex="-1"></a>  <span class="dt">author</span>       = {{TerraHidro Team}},</span>
+<span id="cb47-4"><a href="how-to-cite.html#cb47-4" tabindex="-1"></a>  <span class="dt">organization</span> = {INPE},</span>
+<span id="cb47-5"><a href="how-to-cite.html#cb47-5" tabindex="-1"></a>  <span class="dt">year</span>         = {2025},</span>
+<span id="cb47-6"><a href="how-to-cite.html#cb47-6" tabindex="-1"></a>  <span class="dt">edition</span>      = {Version 5.2.0},</span>
+<span id="cb47-7"><a href="how-to-cite.html#cb47-7" tabindex="-1"></a>  <span class="dt">url</span>          = {http://www.dpi.inpe.br/terrahidro/doku.php},</span>
+<span id="cb47-8"><a href="how-to-cite.html#cb47-8" tabindex="-1"></a>  <span class="dt">note</span>         = {Bookdown manual}</span>
+<span id="cb47-9"><a href="how-to-cite.html#cb47-9" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="cite-the-terrahidro-system-apa" class="section level2 unnumbered hasAnchor">
 <h2>Cite the TerraHidro System (APA)<a href="how-to-cite.html#cite-the-terrahidro-system-apa" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -267,16 +280,16 @@ TerraHidro Team. (2025). <em>TerraHidro Manual</em> (Version 5.2.0) [Bookdown ma
 </div>
 <div id="cite-the-terrahidro-system-bibtex" class="section level2 unnumbered hasAnchor">
 <h2>Cite the TerraHidro System (BibTeX)<a href="how-to-cite.html#cite-the-terrahidro-system-bibtex" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb41"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb41-1"><a href="how-to-cite.html#cb41-1" tabindex="-1"></a><span class="va">@inproceedings</span>{<span class="ot">Rosim2013TerraHidro</span>,</span>
-<span id="cb41-2"><a href="how-to-cite.html#cb41-2" tabindex="-1"></a>  <span class="dt">author</span>    = {Rosim, S. and Oliveira, J. R. F. and Jardim, A. C. and Namikawa, L. M. and Renn{<span class="ch">\&#39;</span>o}, C. D.},</span>
-<span id="cb41-3"><a href="how-to-cite.html#cb41-3" tabindex="-1"></a>  <span class="dt">title</span>     = {TerraHidro: A Distributed Hydrology Modelling System With High Quality Drainage Extraction},</span>
-<span id="cb41-4"><a href="how-to-cite.html#cb41-4" tabindex="-1"></a>  <span class="dt">booktitle</span> = {Proceedings of the 5th International Conference on Advanced Geographic Information Systems, Applications, and Services},</span>
-<span id="cb41-5"><a href="how-to-cite.html#cb41-5" tabindex="-1"></a>  <span class="dt">year</span>      = {2013},</span>
-<span id="cb41-6"><a href="how-to-cite.html#cb41-6" tabindex="-1"></a>  <span class="dt">address</span>   = {Nice, France},</span>
-<span id="cb41-7"><a href="how-to-cite.html#cb41-7" tabindex="-1"></a>  <span class="dt">pages</span>     = {161-167},</span>
-<span id="cb41-8"><a href="how-to-cite.html#cb41-8" tabindex="-1"></a>  <span class="dt">isbn</span>      = {978-1-61208-251-6},</span>
-<span id="cb41-9"><a href="how-to-cite.html#cb41-9" tabindex="-1"></a>  <span class="dt">url</span>       = {http://www.thinkmind.org/index.php?view=article&amp;articleid=geoprocessing_2013_7_20_30125}</span>
-<span id="cb41-10"><a href="how-to-cite.html#cb41-10" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode bibtex"><code class="sourceCode bibtex"><span id="cb48-1"><a href="how-to-cite.html#cb48-1" tabindex="-1"></a><span class="va">@inproceedings</span>{<span class="ot">Rosim2013TerraHidro</span>,</span>
+<span id="cb48-2"><a href="how-to-cite.html#cb48-2" tabindex="-1"></a>  <span class="dt">author</span>    = {Rosim, S. and Oliveira, J. R. F. and Jardim, A. C. and Namikawa, L. M. and Renn{<span class="ch">\&#39;</span>o}, C. D.},</span>
+<span id="cb48-3"><a href="how-to-cite.html#cb48-3" tabindex="-1"></a>  <span class="dt">title</span>     = {TerraHidro: A Distributed Hydrology Modelling System With High Quality Drainage Extraction},</span>
+<span id="cb48-4"><a href="how-to-cite.html#cb48-4" tabindex="-1"></a>  <span class="dt">booktitle</span> = {Proceedings of the 5th International Conference on Advanced Geographic Information Systems, Applications, and Services},</span>
+<span id="cb48-5"><a href="how-to-cite.html#cb48-5" tabindex="-1"></a>  <span class="dt">year</span>      = {2013},</span>
+<span id="cb48-6"><a href="how-to-cite.html#cb48-6" tabindex="-1"></a>  <span class="dt">address</span>   = {Nice, France},</span>
+<span id="cb48-7"><a href="how-to-cite.html#cb48-7" tabindex="-1"></a>  <span class="dt">pages</span>     = {161-167},</span>
+<span id="cb48-8"><a href="how-to-cite.html#cb48-8" tabindex="-1"></a>  <span class="dt">isbn</span>      = {978-1-61208-251-6},</span>
+<span id="cb48-9"><a href="how-to-cite.html#cb48-9" tabindex="-1"></a>  <span class="dt">url</span>       = {http://www.thinkmind.org/index.php?view=article&amp;articleid=geoprocessing_2013_7_20_30125}</span>
+<span id="cb48-10"><a href="how-to-cite.html#cb48-10" tabindex="-1"></a>}</span></code></pre></div>
 
 </div>
 </div>
